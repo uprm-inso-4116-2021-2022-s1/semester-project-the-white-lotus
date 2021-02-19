@@ -30,14 +30,14 @@ export default function Menu () {
                   Dropdown header
                 </DropdownItem> */}
                 <DropdownItem
-                    href="/index"
+                    href="/home"
                 >
-                  Index
+                  Home
                 </DropdownItem>
                 <DropdownItem
-                    href="/landing-page"
+                    href="/info-page"
                 >
-                  Landing Page
+                  Info Page
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem

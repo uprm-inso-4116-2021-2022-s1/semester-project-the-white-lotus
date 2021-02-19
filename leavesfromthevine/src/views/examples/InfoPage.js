@@ -41,7 +41,7 @@ import LandingPageHeader from "components/Headers/LandingPageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import IndexNavbar from "../../components/Navbars/IndexNavbar";
 
-function LandingPage() {
+function InfoPage() {
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
     document.body.classList.add("profile-page");
@@ -367,4 +367,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default InfoPage;
