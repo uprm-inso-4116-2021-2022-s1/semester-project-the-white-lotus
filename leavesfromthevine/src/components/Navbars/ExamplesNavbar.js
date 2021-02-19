@@ -98,23 +98,23 @@ function ExamplesNavbar() {
           isOpen={navbarCollapse}
         >
           <Nav navbar>
-            <NavItem>
+            {/* <NavItem>
               <NavLink to="/index" tag={Link}>
                 <i className="nc-icon nc-layout-11" /> Components
               </NavLink>
-            </NavItem>
-            <NavItem>
+            </NavItem> */}
+            {/* <NavItem>
               <NavLink
                 href="https://demos.creative-tim.com/paper-kit-react/#/documentation?ref=pkr-examples-navbar"
                 target="_blank"
               >
                 <i className="nc-icon nc-book-bookmark" /> Documentation
               </NavLink>
-            </NavItem>
+            </NavItem> */}
             
             <Menu/>
 
-            <NavItem>
+            {/* <NavItem>
               <NavLink
                 data-placement="bottom"
                 href="https://twitter.com/CreativeTim?ref=creativetim"
@@ -157,7 +157,7 @@ function ExamplesNavbar() {
                 <i className="fa fa-github" />
                 <p className="d-lg-none">GitHub</p>
               </NavLink>
-            </NavItem>
+            </NavItem> */}
           </Nav>
         </Collapse>
       </Container>
