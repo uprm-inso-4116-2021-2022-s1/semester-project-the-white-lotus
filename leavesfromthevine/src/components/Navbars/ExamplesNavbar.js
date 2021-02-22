@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 // nodejs library that concatenates strings
 import classnames from "classnames";
 import Menu from "./Menu.js";
+import LoginModal from "./LoginModal.js";
 
 // reactstrap components
 import {
@@ -198,6 +199,8 @@ function ExamplesNavbar() {
             <span className="navbar-toggler-bar bar2" />
             <span className="navbar-toggler-bar bar3" />
           </button>
+
+          <LoginModal/>
 
 
           {/* <Nav navbar>

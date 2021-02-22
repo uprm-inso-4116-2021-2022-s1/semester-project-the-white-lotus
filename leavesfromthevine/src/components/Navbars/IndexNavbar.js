@@ -20,6 +20,7 @@ import React from "react";
 // nodejs library that concatenates strings
 import classnames from "classnames";
 import Menu from "./Menu.js";
+import LoginModal from "./LoginModal.js";
 // reactstrap components
 import {
   Button,
@@ -191,6 +192,8 @@ function IndexNavbar() {
             <span className="navbar-toggler-bar bar2" />
             <span className="navbar-toggler-bar bar3" />
           </button>
+
+          <LoginModal/>
 
             {/* Old code for the menu */}
             
