@@ -1,0 +1,27 @@
+{
+  "type": "RecipesCatalogue",
+  "crs": {
+    "name": "name",
+    "tealeaves": "leaves",
+    "ingredients": "lots and lots of ingredients",
+    "procedure": "how to",
+    "difficulty": "level"
+  },
+
+  "single_recipe": [
+    {
+      "name": "Test",
+      "tealeaves": "Trying out something",
+      "ingredients": "Just some ingredients",
+      "procedure": "here's how to do it",
+      "difficulty": "Hard"
+    },
+    {
+      "name": "Test2",
+      "tealeaves": "Trying out something2",
+      "ingredients": "Just some ingredients2",
+      "procedure": "here's how to do it2",
+      "difficulty": "Hard2"
+    }
+  ]
+}

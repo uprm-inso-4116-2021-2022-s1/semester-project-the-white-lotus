@@ -172,6 +172,26 @@ function IndexNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
+          {/* RECIPE FOR TESTING */}
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+              data-placement="bottom"
+              href="/recipe-catalogue"
+              title="FOR TESTING">
+            Recipe
+          </NavbarBrand>
+          <button
+              aria-expanded={navbarCollapse}
+              className={classnames("navbar-toggler navbar-toggler", {
+                toggled: navbarCollapse,
+              })}
+              onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
           {/* Profile header button */}
           <div className="navbar-translate"></div>
           <NavbarBrand
@@ -191,6 +211,9 @@ function IndexNavbar() {
             <span className="navbar-toggler-bar bar2" />
             <span className="navbar-toggler-bar bar3" />
           </button>
+
+
+
 
             {/* Old code for the menu */}
             
