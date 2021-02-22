@@ -228,6 +228,15 @@ function IndexNavbar() {
               </NavLink>
             </NavItem>
 
+            {/* JUST FOR TESTING PURPOSES */}
+            <NavItem>
+              <NavLink
+                  href="/recipe-page"
+              >
+                Recipes
+              </NavLink>
+            </NavItem>
+
             <NavItem>
               <NavLink
                 href="/register-page"

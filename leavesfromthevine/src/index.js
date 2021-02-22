@@ -54,7 +54,7 @@ ReactDOM.render(
         render={(props) => <RegisterPage {...props} />}
       />
       <Route
-          path="/recipe-catalogue"
+          path="/recipe-page"
           render={(props) => <RecipeCatalogue {...props} />}
       />
       <Redirect to="/home" />
