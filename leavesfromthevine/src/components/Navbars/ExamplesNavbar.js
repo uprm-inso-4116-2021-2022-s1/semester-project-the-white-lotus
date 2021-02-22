@@ -73,9 +73,9 @@ function ExamplesNavbar() {
         <div className="navbar-translate">
           <NavbarBrand
             data-placement="bottom"
-            to="/index"
+            to="/home"
             target="_blank"
-            title="Coded by Creative Tim"
+            title="Coded by Jomar Santos"
             tag={Link}
           >
             Leaves From the Vine
@@ -92,12 +92,119 @@ function ExamplesNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
         </div>
+
+
         <Collapse
           className="justify-content-end"
           navbar
           isOpen={navbarCollapse}
         >
-          <Nav navbar>
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            to="/home"
+            title="Coded by Jomar Santos"
+            tag={Link}>
+              Home
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={toggleNavbarCollapse}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+          {/* Info page header button */}
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/info-page"
+            title="Coded by Jomar Santos">
+              Info Page
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+          {/* Settings header button */}
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/info-page"
+            title="Coded by Jomar Santos">
+              Setting
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+          {/* Profile header button */}
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/profile-page"
+            title="Coded by Jomar Santos">
+              Profile
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+          {/* Profile header button */}
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/register-page"
+            title="Coded by Jomar Santos">
+              Register
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+
+          {/* <Nav navbar>
+
+            <Menu/> */}
+
+
             {/* <NavItem>
               <NavLink to="/index" tag={Link}>
                 <i className="nc-icon nc-layout-11" /> Components
@@ -112,7 +219,6 @@ function ExamplesNavbar() {
               </NavLink>
             </NavItem> */}
             
-            <Menu/>
 
             {/* <NavItem>
               <NavLink
@@ -158,7 +264,7 @@ function ExamplesNavbar() {
                 <p className="d-lg-none">GitHub</p>
               </NavLink>
             </NavItem> */}
-          </Nav>
+          {/* </Nav> */}
         </Collapse>
       </Container>
     </Navbar>
