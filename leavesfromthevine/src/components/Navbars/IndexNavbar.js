@@ -20,6 +20,7 @@ import React from "react";
 // nodejs library that concatenates strings
 import classnames from "classnames";
 import Menu from "./Menu.js";
+import LoginModal from "./LoginModal.js";
 // reactstrap components
 import {
   Button,
@@ -92,8 +93,9 @@ function IndexNavbar() {
           isOpen={navbarCollapse}
         >
 
-          {/* Home page button */}
-          <div className="navbar-translate"></div>
+            {/* This code is commented only for refference. If implemented would "break" page when collapsed */}
+
+          {/* <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
             href="/home"
@@ -112,7 +114,7 @@ function IndexNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
-          {/* Info page header button */}
+
           <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
@@ -132,7 +134,7 @@ function IndexNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
-          {/* Settings header button */}
+
           <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
@@ -152,7 +154,7 @@ function IndexNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
-          {/* Profile header button */}
+
           <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
@@ -172,27 +174,7 @@ function IndexNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
-          {/* RECIPE FOR TESTING */}
-          <div className="navbar-translate"></div>
-          <NavbarBrand
-              data-placement="bottom"
-              href="/recipe-catalogue"
-              title="FOR TESTING">
-            Recipe
-          </NavbarBrand>
-          <button
-              aria-expanded={navbarCollapse}
-              className={classnames("navbar-toggler navbar-toggler", {
-                toggled: navbarCollapse,
-              })}
-              onClick={(e) => e.preventDefault()}
-          >
-            <span className="navbar-toggler-bar bar1" />
-            <span className="navbar-toggler-bar bar2" />
-            <span className="navbar-toggler-bar bar3" />
-          </button>
 
-          {/* Profile header button */}
           <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
@@ -212,22 +194,62 @@ function IndexNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
+          <LoginModal/> */}
 
-
-
-            {/* Old code for the menu */}
             
-          {/* <Nav navbar>
-           <NavItem>
+          <Nav navbar>
+            <NavItem>
+              <NavLink href="/home">
+                 Home
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                href="/info-page"
+              >
+              Info Page
+              </NavLink>
+            </NavItem>
+            
+
+            <NavItem>
+              <NavLink
+                href="/info-page"
+              >
+              Settings
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink
+                href="/profile-page"
+              >
+              Profile
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink
+                href="/register-page"
+              >
+              Register
+              </NavLink>
+            </NavItem>
+
+            <LoginModal/>
+
+            {/* Next commented code is here for reference. */}
+
+           {/* <NavItem>
               <UncontrolledCollapse navbar toggler="#navbar-menu">
                 <Nav className="mr-auto" navbar>
                   <Menu/>
                 </Nav>
               </UncontrolledCollapse>
             </NavItem>
-            <NavItem> */}
+            <NavItem>
 
-            {/* <NavItem>
+            <NavItem>
               <NavLink
                 data-placement="bottom"
                 href="https://twitter.com/CreativeTim?ref=creativetim"
@@ -270,17 +292,17 @@ function IndexNavbar() {
                 <i className="fa fa-github" />
                 <p className="d-lg-none">GitHub</p>
               </NavLink>
-            </NavItem> */}
-            {/* <NavItem>
+            </NavItem>
+            <NavItem>
               <NavLink
                 href="https://demos.creative-tim.com/paper-kit-react/#/documentation?ref=pkr-index-navbar"
                 target="_blank"
               >
                 <i className="nc-icon nc-book-bookmark" /> Documentation
               </NavLink>
-            </NavItem> */}
+            </NavItem>
             
-              {/* <Button
+              <Button
                 className="btn-round"
                 color="danger"
                 href="#pablo"
@@ -288,9 +310,9 @@ function IndexNavbar() {
                 disabled
               >
                 Upgrade to Pro
-              </Button> */}
-            {/* </NavItem>
-          </Nav> */}
+              </Button>
+            </NavItem> */}
+          </Nav>
         </Collapse>
       </Container>
     </Navbar>
