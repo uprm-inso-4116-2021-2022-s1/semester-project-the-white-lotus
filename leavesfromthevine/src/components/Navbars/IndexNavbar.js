@@ -28,7 +28,7 @@ import {
   NavItem,
   NavLink,
   Nav,
-  Container,
+  Container, UncontrolledCollapse, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
 } from "reactstrap";
 
 function IndexNavbar() {
@@ -71,7 +71,7 @@ function IndexNavbar() {
             target="_blank"
             title="Coded by Creative Tim"
           >
-            Paper Kit React
+            Leaves From the Vine
           </NavbarBrand>
           <button
             aria-expanded={navbarCollapse}
@@ -142,6 +142,64 @@ function IndexNavbar() {
               >
                 <i className="nc-icon nc-book-bookmark" /> Documentation
               </NavLink>
+            </NavItem>
+            <NavItem>
+              <UncontrolledCollapse navbar toggler="#navbar-menu">
+                <Nav className="mr-auto" navbar>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle
+                        aria-expanded={false}
+                        aria-haspopup={true}
+                        caret
+                        color="default"
+                        data-toggle="dropdown"
+                        href="#pablo"
+                        id="dropdownMenuButton"
+                        nav
+                        onClick={(e) => e.preventDefault()}
+                        role="button"
+                    >
+                      Menu
+                    </DropdownToggle>
+                    <DropdownMenu
+                        aria-labelledby="dropdownMenuLink"
+                        className="dropdown-success"
+                    >
+                      <DropdownItem header tag="span">
+                        Dropdown header
+                      </DropdownItem>
+                      <DropdownItem
+                          href="/index"
+                      >
+                        Index
+                      </DropdownItem>
+                      <DropdownItem
+                          href="/landing-page"
+                      >
+                        Landing Page
+                      </DropdownItem>
+                      <DropdownItem divider />
+                      <DropdownItem
+                          href="TODO"
+                          onClick={(e) => e.preventDefault()}
+                      >
+                        Settings
+                      </DropdownItem>
+                      <DropdownItem divider />
+                      <DropdownItem
+                          href="/profile-page"
+                      >
+                        Profile
+                      </DropdownItem>
+                      <DropdownItem
+                          href="/register-page"
+                      >
+                        Register
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                </Nav>
+              </UncontrolledCollapse>
             </NavItem>
             <NavItem>
               <Button

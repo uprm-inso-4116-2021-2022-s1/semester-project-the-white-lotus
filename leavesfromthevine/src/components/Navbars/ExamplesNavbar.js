@@ -29,7 +29,7 @@ import {
   NavItem,
   NavLink,
   Nav,
-  Container,
+  Container, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
 } from "reactstrap";
 
 function ExamplesNavbar() {
@@ -77,7 +77,7 @@ function ExamplesNavbar() {
             title="Coded by Creative Tim"
             tag={Link}
           >
-            Paper Kit 2
+            Leaves From the Vine
           </NavbarBrand>
           <button
             aria-expanded={navbarCollapse}
@@ -110,6 +110,59 @@ function ExamplesNavbar() {
                 <i className="nc-icon nc-book-bookmark" /> Documentation
               </NavLink>
             </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle
+                  aria-expanded={false}
+                  aria-haspopup={true}
+                  caret
+                  color="default"
+                  data-toggle="dropdown"
+                  href="#pablo"
+                  id="dropdownMenuButton"
+                  nav
+                  onClick={(e) => e.preventDefault()}
+                  role="button"
+              >
+                Menu
+              </DropdownToggle>
+              <DropdownMenu
+                  aria-labelledby="dropdownMenuLink"
+                  className="dropdown-success"
+              >
+                <DropdownItem header tag="span">
+                  Dropdown header
+                </DropdownItem>
+                <DropdownItem
+                    href="/index"
+                >
+                  Index
+                </DropdownItem>
+                <DropdownItem
+                    href="/landing-page"
+                >
+                  Landing Page
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem
+                    href="TODO"
+                    onClick={(e) => e.preventDefault()}
+                >
+                  Settings
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem
+                    href="/profile-page"
+                >
+                  Profile
+                </DropdownItem>
+                <DropdownItem
+                    href="/register-page"
+                >
+                  Register
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+
             <NavItem>
               <NavLink
                 data-placement="bottom"
