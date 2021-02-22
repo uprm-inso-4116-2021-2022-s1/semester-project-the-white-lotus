@@ -12,7 +12,7 @@ export default function LoginModal() {
         type="button"
         onClick={() => setLoginModal(true)}
       >
-        Log in
+        Login modal
       </Button>
       <Modal
         isOpen={loginModal}
@@ -30,7 +30,7 @@ export default function LoginModal() {
             <span aria-hidden={true}>×</span>
           </button>
           <h6 className="text-muted">Welcome</h6>
-          <h3 className="modal-title text-center">Leaves from the vine</h3>
+          <h3 className="modal-title text-center">Paper Kit</h3>
           <p>Log in to your account</p>
         </div>
         <div className="modal-body">
@@ -42,7 +42,7 @@ export default function LoginModal() {
             <label>Password</label>
             <Input defaultValue="" placeholder="Password" type="password" />
           </FormGroup>
-          <Button block className="btn-round" color="primary">
+          <Button block className="btn-round" color="default">
             Log in
           </Button>
         </div>

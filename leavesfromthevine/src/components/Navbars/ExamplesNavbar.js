@@ -100,7 +100,10 @@ function ExamplesNavbar() {
           navbar
           isOpen={navbarCollapse}
         >
-          <div className="navbar-translate"></div>
+          
+          {/* This code is commented only for refference. If implemented would "break" page when collapsed */}
+          
+          {/* <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
             to="/home"
@@ -120,7 +123,7 @@ function ExamplesNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
-          {/* Info page header button */}
+
           <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
@@ -140,7 +143,7 @@ function ExamplesNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
-          {/* Settings header button */}
+
           <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
@@ -160,7 +163,7 @@ function ExamplesNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
-          {/* Profile header button */}
+
           <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
@@ -180,7 +183,7 @@ function ExamplesNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
-          {/* Profile header button */}
+
           <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
@@ -200,30 +203,72 @@ function ExamplesNavbar() {
             <span className="navbar-toggler-bar bar3" />
           </button>
 
-          <LoginModal/>
+          <LoginModal/> */}
 
 
-          {/* <Nav navbar>
+          <Nav navbar>
 
-            <Menu/> */}
+            <NavItem>
+              <NavLink to="/home" tag={Link}>
+                 Home
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                href="/info-page"
+              >
+              Info Page
+              </NavLink>
+            </NavItem>
+            
+
+            <NavItem>
+              <NavLink
+                href="/info-page"
+              >
+              Settings
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink
+                href="/profile-page"
+              >
+              Profile
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink
+                href="/register-page"
+              >
+              Register
+              </NavLink>
+            </NavItem>
+
+            <LoginModal/>
+
+            {/* Next commented code is here for reference. */}
+
+            {/* <Menu/>
 
 
-            {/* <NavItem>
+            <NavItem>
               <NavLink to="/index" tag={Link}>
                 <i className="nc-icon nc-layout-11" /> Components
               </NavLink>
-            </NavItem> */}
-            {/* <NavItem>
+            </NavItem>
+            <NavItem>
               <NavLink
                 href="https://demos.creative-tim.com/paper-kit-react/#/documentation?ref=pkr-examples-navbar"
                 target="_blank"
               >
                 <i className="nc-icon nc-book-bookmark" /> Documentation
               </NavLink>
-            </NavItem> */}
+            </NavItem>
             
 
-            {/* <NavItem>
+            <NavItem>
               <NavLink
                 data-placement="bottom"
                 href="https://twitter.com/CreativeTim?ref=creativetim"
@@ -267,7 +312,8 @@ function ExamplesNavbar() {
                 <p className="d-lg-none">GitHub</p>
               </NavLink>
             </NavItem> */}
-          {/* </Nav> */}
+
+          </Nav>
         </Collapse>
       </Container>
     </Navbar>
