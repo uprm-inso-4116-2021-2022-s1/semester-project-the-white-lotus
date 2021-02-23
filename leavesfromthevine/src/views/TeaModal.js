@@ -1,6 +1,6 @@
 import React from "react";
 // reactstrap components
-import { Button, FormGroup, Input, Modal } from "reactstrap";
+import { Button, Modal } from "reactstrap";
 
 class TeaModal extends React.Component {
     constructor(props) {
