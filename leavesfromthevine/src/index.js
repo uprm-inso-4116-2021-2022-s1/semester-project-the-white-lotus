@@ -30,6 +30,7 @@ import NucleoIcons from "views/NucleoIcons.js";
 import InfoPage from "views/examples/InfoPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
+import RecipeCatalogue from "./views/RecipeCatalogue";
 // others
 
 ReactDOM.render(
@@ -52,7 +53,12 @@ ReactDOM.render(
         path="/register-page"
         render={(props) => <RegisterPage {...props} />}
       />
+      <Route
+          path="/recipe-page"
+          render={(props) => <RecipeCatalogue {...props} />}
+      />
       <Redirect to="/home" />
+
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")
