@@ -49,16 +49,15 @@ function PageHeader() {
               backgroundImage:
                   "url(" + require("assets/img/dpi-library.jpg") + ")",
             }}
-            className="page-header"
+            className="page-header page-header-xs"
             data-parallax={true}
             ref={pageHeader}
         >
           <div className="filter" />
           <Container>
             <div className="motto text-center">
-              <h1>Recipe Catalogue</h1>
-                <h3>Scroll down to view our available recipes.</h3>
-              <br />
+                <h1>Recipe Catalogue</h1>
+                <br />
             </div>
           </Container>
         </div>
@@ -82,12 +81,13 @@ function RecipeCatalogue() {
         <div className="main">
           <div className="section text-center">
             <Container>
-                <Row className="ml-auto mr-auto">
+                <Row className="mr-0 ml-0">
                     {recipes.single_recipe.map((properties) => <Col>
-                        <Card>
+                        <Card style={{width: '20rem'}}>
                             <CardTitle>{properties.name}</CardTitle>
                             <CardSubtitle>{properties.tealeaves}</CardSubtitle>
                             <CardText>
+                                <p>Yield: {properties.yield}</p>
                                 <p>Ingredients: {properties.ingredients}</p>
                                 <p>Procedure: {properties.procedure}</p>
                                 <p>Difficulty: {properties.difficulty}</p>
