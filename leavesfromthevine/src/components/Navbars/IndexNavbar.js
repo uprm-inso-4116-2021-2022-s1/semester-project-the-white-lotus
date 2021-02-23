@@ -19,18 +19,16 @@
 import React from "react";
 // nodejs library that concatenates strings
 import classnames from "classnames";
-import Menu from "./Menu.js";
 import LoginModal from "./LoginModal.js";
 // reactstrap components
 import {
-  Button,
   Collapse,
   NavbarBrand,
   Navbar,
   NavItem,
   NavLink,
   Nav,
-  Container, UncontrolledCollapse, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
+  Container
 } from "reactstrap";
 
 function IndexNavbar() {
