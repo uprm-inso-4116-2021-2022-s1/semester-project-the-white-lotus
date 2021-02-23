@@ -2,6 +2,9 @@ const express = require('express');
 const mysql = require ('mysql');
 const bodyParser = require('body-parser');
 
+//APIs
+const teaAPI = require('./API/tea.api');
+
 // Create connection
 const db = mysql.createConnection({
     host: 'localhost',
@@ -91,12 +94,15 @@ app.get('/getposts', (req, res) => {
 });
 
 // Select individual post
-app.get('/getpost/:id', (req, res) => {
+app.get('/getpost/:id', jsonParser, (req, res) => {
     let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
     db.query(sql, (err, result) => {
         if(err) throw err;
         console.log(result);
-        res.send(`Post fetched...`);
+        res.send({
+            message: `Post fetched...`,
+            result
+        });
     })
 });
 
@@ -124,7 +130,89 @@ app.get('/deletepost/:id', (req, res) => {
 // ******************************** EXAMPLE API ****************************************************
 //#endregion
 
+//#region Tea API
+app.get('/createteastable', (req, res) => {
+    teaAPI.creatTeaTable(db, req, res);
+});
 
+app.get('/addtea', jsonParser, (req, res) => {
+    teaAPI.addTea(db, req, res);
+});
+
+app.get('/removeteabyid/:id', jsonParser, (req, res) => {
+    teaAPI.removeTeaByID(db, req, res);
+});
+
+app.get('/removeteabyname/:name', jsonParser, (req, res) => {
+    teaAPI.removeTeaByName(db, req, res);
+});
+
+app.get('/edittypebyid/:id', jsonParser, (req, res) => {
+    teaAPI.editTypeByID(db, req, res);
+});
+
+app.get('/edittypebyname/:name', jsonParser, (req, res) => {
+    teaAPI.editTypeByName(db, req, res);
+});
+
+app.get('/editname/:id', jsonParser, (req, res) => {
+    teaAPI.editName(db, req, res);
+});
+
+app.get('/editdescbyid/:id', jsonParser, (req, res) => {
+    teaAPI.editDescByID(db, req, res);
+});
+
+app.get('/editdescbyname/:name', jsonParser, (req, res) => {
+    teaAPI.editDescByName(db, req, res);
+});
+
+app.get('/gettea', jsonParser, (req, res) => {
+    teaAPI.getAllTeas(db, req, res);
+});
+
+app.get('/getteabytype/:type', jsonParser, (req, res) => {
+    teaAPI.getTeasByType(db, req, res);
+});
+
+app.get('/getteabyid/:id', jsonParser, (req, res) => {
+    teaAPI.getTeaByID(db, req, res);
+});
+
+app.get('/getteabyname/:name', jsonParser, (req, res) => {
+    teaAPI.getTeaByName(db, req, res);
+});
+//#endregion
+
+//#region ... API
+//#endregion
+
+//#region ... API
+//#endregion
+
+app.get('/', jsonParser, (req, res) => {
+    const response = {
+        message: "Welcome to LFTV Backend",
+        APIS: {
+            teaAPI: {
+                createTable: "/createteastable",
+                addTea: "/addtea",
+                removeTeaByID: "/removeteabyid/:id",
+                removeTeaByName: "/removeteabyname/:name",
+                editTypeByID: "/edittypebyid/:id",
+                editTypeByName: "/edittypebyname/:name",
+                editName: "/editname/:id",
+                editDescByID: "/editdescbyid/:id",
+                editDescByName: "/editdescbyname/:name",
+                getAllTeas: "/gettea",
+                getTeasByType: "/getteabytype/:type",
+                getTeaByID: "/getteabyid/:id",
+                getTeaByName: "/getteabyname/:name"
+            }
+        }
+    }
+    res.send(response);
+});
 
 const PORT = process.env.PORT || 3000;
 
