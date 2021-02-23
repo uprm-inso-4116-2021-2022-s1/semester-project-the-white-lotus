@@ -19,6 +19,8 @@
 import React from "react";
 // nodejs library that concatenates strings
 import classnames from "classnames";
+import Menu from "./Menu.js";
+import LoginModal from "./LoginModal.js";
 // reactstrap components
 import {
   Button,
@@ -67,9 +69,9 @@ function IndexNavbar() {
         <div className="navbar-translate">
           <NavbarBrand
             data-placement="bottom"
-            href="/index"
+            href="/home"
             target="_blank"
-            title="Coded by Creative Tim"
+            title="Coded by Jomar Santos"
           >
             Leaves From the Vine
           </NavbarBrand>
@@ -90,7 +92,172 @@ function IndexNavbar() {
           navbar
           isOpen={navbarCollapse}
         >
+
+            {/* This code is commented only for refference. If implemented would "break" page when collapsed */}
+
+          {/* <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/home"
+            title="Coded by Jomar Santos">
+              Home
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/info-page"
+            title="Coded by Jomar Santos">
+              Info Page
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/info-page"
+            title="Coded by Jomar Santos">
+              Setting
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/profile-page"
+            title="Coded by Jomar Santos">
+              Profile
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/register-page"
+            title="Coded by Jomar Santos">
+              Register
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+
+          <LoginModal/> */}
+
+            
           <Nav navbar>
+            <NavItem>
+              <NavLink href="/home">
+                 Home
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                href="/info-page"
+              >
+              Info Page
+              </NavLink>
+            </NavItem>
+            
+
+            <NavItem>
+              <NavLink
+                href="/info-page"
+              >
+              Settings
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink
+                href="/profile-page"
+              >
+              Profile
+              </NavLink>
+            </NavItem>
+
+            {/* JUST FOR TESTING PURPOSES */}
+            <NavItem>
+              <NavLink
+                  href="/recipe-catalogue"
+              >
+                Recipes
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink
+                href="/register-page"
+              >
+              Register
+              </NavLink>
+            </NavItem>
+
+            <LoginModal/>
+
+            {/* Next commented code is here for reference. */}
+
+           {/* <NavItem>
+              <UncontrolledCollapse navbar toggler="#navbar-menu">
+                <Nav className="mr-auto" navbar>
+                  <Menu/>
+                </Nav>
+              </UncontrolledCollapse>
+            </NavItem>
+            <NavItem>
+
             <NavItem>
               <NavLink
                 data-placement="bottom"
@@ -143,65 +310,7 @@ function IndexNavbar() {
                 <i className="nc-icon nc-book-bookmark" /> Documentation
               </NavLink>
             </NavItem>
-            <NavItem>
-              <UncontrolledCollapse navbar toggler="#navbar-menu">
-                <Nav className="mr-auto" navbar>
-                  <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle
-                        aria-expanded={false}
-                        aria-haspopup={true}
-                        caret
-                        color="default"
-                        data-toggle="dropdown"
-                        href="#pablo"
-                        id="dropdownMenuButton"
-                        nav
-                        onClick={(e) => e.preventDefault()}
-                        role="button"
-                    >
-                      Menu
-                    </DropdownToggle>
-                    <DropdownMenu
-                        aria-labelledby="dropdownMenuLink"
-                        className="dropdown-success"
-                    >
-                      <DropdownItem header tag="span">
-                        Dropdown header
-                      </DropdownItem>
-                      <DropdownItem
-                          href="/index"
-                      >
-                        Index
-                      </DropdownItem>
-                      <DropdownItem
-                          href="/landing-page"
-                      >
-                        Landing Page
-                      </DropdownItem>
-                      <DropdownItem divider />
-                      <DropdownItem
-                          href="TODO"
-                          onClick={(e) => e.preventDefault()}
-                      >
-                        Settings
-                      </DropdownItem>
-                      <DropdownItem divider />
-                      <DropdownItem
-                          href="/profile-page"
-                      >
-                        Profile
-                      </DropdownItem>
-                      <DropdownItem
-                          href="/register-page"
-                      >
-                        Register
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </Nav>
-              </UncontrolledCollapse>
-            </NavItem>
-            <NavItem>
+            
               <Button
                 className="btn-round"
                 color="danger"
@@ -211,7 +320,7 @@ function IndexNavbar() {
               >
                 Upgrade to Pro
               </Button>
-            </NavItem>
+            </NavItem> */}
           </Nav>
         </Collapse>
       </Container>

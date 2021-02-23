@@ -1,25 +1,20 @@
 /*!
-
 =========================================================
 * Paper Kit React - v1.2.0
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/paper-kit-react
-
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
 * Licensed under MIT (https://github.com/creativetimofficial/paper-kit-react/blob/master/LICENSE.md)
-
 * Coded by Creative Tim
-
 =========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
 */
 import React from "react";
 import { Link } from "react-router-dom";
 // nodejs library that concatenates strings
 import classnames from "classnames";
+import Menu from "./Menu.js";
+import LoginModal from "./LoginModal.js";
 
 // reactstrap components
 import {
@@ -44,13 +39,13 @@ function ExamplesNavbar() {
   React.useEffect(() => {
     const updateNavbarColor = () => {
       if (
-        document.documentElement.scrollTop > 299 ||
-        document.body.scrollTop > 299
+          document.documentElement.scrollTop > 299 ||
+          document.body.scrollTop > 299
       ) {
         setNavbarColor("");
       } else if (
-        document.documentElement.scrollTop < 300 ||
-        document.body.scrollTop < 300
+          document.documentElement.scrollTop < 300 ||
+          document.body.scrollTop < 300
       ) {
         setNavbarColor("navbar-transparent");
       }
@@ -63,21 +58,51 @@ function ExamplesNavbar() {
     };
   });
   return (
-    <Navbar
-      className={classnames("fixed-top", navbarColor)}
-      color-on-scroll="300"
-      expand="lg"
-    >
-      <Container>
-        <div className="navbar-translate">
+      <Navbar
+          className={classnames("fixed-top", navbarColor)}
+          color-on-scroll="300"
+          expand="lg"
+      >
+        <Container>
+          <div className="navbar-translate">
+            <NavbarBrand
+                data-placement="bottom"
+                to="/home"
+                target="_blank"
+                title="Coded by Jomar Santos"
+                tag={Link}
+            >
+              Leaves From the Vine
+            </NavbarBrand>
+            <button
+                aria-expanded={navbarCollapse}
+                className={classnames("navbar-toggler navbar-toggler", {
+                  toggled: navbarCollapse,
+                })}
+                onClick={toggleNavbarCollapse}
+            >
+              <span className="navbar-toggler-bar bar1" />
+              <span className="navbar-toggler-bar bar2" />
+              <span className="navbar-toggler-bar bar3" />
+            </button>
+          </div>
+
+
+          <Collapse
+              className="justify-content-end"
+              navbar
+              isOpen={navbarCollapse}
+          >
+
+            {/* This code is commented only for refference. If implemented would "break" page when collapsed */}
+
+            {/* <div className="navbar-translate"></div>
           <NavbarBrand
             data-placement="bottom"
-            to="/index"
-            target="_blank"
-            title="Coded by Creative Tim"
-            tag={Link}
-          >
-            Leaves From the Vine
+            to="/home"
+            title="Coded by Jomar Santos"
+            tag={Link}>
+              Home
           </NavbarBrand>
           <button
             aria-expanded={navbarCollapse}
@@ -90,13 +115,135 @@ function ExamplesNavbar() {
             <span className="navbar-toggler-bar bar2" />
             <span className="navbar-toggler-bar bar3" />
           </button>
-        </div>
-        <Collapse
-          className="justify-content-end"
-          navbar
-          isOpen={navbarCollapse}
-        >
-          <Nav navbar>
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/info-page"
+            title="Coded by Jomar Santos">
+              Info Page
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/info-page"
+            title="Coded by Jomar Santos">
+              Setting
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/profile-page"
+            title="Coded by Jomar Santos">
+              Profile
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+          <div className="navbar-translate"></div>
+          <NavbarBrand
+            data-placement="bottom"
+            href="/register-page"
+            title="Coded by Jomar Santos">
+              Register
+          </NavbarBrand>
+          <button
+            aria-expanded={navbarCollapse}
+            className={classnames("navbar-toggler navbar-toggler", {
+              toggled: navbarCollapse,
+            })}
+            onClick={(e) => e.preventDefault()}
+          >
+            <span className="navbar-toggler-bar bar1" />
+            <span className="navbar-toggler-bar bar2" />
+            <span className="navbar-toggler-bar bar3" />
+          </button>
+          <LoginModal/> */}
+
+
+            <Nav navbar>
+
+              <NavItem>
+                <NavLink to="/home" tag={Link}>
+                  Home
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                    href="/info-page"
+                >
+                  Info Page
+                </NavLink>
+              </NavItem>
+
+
+              <NavItem>
+                <NavLink
+                    href="/info-page"
+                >
+                  Settings
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
+                    href="/profile-page"
+                >
+                  Profile
+                </NavLink>
+              </NavItem>
+
+              {/* JUST FOR TESTING PURPOSES */}
+              <NavItem>
+                <NavLink
+                    href="/recipe-catalogue"
+                >
+                  Recipes
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
+                    href="/register-page"
+                >
+                  Register
+                </NavLink>
+              </NavItem>
+
+              <LoginModal/>
+
+              {/* Next commented code is here for reference. */}
+
+              {/* <Menu/>
             <NavItem>
               <NavLink to="/index" tag={Link}>
                 <i className="nc-icon nc-layout-11" /> Components
@@ -110,58 +257,6 @@ function ExamplesNavbar() {
                 <i className="nc-icon nc-book-bookmark" /> Documentation
               </NavLink>
             </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle
-                  aria-expanded={false}
-                  aria-haspopup={true}
-                  caret
-                  color="default"
-                  data-toggle="dropdown"
-                  href="#pablo"
-                  id="dropdownMenuButton"
-                  nav
-                  onClick={(e) => e.preventDefault()}
-                  role="button"
-              >
-                Menu
-              </DropdownToggle>
-              <DropdownMenu
-                  aria-labelledby="dropdownMenuLink"
-                  className="dropdown-success"
-              >
-                <DropdownItem header tag="span">
-                  Dropdown header
-                </DropdownItem>
-                <DropdownItem
-                    href="/index"
-                >
-                  Index
-                </DropdownItem>
-                <DropdownItem
-                    href="/landing-page"
-                >
-                  Landing Page
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem
-                    href="TODO"
-                    onClick={(e) => e.preventDefault()}
-                >
-                  Settings
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem
-                    href="/profile-page"
-                >
-                  Profile
-                </DropdownItem>
-                <DropdownItem
-                    href="/register-page"
-                >
-                  Register
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
 
             <NavItem>
               <NavLink
@@ -206,11 +301,12 @@ function ExamplesNavbar() {
                 <i className="fa fa-github" />
                 <p className="d-lg-none">GitHub</p>
               </NavLink>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </Container>
-    </Navbar>
+            </NavItem> */}
+
+            </Nav>
+          </Collapse>
+        </Container>
+      </Navbar>
   );
 }
 
