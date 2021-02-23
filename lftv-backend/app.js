@@ -193,9 +193,22 @@ app.get('/getteabyname/:name', jsonParser, (req, res) => {
 app.get('/', jsonParser, (req, res) => {
     const response = {
         message: "Welcome to LFTV Backend",
-        teaAPI: {
-            createTable: "/createteastable",
-            addTea: "/addtea"
+        APIS: {
+            teaAPI: {
+                createTable: "/createteastable",
+                addTea: "/addtea",
+                removeTeaByID: "/removeteabyid/:id",
+                removeTeaByName: "/removeteabyname/:name",
+                editTypeByID: "/edittypebyid/:id",
+                editTypeByName: "/edittypebyname/:name",
+                editName: "/editname/:id",
+                editDescByID: "/editdescbyid/:id",
+                editDescByName: "/editdescbyname/:name",
+                getAllTeas: "/gettea",
+                getTeasByType: "/getteabytype/:type",
+                getTeaByID: "/getteabyid/:id",
+                getTeaByName: "/getteabyname/:name"
+            }
         }
     }
     res.send(response);
@@ -207,5 +220,3 @@ app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
     console.log(`\nhttp://localhost:${PORT}`);
 });
-
-module.exports = { db };
