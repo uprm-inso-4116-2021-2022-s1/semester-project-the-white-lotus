@@ -8,12 +8,12 @@
   "single_tea": [
     {
       "type": "Testing",
-      "name": "Wanting to test",
+      "name": "TEA1",
       "description": "this is just a test"
     },
     {
       "type": "Testing2",
-      "name": "Wanting to test2",
+      "name": "TEA2",
       "description": "this is just a test2"
     }
   ]
