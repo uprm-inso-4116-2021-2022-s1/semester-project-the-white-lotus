@@ -12,6 +12,7 @@ const creatTeaTable = (db, req, res) => {
     });
 };
 
+//#region Add Tea
 // Create Tea
 const addTea = (db, req, res) => {
     let tea = {type: req.body.type, name: req.body.name, tea_desc: req.body.tea_desc};
@@ -28,7 +29,9 @@ const addTea = (db, req, res) => {
         });
     });
 };
+//#endregion
 
+//region Remove Tea
 // Remove tea by id
 const removeTeaByID = (db, req, res) => {
     let sql = `DELETE FROM teas WHERE id = ${req.params.id}`;
@@ -60,7 +63,9 @@ const removeTeaByName = (db, req, res) => {
         });
     });
 };
+//#endregion
 
+//#region Edit Tea
 // ALL EDITS ARE DONE BY ID AND NAME EXCEPT NAME EDIT (obviously)
 // Edit type by id
 const editTypeByID = (db, req, res) => {
@@ -147,7 +152,9 @@ const editDescByName = (db, req, res) => {
         });
     });
 };
+//#endregion
 
+//#region Get tea
 // Get all teas
 const getAllTeas = (db, req, res) => {
     let sql = 'SELECT * FROM teas';
@@ -211,6 +218,7 @@ const getTeaByName = (db, req, res) => {
         });
     });
 };
+//#endregion
 
 module.exports = {
     creatTeaTable,
