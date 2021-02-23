@@ -49,7 +49,9 @@ export default function LoginModal() {
         <div className="modal-footer no-border-footer">
           <span className="text-muted text-center">
             Looking{" "}
-            <a href="#pablo" onClick={e => e.preventDefault()}>
+            <a href="/register-page" 
+            to="/home"
+            target="_blank">
               create an account
             </a>
             ?

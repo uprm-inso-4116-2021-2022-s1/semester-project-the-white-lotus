@@ -38,7 +38,10 @@ import SectionNucleoIcons from "views/index-sections/SectionNucleoIcons.js";
 import SectionDark from "views/index-sections/SectionDark.js";
 import SectionLogin from "views/index-sections/SectionLogin.js";
 import SectionExamples from "views/index-sections/SectionExamples.js";
+import SectionForumPreview from "views/index-sections/SectionForumPreview.js";
 import SectionDownload from "views/index-sections/SectionDownload.js";
+import SectionTeaTypes from "views/index-sections/SectionTeaTypes.js";
+import SectionGoal from "views/index-sections/SectionGoal.js";
 
 function Home() {
   document.documentElement.classList.remove("nav-open");
@@ -53,6 +56,10 @@ function Home() {
       <IndexNavbar />
       <IndexHeader />
       <div className="main">
+        <SectionGoal/>
+        <SectionCarousel/>
+        <SectionTeaTypes/>
+        <SectionForumPreview />
         <SectionButtons />
         <SectionNavbars />
         <SectionNavigation />
