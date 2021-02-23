@@ -44,41 +44,24 @@ function SectionGoal() {
           <br />
             <br />
             <Row>
-              <Col md="3">
-                <div className="info">
-                  <div className="icon icon-info">
-                    <i className="nc-icon nc-album-2" />
-                  </div>
-                  <div className="description">
-                    <h4 className="info-title">The Brewery</h4>
-                    <p className="description">
-                      Share with the world new recepies of teas. Here you can 
-                      add new recepies to our libraries.
-                    </p>
-                    <Button className="btn-link" color="info" href="#pablo">
-                      See more
-                    </Button>
-                  </div>
-                </div>
-              </Col>
-              <Col md="3">
+              <Col md="4">
                 <div className="info">
                   <div className="icon icon-info">
                     <i className="nc-icon nc-bulb-63" />
                   </div>
                   <div className="description">
-                    <h4 className="info-title">Recepies</h4>
+                    <h4 className="info-title">Recipes</h4>
                     <p>
-                      Discover new tea recepies or twists to ones you knew.
-                      Here we present a library of teas and recepies of all types.
+                      Discover new tea recipes or twists to ones you knew.
+                      Here we present a library of teas and recipes of all types.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
+                    <Button className="btn-link" color="info" href="/recipe-page">
                       See more
                     </Button>
                   </div>
                 </div>
               </Col>
-              <Col md="3">
+              <Col md="4">
                 <div className="info">
                   <div className="icon icon-info">
                     <i className="nc-icon nc-chart-bar-32" />
@@ -95,7 +78,7 @@ function SectionGoal() {
                   </div>
                 </div>
               </Col>
-              <Col md="3">
+              <Col md="4">
                 <div className="info">
                   <div className="icon icon-info">
                     <i className="nc-icon nc-sun-fog-29" />
