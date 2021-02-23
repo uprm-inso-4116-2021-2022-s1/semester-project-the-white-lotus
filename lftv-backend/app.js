@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 //APIs
 const teaAPI = require('./API/tea.api');
 
+// Tester
+const test = require('./Tests/main-tester')
+
 // Create connection
 const db = mysql.createConnection({
     host: 'localhost',
@@ -54,7 +57,7 @@ app.get('/createpoststable', (req, res) => {
 });
 
 // Insert post
-app.get('/addpost', (req, res) => {
+app.get('/addpost', jsonParser, (req, res) => {
     let post = {title: 'Post One', body: 'This is a random post'};
     let sql = 'INSERT INTO posts SET ?';
     let query = db.query(sql, post, (err, result) => {
@@ -190,6 +193,11 @@ app.get('/getteabyname/:name', jsonParser, (req, res) => {
 //#region ... API
 //#endregion
 
+// API testers
+app.get('/testapi/:test', jsonParser, (req, res) => {
+    test.main(req, res);
+});
+
 app.get('/', jsonParser, (req, res) => {
     const response = {
         message: "Welcome to LFTV Backend",
@@ -208,6 +216,9 @@ app.get('/', jsonParser, (req, res) => {
                 getTeasByType: "/getteabytype/:type",
                 getTeaByID: "/getteabyid/:id",
                 getTeaByName: "/getteabyname/:name"
+            },
+            testers: {
+                tea: "/testapi/tea"
             }
         }
     }

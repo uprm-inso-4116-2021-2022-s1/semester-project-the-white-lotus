@@ -22,7 +22,7 @@ const addTea = (db, req, res) => {
             console.log(err);
             res.send(`Error, check console log.`);
         }
-        console.log(result, tea);
+        //console.log(result, tea);
         res.send({
             message: 'Tea successfully added.',
             tea
