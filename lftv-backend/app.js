@@ -139,47 +139,47 @@ app.get('/addtea', jsonParser, (req, res) => {
     teaAPI.addTea(db, req, res);
 });
 
-app.get('/removeteabyid/:id', (req, res) => {
+app.get('/removeteabyid/:id', jsonParser, (req, res) => {
     teaAPI.removeTeaByID(db, req, res);
 });
 
-app.get('/removeteabyname/:name', (req, res) => {
+app.get('/removeteabyname/:name', jsonParser, (req, res) => {
     teaAPI.removeTeaByName(db, req, res);
 });
 
-app.get('/edittypebyid/:id', (req, res) => {
+app.get('/edittypebyid/:id', jsonParser, (req, res) => {
     teaAPI.editTypeByID(db, req, res);
 });
 
-app.get('/edittypebyname/:name', (req, res) => {
+app.get('/edittypebyname/:name', jsonParser, (req, res) => {
     teaAPI.editTypeByName(db, req, res);
 });
 
-app.get('/editname/:id', (req, res) => {
+app.get('/editname/:id', jsonParser, (req, res) => {
     teaAPI.editName(db, req, res);
 });
 
-app.get('/editdescbyid/:id', (req, res) => {
+app.get('/editdescbyid/:id', jsonParser, (req, res) => {
     teaAPI.editDescByID(db, req, res);
 });
 
-app.get('/editdescbyname/:name', (req, res) => {
+app.get('/editdescbyname/:name', jsonParser, (req, res) => {
     teaAPI.editDescByName(db, req, res);
 });
 
-app.get('/gettea', (req, res) => {
+app.get('/gettea', jsonParser, (req, res) => {
     teaAPI.getAllTeas(db, req, res);
 });
 
-app.get('/gettea/:type', (req, res) => {
+app.get('/getteabytype/:type', jsonParser, (req, res) => {
     teaAPI.getTeasByType(db, req, res);
 });
 
-app.get('/gettea/:id', (req, res) => {
+app.get('/getteabyid/:id', jsonParser, (req, res) => {
     teaAPI.getTeaByID(db, req, res);
 });
 
-app.get('/gettea/:name', (req, res) => {
+app.get('/getteabyname/:name', jsonParser, (req, res) => {
     teaAPI.getTeaByName(db, req, res);
 });
 //#endregion
