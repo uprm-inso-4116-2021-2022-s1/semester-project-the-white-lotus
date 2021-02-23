@@ -1,0 +1,20 @@
+{
+  "type": "TeaCatalogue",
+  "crs": {
+    "type": "type",
+    "name": "name",
+    "description": "description"
+  },
+  "single_tea": [
+    {
+      "type": "Testing",
+      "name": "Wanting to test",
+      "description": "this is just a test"
+    },
+    {
+      "type": "Testing2",
+      "name": "Wanting to test2",
+      "description": "this is just a test2"
+    }
+  ]
+}

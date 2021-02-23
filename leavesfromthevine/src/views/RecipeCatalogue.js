@@ -84,14 +84,16 @@ function RecipeCatalogue() {
                 <Row className="mr-0 ml-0">
                     {recipes.single_recipe.map((properties) => <Col>
                         <Card style={{width: '20rem'}}>
-                            <CardTitle>{properties.name}</CardTitle>
-                            <CardSubtitle>{properties.tealeaves}</CardSubtitle>
-                            <CardText>
-                                <p>Yield: {properties.yield}</p>
-                                <p>Ingredients: {properties.ingredients}</p>
-                                <p>Procedure: {properties.procedure}</p>
-                                <p>Difficulty: {properties.difficulty}</p>
-                            </CardText>
+                            <CardBody>
+                                <CardTitle>{properties.name}</CardTitle>
+                                <CardSubtitle>{properties.tealeaves}</CardSubtitle>
+                                <CardText>
+                                    <p>Yield: {properties.yield}</p>
+                                    <p>Ingredients: {properties.ingredients}</p>
+                                    <p>Procedure: {properties.procedure}</p>
+                                    <p>Difficulty: {properties.difficulty}</p>
+                                </CardText>
+                            </CardBody>
                         </Card>
                     </Col>)}
                 </Row>

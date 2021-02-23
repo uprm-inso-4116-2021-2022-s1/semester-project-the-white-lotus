@@ -225,7 +225,7 @@ function ExamplesNavbar() {
               {/* JUST FOR TESTING PURPOSES */}
               <NavItem>
                 <NavLink
-                    href="/recipe-page"
+                    href="/recipe-catalogue"
                 >
                   Recipes
                 </NavLink>
