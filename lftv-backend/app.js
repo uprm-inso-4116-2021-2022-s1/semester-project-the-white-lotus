@@ -9,6 +9,7 @@ const teaAPI = require('./API/tea.api');
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
+    port: '3000',
     password: '123456',
     database: 'lftv',
     insecureAuth : true
