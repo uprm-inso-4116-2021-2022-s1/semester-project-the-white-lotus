@@ -39,6 +39,8 @@ import SectionDark from "views/index-sections/SectionDark.js";
 import SectionLogin from "views/index-sections/SectionLogin.js";
 import SectionExamples from "views/index-sections/SectionExamples.js";
 import SectionDownload from "views/index-sections/SectionDownload.js";
+import SectionFunFacts from "views/index-sections/SectionFunFacts.js";
+import SectionGoal from "views/index-sections/SectionGoal.js";
 
 function Home() {
   document.documentElement.classList.remove("nav-open");
@@ -53,6 +55,8 @@ function Home() {
       <IndexNavbar />
       <IndexHeader />
       <div className="main">
+        <SectionGoal/>
+        <SectionFunFacts/>
         <SectionButtons />
         <SectionNavbars />
         <SectionNavigation />
