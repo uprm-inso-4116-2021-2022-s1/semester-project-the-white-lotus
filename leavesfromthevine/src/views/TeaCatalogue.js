@@ -23,7 +23,7 @@ import {Container, Table } from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
-import TeaModal from "./TeaModal";
+import TeaModal from "../components/Page/TeaModal";
 import teas from "../dummy data/tea.json";
 
 function PageHeader() {

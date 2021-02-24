@@ -19,11 +19,12 @@
 import React from "react";
 
 // reactstrap components
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle} from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle, Button } from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
 import recipes from '../dummy data/recipes.json'
+import AddPopover from "../components/Page/AddPopover";
 
 function PageHeader() {
   let pageHeader = React.createRef();
@@ -65,15 +66,20 @@ function PageHeader() {
   );
 }
 
-
 function RecipeCatalogue() {
-  document.documentElement.classList.remove("nav-open");
-  React.useEffect(() => {
-    document.body.classList.add("recipe-page");
-    return function cleanup() {
-      document.body.classList.remove("recipe-page");
-    };
-  });
+    let [recipes, setRecipes] = React.useState([])
+
+    document.documentElement.classList.remove("nav-open");
+    React.useEffect(() => {
+        fetch('http://localhost:5432/getrecipes')
+          .then((response) => response.json())
+          .then((tests) => setRecipes(tests.result.rows))
+        document.body.classList.add("recipe-page");
+        return function cleanup() {
+        document.body.classList.remove("recipe-page");
+        };
+    }, []);
+
   return (
       <>
         <ExamplesNavbar />
@@ -81,8 +87,16 @@ function RecipeCatalogue() {
         <div className="main">
           <div className="section text-center">
             <Container>
+                <div align="right">
+                    <Row className="mr-auto ml-auto">
+                        <Col>
+                            <AddPopover />
+                            <p></p>
+                        </Col>
+                    </Row>
+                </div>
                 <Row className="mr-0 ml-0">
-                    {recipes.single_recipe.map((properties) => <Col>
+                    {recipes.map((properties, index) => <Col key={index}>
                         <Card style={{width: '20rem'}}>
                             <CardBody>
                                 <CardTitle>{properties.name}</CardTitle>
