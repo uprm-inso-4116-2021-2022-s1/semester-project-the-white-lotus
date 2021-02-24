@@ -66,11 +66,13 @@ function PageHeader() {
   );
 }
 
-
-
 function RecipeCatalogue() {
+
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
+      fetch('http://localhost:5432/getrecipes')
+          .then((response) => response.json())
+          .then((tests) => console.log(tests))
     document.body.classList.add("recipe-page");
     return function cleanup() {
       document.body.classList.remove("recipe-page");
@@ -93,20 +95,20 @@ function RecipeCatalogue() {
                     </Row>
                 </div>
                 <Row className="mr-0 ml-0">
-                    {recipes.single_recipe.map((properties) => <Col>
-                        <Card style={{width: '20rem'}}>
-                            <CardBody>
-                                <CardTitle>{properties.name}</CardTitle>
-                                <CardSubtitle>{properties.tealeaves}</CardSubtitle>
-                                <CardText>
-                                    <p>Yield: {properties.yield}</p>
-                                    <p>Ingredients: {properties.ingredients}</p>
-                                    <p>Procedure: {properties.procedure}</p>
-                                    <p>Difficulty: {properties.difficulty}</p>
-                                </CardText>
-                            </CardBody>
-                        </Card>
-                    </Col>)}
+                    {/*{recipes.single_recipe.map((properties) => <Col>*/}
+                    {/*    <Card style={{width: '20rem'}}>*/}
+                    {/*        <CardBody>*/}
+                    {/*            <CardTitle>{properties.name}</CardTitle>*/}
+                    {/*            <CardSubtitle>{properties.tealeaves}</CardSubtitle>*/}
+                    {/*            <CardText>*/}
+                    {/*                <p>Yield: {properties.yield}</p>*/}
+                    {/*                <p>Ingredients: {properties.ingredients}</p>*/}
+                    {/*                <p>Procedure: {properties.procedure}</p>*/}
+                    {/*                <p>Difficulty: {properties.difficulty}</p>*/}
+                    {/*            </CardText>*/}
+                    {/*        </CardBody>*/}
+                    {/*    </Card>*/}
+                    {/*</Col>)}*/}
                 </Row>
             </Container>
           </div>
