@@ -19,7 +19,7 @@
 import React from "react";
 
 // reactstrap components
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle} from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle, Button } from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
@@ -66,6 +66,7 @@ function PageHeader() {
 }
 
 
+
 function RecipeCatalogue() {
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
@@ -74,6 +75,7 @@ function RecipeCatalogue() {
       document.body.classList.remove("recipe-page");
     };
   });
+
   return (
       <>
         <ExamplesNavbar />
@@ -81,6 +83,15 @@ function RecipeCatalogue() {
         <div className="main">
           <div className="section text-center">
             <Container>
+                <div align="right">
+                    <Row className="mr-auto ml-auto">
+                        <Col>
+                            <Button className="btn-round btn-icon" color="success" outline>
+                                <i className="nc-icon nc-simple-add" /> Add new recipe</Button>
+                            <p></p>
+                        </Col>
+                    </Row>
+                </div>
                 <Row className="mr-0 ml-0">
                     {recipes.single_recipe.map((properties) => <Col>
                         <Card style={{width: '20rem'}}>
