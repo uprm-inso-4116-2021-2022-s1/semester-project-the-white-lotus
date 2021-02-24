@@ -24,6 +24,7 @@ import { Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle,
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
 import recipes from '../dummy data/recipes.json'
+import AddPopover from "../components/Page/AddPopover";
 
 function PageHeader() {
   let pageHeader = React.createRef();
@@ -86,8 +87,7 @@ function RecipeCatalogue() {
                 <div align="right">
                     <Row className="mr-auto ml-auto">
                         <Col>
-                            <Button className="btn-round btn-icon" color="success" outline>
-                                <i className="nc-icon nc-simple-add" /> Add new recipe</Button>
+                            <AddPopover />
                             <p></p>
                         </Col>
                     </Row>
