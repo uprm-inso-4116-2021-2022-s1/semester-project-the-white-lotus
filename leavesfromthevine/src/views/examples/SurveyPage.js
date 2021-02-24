@@ -82,11 +82,11 @@ function ProfilePage() {
                     <FormGroup check>
                       <Label check>
                         <Input defaultValue="" type="checkbox" />
-                  Option <span className="form-check-sign" />
+                        Option <span className="form-check-sign" />
                       </Label>
                       <Label check>
                         <Input defaultValue="" type="checkbox" />
-                  Option <span className="form-check-sign" />
+                        Option <span className="form-check-sign" />
                       </Label>
                     </FormGroup>
                   </CardText>
