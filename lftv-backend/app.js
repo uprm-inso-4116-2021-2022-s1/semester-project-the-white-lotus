@@ -6,6 +6,7 @@ require('dotenv').config();
 
 //APIs
 const teaAPI = require('./API/tea.api');
+const recipeAPI = require("./API/recipe.api");
 
 // Create connection
 const db = new Client({
@@ -185,6 +186,47 @@ app.get('/getteabyid/:id', jsonParser, (req, res) => {
 app.get('/getteabyname/:name', jsonParser, (req, res) => {
     teaAPI.getTeaByName(db, req, res);
 });
+//#endregion
+
+//#region Recipe API
+app.post('/addrecipe', jsonParser, (req, res) => {
+    recipeAPI.addRecipe(db, req, res);
+});
+
+app.delete('/removerecipebyid/:id', jsonParser, (req, res) => {
+    recipeAPI.removeRecipeByID(db, req, res);
+});
+
+app.patch('/editrecipe/:id', jsonParser, (req, res) => {
+    recipeAPI.editRecipe(db, req, res);
+});
+app.patch('/edittitle/:id', jsonParser, (req, res) => {
+    recipeAPI.editTitle(db, req, res);
+});
+
+app.patch('/editdifficulty/:id', jsonParser, (req, res) => {
+    recipeAPI.editDifficulty(db, req, res);
+});
+app.patch('/edityield/:id', jsonParser, (req, res) => {
+    recipeAPI.editYield(db, req, res);
+});
+app.patch('/editingredients/:id', jsonParser, (req, res) => {
+    recipeAPI.editIngredients(db, req, res);
+});
+app.patch('/editprocedure/:id', jsonParser, (req, res) => {
+    recipeAPI.editProcedure(db, req, res);
+});
+app.patch('/edittealeaf/:id', jsonParser, (req, res) => {
+    recipeAPI.editTeaLeaf(db, req, res);
+});
+app.get('/getrecipes', jsonParser, (req, res) => {
+    recipeAPI.getAllRecipes(db, req, res);
+});
+
+app.get('/getrecipebyid/:id', jsonParser, (req, res) => {
+    recipeAPI.getRecipeByID(db, req, res);
+});
+
 //#endregion
 
 //#region ... API
