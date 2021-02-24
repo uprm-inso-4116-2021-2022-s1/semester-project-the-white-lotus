@@ -46,9 +46,6 @@ function IndexHeader() {
                 <img alt="..." src={require("assets/img/fog-low.png")} />
               </div>
             </div>
-            <h2 className="presentation-subtitle text-center">
-              Make your mark with a Free Bootstrap 4 (Reactstrap) UI Kit!
-            </h2>
           </Container>
         </div>
         <div
