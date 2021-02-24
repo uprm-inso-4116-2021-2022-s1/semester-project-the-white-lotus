@@ -233,6 +233,14 @@ function ExamplesNavbar() {
 
               <NavItem>
                 <NavLink
+                    href="/survey-page"
+                >
+                  Tea Survey
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
                     href="/register-page"
                 >
                   Register
