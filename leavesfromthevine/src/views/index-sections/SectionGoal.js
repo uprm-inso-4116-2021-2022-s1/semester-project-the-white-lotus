@@ -72,7 +72,7 @@ function SectionGoal() {
                       Don't know much about tea or what to try? Take this 
                       survey and discover possible teas you might enjoy.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
+                    <Button className="btn-link" color="info" href="/survey-page">
                       See more
                     </Button>
                   </div>

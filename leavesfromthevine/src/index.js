@@ -29,6 +29,7 @@ import Home from "views/Home.js";
 import NucleoIcons from "views/NucleoIcons.js";
 import InfoPage from "views/examples/InfoPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
+import SurveyPage from "views/examples/SurveyPage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import RecipeCatalogue from "./views/RecipeCatalogue";
 // others
@@ -56,6 +57,10 @@ ReactDOM.render(
       <Route
           path="/recipe-page"
           render={(props) => <RecipeCatalogue {...props} />}
+      />
+      <Route
+          path="/survey-page"
+          render={(props) => <SurveyPage {...props} />}
       />
       <Redirect to="/home" />
 
