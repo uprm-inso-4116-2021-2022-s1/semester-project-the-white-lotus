@@ -1,7 +1,7 @@
 // Create Tea table
 // This is NOT to be used, just to show how it'd work
 const creatTeaTable = (db, req, res) => {
-    let sql = 'CREATE TABLE teas(id int AUTO_INCREMENT, type VARCHAR(255), name VARCHAR(255), tea_desc VARCHAR(1024), PRIMARY KEY (id))';
+    let sql = 'CREATE TABLE teas(id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY, type VARCHAR(255), name VARCHAR(255), tea_desc VARCHAR(1024))';
     db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
