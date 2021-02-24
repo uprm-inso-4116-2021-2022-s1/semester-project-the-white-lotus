@@ -217,7 +217,7 @@ app.get('/', jsonParser, (req, res) => {
     res.send(response);
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PGPORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
