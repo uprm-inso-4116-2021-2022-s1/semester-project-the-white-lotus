@@ -236,6 +236,14 @@ function IndexNavbar() {
             </NavItem>
 
             <NavItem>
+                <NavLink
+                    href="/tea-catalogue"
+                >
+                  Teas
+                </NavLink>
+              </NavItem>
+
+            <NavItem>
               <NavLink
                   href="/survey-page"
               >

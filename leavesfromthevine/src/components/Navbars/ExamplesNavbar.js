@@ -232,6 +232,14 @@ function ExamplesNavbar() {
 
               <NavItem>
                 <NavLink
+                    href="/tea-catalogue"
+                >
+                  Teas
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
                     href="/survey-page"
                 >
                   Tea Survey
