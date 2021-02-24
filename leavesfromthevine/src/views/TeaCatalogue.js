@@ -19,11 +19,12 @@
 import React from "react";
 
 // reactstrap components
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle} from 'reactstrap';
+import {Container, Table } from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
-import recipes from '../dummy data/recipes.json'
+import TeaModal from "./TeaModal";
+import teas from "../dummy data/tea.json";
 
 function PageHeader() {
   let pageHeader = React.createRef();
@@ -47,7 +48,7 @@ function PageHeader() {
         <div
             style={{
               backgroundImage:
-                  "url(" + require("assets/img/dpi-library.jpg") + ")",
+                  "url(" + require("assets/img/tea_catalogue.jpeg") + ")",
             }}
             className="page-header page-header-xs"
             data-parallax={true}
@@ -56,7 +57,7 @@ function PageHeader() {
           <div className="filter" />
           <Container>
             <div className="motto text-center">
-                <h1>Recipe Catalogue</h1>
+                <h1>Tea Encyclopedia</h1>
                 <br />
             </div>
           </Container>
@@ -66,12 +67,12 @@ function PageHeader() {
 }
 
 
-function RecipeCatalogue() {
+function TeaCatalogue() {
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
-    document.body.classList.add("recipe-page");
+    document.body.classList.add("tea-catalogue");
     return function cleanup() {
-      document.body.classList.remove("recipe-page");
+      document.body.classList.remove("tea-catalogue");
     };
   });
   return (
@@ -81,22 +82,27 @@ function RecipeCatalogue() {
         <div className="main">
           <div className="section text-center">
             <Container>
-                <Row className="mr-0 ml-0">
-                    {recipes.single_recipe.map((properties) => <Col>
-                        <Card style={{width: '20rem'}}>
-                            <CardBody>
-                                <CardTitle>{properties.name}</CardTitle>
-                                <CardSubtitle>{properties.tealeaves}</CardSubtitle>
-                                <CardText>
-                                    <p>Yield: {properties.yield}</p>
-                                    <p>Ingredients: {properties.ingredients}</p>
-                                    <p>Procedure: {properties.procedure}</p>
-                                    <p>Difficulty: {properties.difficulty}</p>
-                                </CardText>
-                            </CardBody>
-                        </Card>
-                    </Col>)}
-                </Row>
+                <Table>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {teas.single_tea.map((properties, index)=> <tr>
+                            <th scope="row">{index + 1}</th>
+                            <td>{properties.type}</td>
+                            <td>{properties.name}</td>
+                            <td>{properties.description}</td>
+                            <td><TeaModal teaname={properties.name}/></td>
+                        </tr>
+                    )}
+                    </tbody>
+                </Table>
             </Container>
           </div>
         </div>
@@ -105,4 +111,4 @@ function RecipeCatalogue() {
   );
 }
 
-export default RecipeCatalogue;
+export default TeaCatalogue;

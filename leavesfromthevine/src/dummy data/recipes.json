@@ -3,6 +3,7 @@
   "crs": {
     "name": "name",
     "tealeaves": "leaves",
+    "yield": "numbers",
     "ingredients": "lots and lots of ingredients",
     "procedure": "how to",
     "difficulty": "level"
@@ -10,18 +11,28 @@
 
   "single_recipe": [
     {
-      "name": "Test",
-      "tealeaves": "Trying out something",
-      "ingredients": "Just some ingredients",
-      "procedure": "here's how to do it",
-      "difficulty": "Hard"
+      "name": "Sage Herbal Tea Recipe",
+      "tealeaves": "Sage Leaves",
+      "yield": "4 (8 ounce) servings",
+      "ingredients": "4 cups of water. 1/2 ounce fresh sage leaves. 2 tablespoons of sugar. 1 1/2 teaspoons of lemon zest. 3 tablespoons of lemon juice.",
+      "procedure": "Bring the water to a boil. Keep water at a simmer, add the sage leaves, lemon zest and lemon juice, stir well. Allow to steep for 20 to 30 mins, occasionally stirring. Strain out the sage leaves and lemon zest. Serve hot or chilled with ice.",
+      "difficulty": "Easy"
     },
     {
-      "name": "Test2",
-      "tealeaves": "Trying out something2",
-      "ingredients": "Just some ingredients2",
-      "procedure": "here's how to do it2",
-      "difficulty": "Hard2"
+      "name": "Hot Cranberry Tea",
+      "tealeaves": "Whole Cloves",
+      "yield": "14 (8 ounce) servings",
+      "ingredients": "3 1/2 quarts water. 12 ounces package cranberries. 2 cups white sugar. 2 oranges, juiced. 2 lemons, juiced. 12 whole cloves. 2 cinnamon sticks.",
+      "procedure": "In a large pot, combine water and cranberries. Bring to a boil, reduce heat, and simmer for 30 minutes. Add sugar, orange juice, lemon juice, cloves and cinnamon sticks. Cover, and steep for 1 hour.",
+      "difficulty": "Easy"
+    },
+    {
+      "name": "Twinings Iced Strawberry & Mango Tea",
+      "tealeaves": "Strawberry & Mango",
+      "yield": "1 (8 ounce) serving",
+      "ingredients": "150ml of Strawberry & Mango Tea made from 1 teabag. 2 tablespoons of agave syrup. 2 sliced strawberries, sliced mango cubes and mint leaves. Ice cubes",
+      "procedure": "Infuse teabag in boiling water for 8-10 mins. Remove soaked teabag and leave brew to cool. Add 2 table spoons of syrup. Add mixture into glass half filled with ice cubes. Add strawberry, mango slices and mint leaves. Stir and serve.",
+      "difficulty": "Medium"
     }
   ]
 }

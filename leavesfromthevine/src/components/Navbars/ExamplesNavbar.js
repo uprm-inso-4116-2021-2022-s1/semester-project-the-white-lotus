@@ -13,7 +13,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 // nodejs library that concatenates strings
 import classnames from "classnames";
-import Menu from "./Menu.js";
 import LoginModal from "./LoginModal.js";
 
 // reactstrap components
@@ -24,7 +23,7 @@ import {
   NavItem,
   NavLink,
   Nav,
-  Container, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
+  Container
 } from "reactstrap";
 
 function ExamplesNavbar() {
@@ -225,7 +224,7 @@ function ExamplesNavbar() {
               {/* JUST FOR TESTING PURPOSES */}
               <NavItem>
                 <NavLink
-                    href="/recipe-page"
+                    href="/recipe-catalogue"
                 >
                   Recipes
                 </NavLink>

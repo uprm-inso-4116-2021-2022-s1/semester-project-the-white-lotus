@@ -7,17 +7,12 @@ import {
   CardImg,
   CardBody,
   CardTitle,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
   CardText,
   Row,
   Col,
 } from "reactstrap";
-import Carousel from "../../components/Others/Carousel.js"
+
 
 // core components
 
