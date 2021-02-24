@@ -195,7 +195,7 @@ app.get('/getteabyname/:name', jsonParser, (req, res) => {
 
 // API testers
 app.get('/testapi/:test', jsonParser, (req, res) => {
-    test.main(req, res);
+    test.main(db, req, res);
 });
 
 app.get('/', jsonParser, (req, res) => {
@@ -218,6 +218,7 @@ app.get('/', jsonParser, (req, res) => {
                 getTeaByName: "/getteabyname/:name"
             },
             testers: {
+                all: "/testapi/all",
                 tea: "/testapi/tea"
             }
         }

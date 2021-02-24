@@ -5,7 +5,12 @@ const main = (db, req, res) => {
     res.send(`main method called for test ${req.params.test}.`)
 
     switch(req.params.test) {
-        case 'tea': testTea.testTea(db, req, res); break;
+        case 'all':
+            testTea.testTea(req, res);
+            break;
+        case 'tea':
+            testTea.testTea(req, res);
+            break;
         default: break;
     }
 }
