@@ -1,6 +1,8 @@
 const express = require('express');
-const mysql = require ('mysql');
+const { Client } = require('pg');
 const bodyParser = require('body-parser');
+
+require('dotenv').config();
 
 //APIs
 const teaAPI = require('./API/tea.api');
@@ -9,19 +11,20 @@ const teaAPI = require('./API/tea.api');
 const test = require('./Tests/main-tester')
 
 // Create connection
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '123456',
-    database: 'lftv',
-    insecureAuth : true
+const db = new Client({
+    host: process.env.PGHOST,
+    user: process.env.PGUSER,
+    password: process.env.PGPASS,
+    database: process.env.PGDB,
+    port: process.env.PGPORT,
+    ssl: true,
 });
 
 // Connect to database
 db.connect((err) => {
    if (err)
        throw err;
-    console.log('MySql Connected...');
+    console.log('Remote PostgresDB connected...');
 });
 
 const app = express();
@@ -226,7 +229,7 @@ app.get('/', jsonParser, (req, res) => {
     res.send(response);
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PGPORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
