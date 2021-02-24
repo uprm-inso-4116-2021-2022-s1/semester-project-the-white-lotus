@@ -33,6 +33,7 @@ import SurveyPage from "views/examples/SurveyPage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import RecipeCatalogue from "./views/RecipeCatalogue";
 import TeaCatalogue from "./views/TeaCatalogue";
+import ForumPage from "./views/ForumPage";
 // others
 
 ReactDOM.render(
@@ -66,6 +67,10 @@ ReactDOM.render(
       <Route
           path="/tea-catalogue"
           render={(props) => <TeaCatalogue {...props} />}
+        />
+        <Route
+          path="/forum-page"
+          render={(props) => <ForumPage {...props} />}
         />
       <Redirect to="/home" />
 

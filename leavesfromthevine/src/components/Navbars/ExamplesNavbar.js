@@ -205,13 +205,13 @@ function ExamplesNavbar() {
               </NavItem>
 
 
-              <NavItem>
+              {/* <NavItem>
                 <NavLink
                     href="/info-page"
                 >
                   Settings
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
 
               <NavItem>
                 <NavLink
@@ -238,13 +238,13 @@ function ExamplesNavbar() {
                 </NavLink>
               </NavItem>
 
-              <NavItem>
+              {/* <NavItem>
                 <NavLink
                     href="/register-page"
                 >
                   Register
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
 
               <LoginModal/>
 

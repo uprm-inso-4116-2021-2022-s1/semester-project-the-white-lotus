@@ -210,13 +210,13 @@ function IndexNavbar() {
             </NavItem>
             
 
-            <NavItem>
+            {/* <NavItem>
               <NavLink
                 href="/info-page"
               >
               Settings
               </NavLink>
-            </NavItem>
+            </NavItem> */}
 
             <NavItem>
               <NavLink
@@ -243,13 +243,13 @@ function IndexNavbar() {
               </NavLink>
             </NavItem>
 
-            <NavItem>
+            {/* <NavItem>
               <NavLink
                 href="/register-page"
               >
               Register
               </NavLink>
-            </NavItem>
+            </NavItem> */}
 
             <LoginModal/>
 
