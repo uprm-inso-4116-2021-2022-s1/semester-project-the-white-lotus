@@ -26,7 +26,10 @@ import { Button, Container, Row, Col } from "reactstrap";
 function SectionForumPreview() {
   return (
     <>
-      <div className="section section-center">
+      <div className="section section-center"
+      style={{
+        backgroundImage: "url(" + require("assets/img/login-image.jpg") + ")",
+      }}>
         <Container>
           <Row className="example-page">
             <Col className="text-center" md="15">
@@ -34,15 +37,14 @@ function SectionForumPreview() {
                 <img
                   alt="..."
                   className="img-rounded img-responsive"
-                  src={require("assets/img/examples/landing-page.png")}
+                  src={require("assets/img/examples/forum-page.jpg")}
                   style={{ width: "100%" }}
                 />
               </a>
               <Button
                 className="btn-round mr-1"
                 color="primary"
-                href="/landing-page"
-                target="_blank"
+                href="/forum-page"
               >
                 Forum Page
               </Button>

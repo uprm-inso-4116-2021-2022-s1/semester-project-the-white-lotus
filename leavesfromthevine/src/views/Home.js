@@ -57,8 +57,8 @@ function Home() {
       <IndexHeader />
       <div className="main">
         <SectionGoal/>
-        <SectionCarousel/>
         <SectionTeaTypes/>
+        <SectionCarousel/>
         <SectionForumPreview />
         <SectionButtons />
         <SectionNavbars />
