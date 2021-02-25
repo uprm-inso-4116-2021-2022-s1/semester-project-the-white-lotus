@@ -6,7 +6,8 @@ class TeaModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            openModal: false
+            openModal: false,
+            tea: []
         };
     }
 
@@ -16,6 +17,13 @@ class TeaModal extends React.Component {
 
     handleClose = event => {
         this.setState({openModal: false})
+    }
+
+    componentDidMount() {
+        let url = 'http://localhost:5432/getteabyid/' + this.props.teaid
+        fetch(url)
+            .then ((response) => response.json())
+            .then((tests) => this.setState({tea:tests.result.rows}))
     }
 
     render() {
@@ -38,7 +46,11 @@ class TeaModal extends React.Component {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <p>IN HERE IT WOULD BE THE API CALL</p>
+                        {this.state.tea.map((properties) =>
+                            <div>
+                                <p>Type: {properties.type}</p>
+                            </div>
+                        )}
                     </div>
                     <div className="modal-footer">
                         <div className="left-side">

@@ -24,7 +24,6 @@ import {Container, Table } from 'reactstrap';
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
 import TeaModal from "../components/Page/TeaModal";
-import teas from "../dummy data/tea.json";
 
 function PageHeader() {
   let pageHeader = React.createRef();
@@ -68,13 +67,17 @@ function PageHeader() {
 
 
 function TeaCatalogue() {
-  document.documentElement.classList.remove("nav-open");
-  React.useEffect(() => {
-    document.body.classList.add("tea-catalogue");
-    return function cleanup() {
-      document.body.classList.remove("tea-catalogue");
-    };
-  });
+    let [teas, setTeas] = React.useState([])
+    fetch('http://localhost:5432/gettea')
+        .then((response) => response.json())
+        .then((tests) => setTeas(tests.result.rows))
+    document.documentElement.classList.remove("nav-open");
+    React.useEffect(() => {
+        document.body.classList.add("tea-catalogue");
+        return function cleanup() {
+            document.body.classList.remove("tea-catalogue");
+        };
+    });
   return (
       <>
         <ExamplesNavbar />
@@ -93,12 +96,12 @@ function TeaCatalogue() {
                     </tr>
                     </thead>
                     <tbody>
-                    {teas.single_tea.map((properties, index)=> <tr>
-                            <th scope="row">{index + 1}</th>
+                    {teas.map((properties)=> <tr>
+                            <th scope="row">{properties.id}</th>
                             <td>{properties.type}</td>
                             <td>{properties.name}</td>
-                            <td>{properties.description}</td>
-                            <td><TeaModal teaname={properties.name}/></td>
+                            <td>{properties.tea_desc}</td>
+                            <td><TeaModal teaname={properties.name} teaid={properties.id}/></td>
                         </tr>
                     )}
                     </tbody>
