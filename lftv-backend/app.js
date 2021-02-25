@@ -31,19 +31,6 @@ const jsonParser = bodyParser.json();
 //required for requests to have x-www-form-urlencoded body
 const urlencodedParser = bodyParser.urlencoded({ extended : false});
 
-// Create DB
-// to create the db, uncomment the following lines and remove from above "database: 'lftv'," temporarily
-// run the server, go to that location, DB is created. comment the lines, put back what you removed from above.
-// app.get('/createdb', (req, res) => {
-//     let sql = 'CREATE DATABASE lftv';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('database created...');
-//     })
-// });
-
-
 //#region Example API
 // ******************************** EXAMPLE API ****************************************************
 
