@@ -1,11 +1,7 @@
-//#region Add Ingredient
 // Add Ingredient
-const addIngredient = (db, req, res) => {
-    let ingredient = {name: req.body.name}
-    const sql = {
-        text: 'INSERT INTO ingredients(name)  VALUES($1)',
-        values: [ingredient.name],
-    }
+const addIngredientByName = (db, req, res) => {
+    let ingredient = {name: req.params.name}
+    const sql = `INSERT INTO ingredients(name) VALUES('${ingredient}') ON CONFLICT DO NOTHING`
     db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
@@ -18,11 +14,29 @@ const addIngredient = (db, req, res) => {
         });
     });
 };
-//#endregion
-//region Remove Recipe
-// Remove recipe by id
-const removeIngredientByID = (db, req, res) => {
-    let sql = `DELETE FROM ingredients WHERE id = ${req.params.id}`;
+const addMultipleIngredients = async (db, req, res) => {
+    let ingredients = req.body.ingredients
+    let allIngredients = `('${ingredients[0]}')`
+    ingredients.slice(1).forEach( ing =>
+        allIngredients+=(`,('${ing}')`)
+    )
+    const sql = `INSERT INTO ingredients(name) VALUES${allIngredients} ON CONFLICT DO NOTHING`
+    try{
+        const result = await db.query(sql);
+        res.send({
+            message: `${result.rowCount} ingredients added successfully.`,
+            result
+        });
+        console.log(result)
+        return result.rowCount;
+    } catch(err){
+        res.send(err);
+    }
+};
+
+// Remove recipe by name
+const removeIngredientByName = (db, req, res) => {
+    let sql = `DELETE FROM ingredients WHERE name = '${req.params.name}'`;
     db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
@@ -35,8 +49,7 @@ const removeIngredientByID = (db, req, res) => {
         });
     });
 };
-//#endregion
-//#region Get ingredients
+
 // Get all ingredients
 const getAllIngredients = (db, req, res) => {
     let sql = 'SELECT * FROM ingredients';
@@ -53,26 +66,47 @@ const getAllIngredients = (db, req, res) => {
     });
 };
 
-// Get ingredient by id
-const getIngredientByID = (db, req, res) => {
-    let sql = `SELECT * FROM ingredients WHERE id = ${req.params.id}`;
+// Get ingredient by name
+const getIngredientByName = (db, req, res) => {
+    let sql = `SELECT * FROM ingredients WHERE name = '${req.params.name}'`;
     db.query(sql, (err, result) => {
         if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+            res.send(err);
         }
-        console.log(result);
+        const ingredient = result.rows[0]
+        console.log(result.rows[0]);
         res.send({
-            message: `Ingredient with id ${req.params.id} fetched successfully.`,
-            result
+            message: `Ingredient '${req.params.name}' fetched successfully.`,
+            ingredient
         });
     });
 };
 
-//#endregion
+// Get multiple ingredients
+const getMultipleIngredients = async (db, req, res) => {
+    let ingredients = req.body.ingredients
+    let allIngredients = `'${ingredients[0]}'`
+    ingredients.slice(1).forEach( ing =>
+        allIngredients+=(`,'${ing}'`)
+    )
+    let sql = `SELECT * FROM ingredients WHERE name in (${allIngredients})`;
+    try{
+        const result = await db.query(sql);
+        res.send({
+            message: `Ingredients (${allIngredients}) fetched successfully.`,
+        });
+        console.log(result.rows)
+        return result.rows;
+    } catch(err){
+        res.send(err);
+    }
+};
+
 module.exports = {
-    addIngredient,
-    removeIngredientByID,
-    getIngredientByID,
-    getAllIngredients
+    addIngredientByName,
+    removeIngredientByName,
+    getIngredientByName,
+    getAllIngredients,
+    getMultipleIngredients,
+    addMultipleIngredients
 }

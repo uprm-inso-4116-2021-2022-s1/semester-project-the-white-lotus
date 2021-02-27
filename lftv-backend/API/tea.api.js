@@ -1,16 +1,16 @@
 // Create Tea table
 // This is NOT to be used, just to show how it'd work
-const creatTeaTable = (db, req, res) => {
-    let sql = 'CREATE TABLE teas(id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY, type VARCHAR(255), name VARCHAR(255), tea_desc VARCHAR(1024))';
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send(`Teas table created successfully.`);
-    });
-};
+// const creatTeaTable = (db, req, res) => {
+//     let sql = 'CREATE TABLE teas(id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY, type VARCHAR(255), name VARCHAR(255), tea_desc VARCHAR(1024))';
+//     db.query(sql, (err, result) => {
+//         if(err) {
+//             console.log(err);
+//             res.send(`Error, check console log.`);
+//         }
+//         console.log(result);
+//         res.send(`Teas table created successfully.`);
+//     });
+// };
 
 //#region Add Tea
 // Create Tea
@@ -50,7 +50,7 @@ const removeTeaByID = (db, req, res) => {
 
 // Remove tea by name
 const removeTeaByName = (db, req, res) => {
-    let sql = `DELETE FROM teas WHERE name = "${req.params.name}"`;
+    let sql = `DELETE FROM teas WHERE name = '${req.params.name}'`;
     db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
@@ -157,7 +157,7 @@ const editDescByName = (db, req, res) => {
 //#region Get tea
 // Get all teas
 const getAllTeas = (db, req, res) => {
-    let sql = 'SELECT * FROM teas';
+    let sql = `SELECT * FROM teas`;
     db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
@@ -204,24 +204,22 @@ const getTeaByID = (db, req, res) => {
 };
 
 // Get tea by name
-const getTeaByName = (db, req, res) => {
-    let sql = `SELECT * FROM teas WHERE name = '${req.params.name}'`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
+const getTeaByName =  async (db, req, res) => {
+    const teaName = req.params?.name === undefined? req : req.params.name
+    let sql = `SELECT * FROM teas WHERE name = '${teaName}'`;
+    try{
+        const result = await db.query(sql);
         res.send({
-            message: `Tea with name ${req.params.name} fetched successfully.`,
-            result
+            message: `Tea with name '${teaName}' fetched successfully.`,
         });
-    });
+        return result.rows[0];
+    } catch(err){
+        res.send(err);
+    }
 };
 //#endregion
 
 module.exports = {
-    creatTeaTable,
     addTea,
     removeTeaByID,
     removeTeaByName,

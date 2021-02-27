@@ -1,15 +1,11 @@
-//#region Add Taste
-// Add Taste
+//#region Add taste
+// Add taste
 const addTaste = (db, req, res) => {
-    let taste = {name: req.body.name}
-    const sql = {
-        text: 'INSERT INTO Taste(name)  VALUES($1)',
-        values: [taste.name],
-    }
+    let taste = {name: req.params.name}
+    const sql = `INSERT INTO taste(name)  VALUES('${req.params.name}')`
     db.query(sql, (err, result) => {
         if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+            res.send(err);
         }
         console.log(result, taste);
         res.send({
@@ -19,10 +15,10 @@ const addTaste = (db, req, res) => {
     });
 };
 //#endregion
-//region Remove Taste
-// Remove Taste by id
-const removeTasteByID = (db, req, res) => {
-    let sql = `DELETE FROM Taste WHERE id = ${req.params.id}`;
+//region Remove taste
+// Remove taste by name
+const removeTasteByName = (db, req, res) => {
+    let sql = `DELETE FROM taste WHERE name = '${req.params.name}'`;
     db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
@@ -36,10 +32,10 @@ const removeTasteByID = (db, req, res) => {
     });
 };
 //#endregion
-//#region Get Tastes
-// Get all Tastes
+//#region Get taste
+// Get all tastes
 const getAllTastes = (db, req, res) => {
-    let sql = 'SELECT * FROM Taste';
+    let sql = 'SELECT * FROM taste';
     db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
@@ -47,23 +43,24 @@ const getAllTastes = (db, req, res) => {
         }
         console.log(result);
         res.send({
-            message: `All Tastes fetched successfully.`,
+            message: `All tastes fetched successfully.`,
             result
         });
     });
 };
-// Get Taste by id
-const getTasteByID = (db, req, res) => {
-    let sql = `SELECT * FROM Taste WHERE id = ${req.params.id}`;
+// Get taste by name
+const getTasteByName = (db, req, res) => {
+    let sql = `SELECT * FROM taste WHERE name = '${req.params.name}'`;
     db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
             res.send(`Error, check console log.`);
         }
-        console.log(result);
+        const taste = result.rows[0]
+        console.log(taste);
         res.send({
-            message: `Taste with id ${req.params.id} fetched successfully.`,
-            result
+            message: `Taste '${req.params.name}' fetched successfully.`,
+            taste
         });
     });
 };
@@ -71,7 +68,7 @@ const getTasteByID = (db, req, res) => {
 
 module.exports = {
     addTaste,
-    removeTasteByID,
+    removeTasteByName,
     getAllTastes,
-    getTasteByID
+    getTasteByName
 }

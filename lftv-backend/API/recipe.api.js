@@ -1,23 +1,10 @@
-const teaAPI = require('./API/tea.api');
 
-// Create Recipe table
-// This is NOT to be used, just to show how it'd work
-const createRecipeTable = (db, req, res) => {
-    let sql = 'CREATE TABLE recipes(Id SERIAL PRIMARY KEY, Title VARCHAR(255), Difficulty VARCHAR(255), Yield VARCHAR(1024), Ingredients TEXT[], Procedure TEXT)';
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send(`Recipes table created successfully.`);
-    });
-};
-
+const teaAPI = require("./tea.api");
+const ingredientAPI = require("./ingredient.api");
 //#region Add Recipe
 // Add new Recipe to database
 // TODO
-const addRecipe = (db, req, res) => {
+const addRecipe =  async (db, req, res) => {
     let recipe = {
         title: req.body.title,
         difficulty: req.body.difficulty,
@@ -26,25 +13,18 @@ const addRecipe = (db, req, res) => {
         ingredients: req.body.ingredients,
         teaName: req.body.teaName
     };
-    // Get teaID
-    var teaID = -1;
-    try{
-        const tea = teaAPI.getTeaByName(recipe.teaName)
-        teaID = tea.id
-    }
-    catch(err){
-        console.log(err);
-        res.send(`Tea not found. First, you must add the tea in the database.`);
-    }
+    const tea = await (teaAPI.getTeaByName(db, recipe.teaName, res))
+    await (ingredientAPI.addMultipleIngredients(db, recipe.ingredients, res))
+    const ingredients = await (ingredientAPI.ge)
     // Check if ingredients exist. If they don't, add them to the db. Save their ids in an array.
     const sql = {
-        text: 'INSERT INTO recipes(title, difficulty, yield, teaID, procedure)  VALUES($1, $2, $3, $4, $5)',
-        values: [recipe.title, recipe.difficulty, recipe.yield, teaID,  recipe.procedure],
+        text: 'INSERT INTO recipes(title, difficulty, yield, procedure,  teaID)  VALUES($1, $2, $3, $4, $5)',
+        values: [recipe.title, recipe.difficulty, recipe.yield, recipe.procedure, tea.id],
     }
     // Add recipe to bridge.
     // Add recipe to recipes.
     db.query(sql, (err, result) => {
-        if(err) {
+        if (err) {
             console.log(err);
             res.send(`Error, check console log.`);
         }
@@ -101,10 +81,11 @@ const editRecipe = (db, req, res) => {
             console.log(err);
             res.send(`Error, check console log.`);
         }
-        console.log(result);
+        const recipe = result.rows[0]
+        console.log(recipe);
         res.send({
             message: `Recipe updated to "${recipe}.`,
-            result
+            recipe
         });
     });
 };
@@ -119,10 +100,11 @@ const getAllRecipes = (db, req, res) => {
             console.log(err);
             res.send(`Error, check console log.`);
         }
+        const recipes = result.rows
         console.log(result);
         res.send({
             message: `All recipes fetched successfully.`,
-            result
+            recipes
         });
     });
 };
@@ -135,10 +117,11 @@ const getRecipeByID = (db, req, res) => {
             console.log(err);
             res.send(`Error, check console log.`);
         }
-        console.log(result);
+        const recipe = result.rows[0]
+        console.log(recipe);
         res.send({
             message: `Recipe with id ${req.params.id} fetched successfully.`,
-            result
+            recipe
         });
     });
 };
@@ -147,7 +130,6 @@ const getRecipeByID = (db, req, res) => {
 
 
 module.exports = {
-    createRecipeTable,
     addRecipe,
     removeRecipeByID,
     editRecipe,
