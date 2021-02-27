@@ -7,6 +7,9 @@ require('dotenv').config();
 //APIs
 const teaAPI = require('./API/tea.api');
 const recipeAPI = require("./API/recipe.api");
+const ingredientAPI = require("./API/ingredient.api");
+const noteAPI = require("./API/notes.api");
+const tasteAPI = require("./API/taste.api");
 
 // Tester
 const test = require('./Tests/main-tester')
@@ -34,31 +37,18 @@ const jsonParser = bodyParser.json();
 //required for requests to have x-www-form-urlencoded body
 const urlencodedParser = bodyParser.urlencoded({ extended : false});
 
-// Create DB
-// to create the db, uncomment the following lines and remove from above "database: 'lftv'," temporarily
-// run the server, go to that location, DB is created. comment the lines, put back what you removed from above.
-// app.get('/createdb', (req, res) => {
-//     let sql = 'CREATE DATABASE lftv';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('database created...');
-//     })
-// });
-
-
 //#region Example API
 // ******************************** EXAMPLE API ****************************************************
 
 // Create table
-app.get('/createpoststable', (req, res) => {
-    let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY (id))';
-    db.query(sql, (err, result) => {
-        if(err) throw err;
-        console.log(result);
-        res.send(`Posts table created...`);
-    })
-});
+// app.get('/createpoststable', (req, res) => {
+//     let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY (id))';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send(`Posts table created...`);
+//     })
+// });
 
 // Insert post
 app.get('/addpost', jsonParser, (req, res) => {
@@ -174,7 +164,7 @@ app.get('/editdescbyname/:name', jsonParser, (req, res) => {
     teaAPI.editDescByName(db, req, res);
 });
 
-app.get('/gettea', jsonParser, (req, res) => {
+app.get('/getteas', jsonParser, (req, res) => {
     teaAPI.getAllTeas(db, req, res);
 });
 
@@ -231,6 +221,64 @@ app.get('/getrecipebyid/:id', jsonParser, (req, res) => {
 });
 
 //#endregion
+
+//#region Ingredient
+app.get('/getingredients', jsonParser, (req, res) => {
+    ingredientAPI.getAllIngredients(db, req, res);
+});
+app.get('/getingredientbyname/:name', jsonParser, (req, res) => {
+    ingredientAPI.getIngredientByName(db, req, res);
+});
+app.get('/getmultipleingredients', jsonParser, (req, res) => {
+    ingredientAPI.getMultipleIngredients(db, req, res);
+});
+app.post('/addingredient/:name', jsonParser, (req, res) => {
+    ingredientAPI.addIngredientByName(db, req, res);
+});
+app.post('/addmultipleingredients/', jsonParser, (req, res) => {
+    ingredientAPI.addMultipleIngredients(db, req, res);
+});
+app.delete('/removeingredient/:name', jsonParser, (req, res) => {
+    ingredientAPI.removeIngredientByName(db, req, res);
+});
+//#endregion
+
+//#region Notes API
+app.get('/getnotes', jsonParser, (req, res) => {
+    noteAPI.getAllNotes(db, req, res);
+});
+app.get('/getnotebyname/:name', jsonParser, (req, res) => {
+    noteAPI.getNoteByName(db, req, res);
+});
+app.get('/getmultiplenotes', jsonParser, (req, res) => {
+    noteAPI.getMultipleNotes(db, req, res);
+});
+app.post('/addnote/:name', jsonParser, (req, res) => {
+    noteAPI.addNote(db, req, res);
+});
+app.post('/addmultiplenotes', jsonParser, (req, res) => {
+    noteAPI.addMultipleNotes(db, req, res);
+});
+app.delete('/removenote/:name', jsonParser, (req, res) => {
+    noteAPI.removeNoteByName(db, req, res);
+});
+//#endregions
+
+//#region Taste API
+app.get('/gettastes', jsonParser, (req, res) => {
+    tasteAPI.getAllTastes(db, req, res);
+});
+app.get('/gettastebyname/:name', jsonParser, (req, res) => {
+    tasteAPI.getTasteByName(db, req, res);
+});
+app.post('/addtaste/:name', jsonParser, (req, res) => {
+    tasteAPI.addTaste(db, req, res);
+});
+app.delete('/removetaste/:name', jsonParser, (req, res) => {
+    tasteAPI.removeTasteByName(db, req, res);
+});
+//#endregion
+
 
 //#region ... API
 //#endregion
