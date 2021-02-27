@@ -16,8 +16,8 @@
 // Create Tea
 const addTea = (db, req, res) => {
     let tea = {type: req.body.type, name: req.body.name, tea_desc: req.body.tea_desc};
-    let sql = 'INSERT INTO teas SET ?';
-    db.query(sql, tea, (err, result) => {
+    let sql = `INSERT INTO teas(type, name, tea_desc) VALUES('${tea.type}', '${tea.name}', '${tea.tea_desc}')`;
+    db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
             res.send(`Error, check console log.`);
@@ -204,18 +204,33 @@ const getTeaByID = (db, req, res) => {
 };
 
 // Get tea by name
-const getTeaByName =  async (db, req, res) => {
-    const teaName = req.params?.name === undefined? req : req.params.name
-    let sql = `SELECT * FROM teas WHERE name = '${teaName}'`;
-    try{
-        const result = await db.query(sql);
+const getTeaByName = (db, req, res) => {
+    const teaName = req.params.name;
+    let sql = `SELECT * FROM teas WHERE name = '${teaName}'`
+    db.query(sql, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send(`Error, check console log.`);
+        }
+
+        console.log(result);
         res.send({
             message: `Tea with name '${teaName}' fetched successfully.`,
+            result
         });
-        return result.rows[0];
-    } catch(err){
-        res.send(err);
-    }
+    });
+
+    // const teaName = req.params?.name === undefined? req : req.params.name
+    // let sql = `SELECT * FROM teas WHERE name = '${teaName}'`;
+    // try{
+    //     const result = await db.query(sql);
+    //     res.send({
+    //         message: `Tea with name '${teaName}' fetched successfully.`,
+    //     });
+    //     return result.rows[0]; //<- you might wanna try result.result.rows[0] instead c:
+    // } catch(err){
+    //     res.send(err);
+    // }
 };
 //#endregion
 

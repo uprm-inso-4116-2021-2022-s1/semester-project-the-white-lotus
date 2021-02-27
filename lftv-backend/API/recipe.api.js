@@ -13,7 +13,7 @@ const addRecipe =  async (db, req, res) => {
         ingredients: req.body.ingredients,
         teaName: req.body.teaName
     };
-    const tea = await (teaAPI.getTeaByName(db, recipe.teaName, res))
+    const tea = (teaAPI.getTeaByName(db, recipe.teaName, res))
     await (ingredientAPI.addMultipleIngredients(db, recipe.ingredients, res))
     const ingredients = await (ingredientAPI.ge)
     // Check if ingredients exist. If they don't, add them to the db. Save their ids in an array.
