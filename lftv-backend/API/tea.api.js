@@ -205,13 +205,22 @@ const getTeaByID = (db, req, res) => {
 
 // Get tea by name
 const getTeaByName =  async (db, req, res) => {
-    const teaName = req.params?.name === undefined? req : req.params.name
+    const teaName = req.params === undefined? req : req.params.name
     let sql = `SELECT * FROM teas WHERE name = '${teaName}'`;
     try{
         const result = await db.query(sql);
-        res.send({
-            message: `Tea with name '${teaName}' fetched successfully.`,
-        });
+        if (req.params === undefined){
+            res.write(
+                `Tea with name '${teaName}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${teaName}'`);
+                }
+            )
+        }
+        else{
+            res.send({
+                message: `Tea with name '${teaName}' fetched successfully.`,
+            });
+        }
         return result.rows[0];
     } catch(err){
         res.send(err);
