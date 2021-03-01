@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+import {Button, Popover, PopoverHeader, PopoverBody} from 'reactstrap';
 
 export default class Example extends React.Component {
     constructor(props) {
@@ -21,7 +21,7 @@ export default class Example extends React.Component {
         return (
             <>
                 <Button id="Popover1" onClick={this.toggle} className="btn-round btn-icon" color="success" outline>
-                <i className="nc-icon nc-simple-add" /> Add new recipe</Button>
+                    <i className="nc-icon nc-simple-add"/> Add new recipe</Button>
                 <Popover
                     placement="right"
                     isOpen={this.state.popoverOpen}

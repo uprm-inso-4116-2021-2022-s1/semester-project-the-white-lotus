@@ -1,0 +1,14 @@
+{
+  "type": "FunFacts",
+  "crs": {
+    "fact": "some random fact"
+  },
+  "single_fact": [
+    {
+      "fact": "This is test"
+    },
+    {
+      "fact": "This is another test. this is a very long test so that i can play with the width"
+    }
+  ]
+}

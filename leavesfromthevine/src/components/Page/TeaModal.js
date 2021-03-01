@@ -1,6 +1,6 @@
 import React from "react";
 // reactstrap components
-import { Button, Modal } from "reactstrap";
+import {Button, Modal} from "reactstrap";
 
 class TeaModal extends React.Component {
     constructor(props) {
@@ -22,12 +22,12 @@ class TeaModal extends React.Component {
     componentDidMount() {
         let url = 'http://localhost:5432/getteabyid/' + this.props.teaid
         fetch(url)
-            .then ((response) => response.json())
-            .then((tests) => this.setState({tea:tests.result.rows}))
+            .then((response) => response.json())
+            .then((tests) => this.setState({tea: tests.result.rows}))
     }
 
     render() {
-        return(
+        return (
             <>
                 <Button className="btn-round btn-neutral" type="button" onClick={this.handleClick}>View More</Button>
                 <Modal isOpen={this.state.openModal} toggle={this.handleClose}>
