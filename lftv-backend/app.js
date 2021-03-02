@@ -1,6 +1,7 @@
 const express = require('express');
 const { Client } = require('pg');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -31,6 +32,7 @@ db.connect((err) => {
 });
 
 const app = express();
+app.use(cors());
 // required for requests to have json body
 const jsonParser = bodyParser.json();
 //required for requests to have x-www-form-urlencoded body
