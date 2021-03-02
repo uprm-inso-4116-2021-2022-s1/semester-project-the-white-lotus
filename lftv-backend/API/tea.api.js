@@ -155,61 +155,82 @@ const editDescByName = (db, req, res) => {
 //#endregion
 
 //#region Get tea
-// Get all teas
-const getAllTeas = (db, req, res) => {
+const getAllTeas = async (db, req, res, nestedRes= false) => {
     let sql = `SELECT * FROM teas`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try {
+        const teas = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `All teas fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${teas.rows.length}' teas`);
+                })
+            return teas.rows;
         }
-        console.log(result);
-        res.send({
-            message: `All teas fetched successfully.`,
-            result
-        });
-    });
+        else{
+            res.send({
+                message: `All teas fetched successfully.`,
+                teas
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
 };
 
+
 // Get teas by type
-const getTeasByType = (db, req, res) => {
+const getTeasByType = async (db, req, res, nestedRes = false) => {
     let sql = `SELECT * FROM teas WHERE type = '${req.params.type}'`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try {
+        const teas = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `All teas with type ${req.params.type} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${req.params.type}' teas`);
+                })
+            return teas.rows;
         }
-        console.log(result);
-        res.send({
-            message: `All teas with type ${req.params.type} fetched successfully.`,
-            result
-        });
-    });
+        else{
+            res.send({
+                message: `All teas with type ${req.params.type} fetched successfully.`,
+                teas
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
 };
 
 // Get tea by id
-const getTeaByID = (db, req, res) => {
+const getTeaByID = async (db, req, res, nestedRes = false) => {
     let sql = `SELECT * FROM teas WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try {
+        const teas = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `Tea with id ${req.params.type} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched tea with id '${req.params.id}'.`);
+                })
+            return teas.rows;
         }
-        console.log(result);
-        res.send({
-            message: `Tea with id ${req.params.type} fetched successfully.`,
-            result
-        });
-    });
+        else{
+            res.send({
+                message: `Tea with id ${req.params.type} fetched successfully.`,
+                teas
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
 };
 
 // Get tea by name
-const getTeaByName =  async (db, req, res) => {
+const getTeaByName =  async (db, req, res, nestedRes = false) => {
     const teaName = req.params === undefined? req : req.params.name
     let sql = `SELECT * FROM teas WHERE name = '${teaName}'`;
     try{
         const result = await db.query(sql);
-        if (req.params === undefined){
+        if (nestedRes){
             res.write(
                 `Tea with name '${teaName}' fetched successfully.`, 'utf8', () => {
                     console.log(`Fetched '${teaName}'`);
@@ -219,6 +240,7 @@ const getTeaByName =  async (db, req, res) => {
         else{
             res.send({
                 message: `Tea with name '${teaName}' fetched successfully.`,
+                result
             });
         }
         return result.rows[0];

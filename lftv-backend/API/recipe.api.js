@@ -2,8 +2,9 @@ const Enumerable = require("linq");
 const teaAPI = require("./tea.api");
 const ingredientAPI = require("./ingredient.api");
 const format = require('pg-format');
+const materialBridgeAPI = require("./materialBridge.api");
 //#region Add Recipe
-// Adds new Recipe to database
+// Add new Recipe to database
 const addRecipe =  async (db, req, res) => {
     let data = {
         title: req.body.title,
@@ -19,20 +20,14 @@ const addRecipe =  async (db, req, res) => {
         values: [data.title, data.difficulty, data.yield, data.procedure, tea.id],
     }
     // Insert recipe in db
-    let recipeID;
-    try{
-        recipeID = await db.query(recipeQuery);
-        recipeID = recipeID.rows[0].id;
-    }catch(err){
-        res.send(err);
-    }
+    let recipeID = await db.query(recipeQuery);
+    recipeID = recipeID.rows[0].id;
     let ingredients = await data.materials.map(m => m.ingredient).flat()
-    // Adds new ingredients to the db
-    await (ingredientAPI.addMultipleIngredients(db, ingredients, res))
+    // Add new ingredients to the db
+    await (ingredientAPI.addMultipleIngredients(db, ingredients, res, true))
     // Gets all ingredients from db
-    let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res))
+    let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res, true))
     let materials = []
-    // Create new Material objects and push them in materials
     data.materials.forEach(m =>
         materials.push(
             [
@@ -43,7 +38,7 @@ const addRecipe =  async (db, req, res) => {
         )
     );
     // For each ingredient, insert row in bridge.
-    const bridgeQuery = format(`INSERT INTO recipeandingredientsbridge(recipeid, ingredientid, ing_amount)  VALUES %L`, materials);
+    const bridgeQuery = format(`INSERT INTO MaterialsBridge(recipeid, ingredientid, ing_amount)  VALUES %L`, materials);
     db.query(bridgeQuery, (err, result) => {
         if (err) {
             console.log(err);
@@ -77,59 +72,97 @@ const removeRecipeByID = (db, req, res) => {
 //#endregion
 
 //#region Edit Recipe
-// ALL EDITS ARE DONE BY ID
 // Edit data by id
-// TODO: Edit method
-const editRecipe = (db, req, res) => {
+// TODO: Finish
+const editRecipe = async (db, req, res) => {
     let data = req.body;
     let recipeTitle = data.title === undefined? null: `'${data.title}'`;
     let recipeYield = data.yield === undefined? null: `'${data.yield}'`;
     let recipeDifficulty = data.difficulty === undefined? null: `'${data.difficulty}'`;
-    // TODO: ingredients
-    //let recipeIngredients = data.ingredients === undefined? null: `'{${data.ingredients}}'`;
-    //ingredients = coalesce(${recipeIngredients}, ingredients),
     let recipeProcedure = data.procedure === undefined? null: `'${data.procedure}'`;
-    let recipeTeaID = data.teaID === undefined? null: `'${data.teaID}'`;
+    let tea = await (teaAPI.getTeaByName(db, data.tea, res))
     let sql = `UPDATE recipes 
                SET title = coalesce(${recipeTitle}, title),
-               yield = coalesce(${recipeYield}, yield),
-               difficulty = coalesce(${recipeDifficulty}, difficulty),
-               procedure = coalesce(${recipeProcedure}, procedure),
-               teaid = coalesce(${recipeTeaID}, teaid),
+                yield = coalesce(${recipeYield}, yield),
+                difficulty = coalesce(${recipeDifficulty}, difficulty),
+                procedure = coalesce(${recipeProcedure}, procedure),
+                teaid = coalesce(${tea.id}, teaid),
                WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        const data = result.rows[0]
-        console.log(data);
-        res.send({
-            message: `Recipe updated to "${data}.`,
-            data
-        });
-    });
-};
+    // try{
+    //     await db.query(sql);
+    // }catch(err){
+    //     res.send(err);
+    // }
+    // if (data.materials !== undefined) {
+    //     let ingredients = await data.materials.map(m => m.ingredient).flat()
+    //     // Add new ingredients to the db
+    //     await (ingredientAPI.addMultipleIngredients(db, ingredients, res))
+    //     // Get all ingredients from db
+    //     let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res))
+    //     let materials = []
+    //     data.materials.forEach(m =>
+    //         materials.push(
+    //             [
+    //                 req.params.id,
+    //                 Enumerable.from(ingredientsFromDB).where(ing => ing.name === m.ingredient).first().id,
+    //                 m.amount
+    //             ]
+    //         )
+    //     );
+    //     // Delete all existing rows for this recipe
+    //     const deleteQuery = format(`DELETE FROM recipeandingredientsbridge where recipeid = $(req.params.id)`);
+    //     try {
+    //         await db.query(deleteQuery);
+    //     } catch (err) {
+    //         res.send(err);
+    //     }
+    //     // For each ingredient, insert row in bridge.
+    //     const bridgeQuery = format(`INSERT INTO recipeandingredientsbridge(recipeid, ingredientid, ing_amount)  VALUES %L`, materials);
+    //     try {
+    //         await db.query(bridgeQuery);
+    //     } catch (err) {
+    //         res.send(err);
+    //     }
+    // }
+    // res.send({
+    //     message: `Recipe updated.`,
+    // });
+}
+
 //#endregion
 
 //#region Get data
 // Get all recipes
-const getAllRecipes = (db, req, res) => {
+// TODO: Fix
+const getAllRecipes = async (db, req, res) => {
     let sql = 'SELECT * FROM recipes';
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        const recipes = result.rows
-        console.log(result);
+    try {
+        const recipes = await db.query(sql);
         res.send({
             message: `All recipes fetched successfully.`,
             recipes
         });
-    });
+        // res.write(
+        //     `All recipes fetched successfully.`, 'utf8', () => {
+        //     console.log(`Fetched '${recipes.rows.length}' recipes`);
+        // })
+        return recipes.rows;
+    } catch (err) {
+        res.send(err);
+    }
+    // const recipes = db.query(sql, (err, result) => {
+    //     if(err) {
+    //         console.log(err);
+    //         res.send(`Error, check console log.`);
+    //     }
+    //     // const recipes = result.rows
+    //     return result.rows;
+    //     // res.send({
+    //     //     message: `All recipes fetched successfully.`,
+    //     //     recipes
+    //     // });
+    // });
 };
-
 // Get data by id
 const getRecipeByID = (db, req, res) => {
     let sql = `SELECT * FROM recipes WHERE id = ${req.params.id}`;
@@ -146,6 +179,51 @@ const getRecipeByID = (db, req, res) => {
         });
     });
 };
+// TODO: TEST
+const getFullRecipes = async (db, req, res) => {
+    let allRecipes = await getAllRecipes(db, req, res)
+    let allTeas = await teaAPI.getAllTeas(db, req, res)
+    let materialBridgeEntities = await materialBridgeAPI.getAllMaterialBridgeEntities(db, req, res)
+    let fullRecipes = []
+    allRecipes.forEach(recipe =>
+        fullRecipes.push(
+            [
+                recipe.id,
+                recipe.title,
+                recipe.difficulty,
+                recipe.yield,
+                recipe.procedure,
+                Enumerable.from(allTeas).where(t => t.id === recipe.teaid).select(t => [t.id, t.name]).first(),
+                Enumerable.from(materialBridgeEntities).where(m => m.recipeid === recipe.id).select(m => [m.ingredientid, m.amount])
+            ]
+        )
+    )
+    fullRecipes.forEach(r =>
+        r[7].forEach(m =>
+            m[0] = allIngredients.first(i => i.id === m[0])
+        )
+    )
+    return fullRecipes;
+}
+// TODO: TEST
+const getFullRecipeByID = (db, req, res) => {
+    let recipeID = req.params.id
+    let recipe = allRecipes.first(r => r.id == recipeID)
+    let materials = materialBridge.where(mb => mb.recipeid == recipeID).select(mb => {mb.ingredient, mb.amount})
+    let tea = allTeas.first(t => t.id == recipe.teaid)
+    let fullRecipe =  [
+        recipe.id,
+        recipe.title,
+        recipe.difficulty,
+        recipe.yield,
+        recipe.procedure,
+        tea,
+        materials
+    ]
+    fullRecipe[7].forEach(m =>
+            m[0] = allIngredients.first(i => i.id === m[0])
+    )
+}
 //#endregion
 
 
@@ -155,5 +233,6 @@ module.exports = {
     removeRecipeByID,
     editRecipe,
     getAllRecipes,
-    getRecipeByID
+    getRecipeByID,
+    getFullRecipes
 }

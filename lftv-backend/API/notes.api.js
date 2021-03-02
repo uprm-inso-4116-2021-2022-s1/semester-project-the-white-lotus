@@ -18,8 +18,8 @@ const addNote = (db, req, res) => {
 };
 
 //Add multiple notes
-const addMultipleNotes = async (db, req, res) => {
-    let notes = req.body.notes
+const addMultipleNotes = async (db, req, res, nestedRes = false) => {
+    let notes = nestedRes? req : req.body.notes
     let allNotes = `('${notes[0]}')`
     notes.slice(1).forEach( ing =>
         allNotes+=(`,('${ing}')`)
@@ -27,10 +27,19 @@ const addMultipleNotes = async (db, req, res) => {
     const sql = `INSERT INTO notes(name) VALUES${allNotes} ON CONFLICT DO NOTHING`
     try{
         const result = await db.query(sql);
-        res.send({
-            message: `${result.rowCount} notes added successfully.`,
-            result
-        });
+        if (nestedRes){
+            res.write(
+                `${result.rowCount} notes added successfully.`, 'utf8', () => {
+                    console.log(`Added '${result.rowCount}' notes`);
+                }
+            )
+        }
+        else{
+            res.send({
+                message: `${result.rowCount} notes added successfully.`,
+                result
+            });
+        }
         console.log(result)
         return result.rowCount;
     } catch(err){
@@ -55,41 +64,55 @@ const removeNoteByName = (db, req, res) => {
 };
 
 // Get all notes
-const getAllNotes = (db, req, res) => {
+const getAllNotes = async (db, req, res, nestedRes = false) => {
     let sql = 'SELECT * FROM Notes';
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try {
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `All notes fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${result.rows.length}' notes`);
+                })
+            return result.rows;
         }
-        console.log(result);
-        res.send({
-            message: `All Notes fetched successfully.`,
-            result
-        });
-    });
+        else{
+            res.send({
+                message: `All teas fetched successfully.`,
+                result
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
 };
 
 // Get Note by name
-const getNoteByName = (db, req, res) => {
+const getNoteByName = async (db, req, res, nestedRes = false) => {
     let sql = `SELECT * FROM Notes WHERE name = '${req.params.name}'`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try{
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `Note '${req.params.name}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${req.params.name}'`);
+                }
+            )
         }
-        const tone = result.rows[0]
-        console.log(tone);
-        res.send({
-            message: `Note '${req.params.name}' fetched successfully.`,
-            tone
-        });
-    });
+        else{
+            res.send({
+                message: `Note '${req.params.name}' fetched successfully.`,
+                result
+            });
+        }
+        return result.rows[0];
+    } catch(err){
+        res.send(err);
+    }
 };
 
 // Get multiple notes
-const getMultipleNotes = async (db, req, res) => {
-    let notes = req.body.notes
+const getMultipleNotes = async (db, req, res, nestedRes = false) => {
+    let notes = nestedRes? req : req.body.notes
     let allNotes = `'${notes[0]}'`
     notes.slice(1).forEach( ing =>
         allNotes+=(`,'${ing}'`)
@@ -97,11 +120,19 @@ const getMultipleNotes = async (db, req, res) => {
     let sql = `SELECT * FROM notes WHERE name in (${allNotes})`;
     try{
         const result = await db.query(sql);
-        res.send({
-            message: `${result.rows.length} notes fetched successfully.`,
-            result
-        });
-        console.log(result.rows)
+        if (nestedRes){
+            res.write(
+                `${result.rows.length} notes fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched ${result.rows.length} notes`);
+                }
+            )
+        }
+        else{
+            res.send({
+                message: `${result.rows.length} notes fetched successfully.`,
+                result
+            });
+        }
         return result.rows;
     } catch(err){
         res.send(err);
