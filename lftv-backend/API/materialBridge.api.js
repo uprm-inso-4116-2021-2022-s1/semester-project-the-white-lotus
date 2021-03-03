@@ -1,3 +1,5 @@
+const format = require('pg-format');
+
 //#region Add MaterialEntity
 // Add MaterialEntity
 const addMaterialEntity = async (db, req, res, nestedRes = false) => {
@@ -27,13 +29,9 @@ const addMaterialEntity = async (db, req, res, nestedRes = false) => {
 };
 // Add multiple MaterialEntity
 const addMultipleMaterialEntities = async (db, req, res, nestedRes = false) => {
-    let MaterialEntities = nestedRes? req : req.body.MaterialEntities
-    let allFlavorEntities = `('${MaterialEntities[0]}')`
-    MaterialEntities.slice(1).forEach( ing =>
-        allFlavorEntities+=(`,('${ing}')`)
-    )
+    let materials = nestedRes? req : req.body.MaterialEntities
     // TODO: Fix query
-    const sql = `INSERT INTO MaterialsBridge(name) VALUES${allFlavorEntities} ON CONFLICT DO NOTHING`
+    const sql = format(`INSERT INTO MaterialsBridge(recipeid, ingredientid, ing_amount)  VALUES %L ON CONFLICT DO NOTHING`, materials);
     try{
         const result = await db.query(sql);
         if (nestedRes){

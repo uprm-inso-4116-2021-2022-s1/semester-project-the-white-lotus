@@ -1,7 +1,6 @@
 const Enumerable = require("linq");
 const teaAPI = require("./tea.api");
 const ingredientAPI = require("./ingredient.api");
-const format = require('pg-format');
 const materialBridgeAPI = require("./materialBridge.api");
 //#region Add Recipe
 // Add new Recipe to database
@@ -14,42 +13,41 @@ const addRecipe =  async (db, req, res) => {
         materials: req.body.materials,
         teaName: req.body.teaName
     };
-    const tea = await (teaAPI.getTeaByName(db, data.teaName, res))
-    const recipeQuery = {
-        text: 'INSERT INTO recipes(title, difficulty, yield, procedure, teaID)  VALUES($1, $2, $3, $4, $5) RETURNING id',
-        values: [data.title, data.difficulty, data.yield, data.procedure, tea.id],
-    }
-    // Insert recipe in db
-    let recipeID = await db.query(recipeQuery);
-    recipeID = recipeID.rows[0].id;
-    let ingredients = await data.materials.map(m => m.ingredient).flat()
-    // Add new ingredients to the db
-    await (ingredientAPI.addMultipleIngredients(db, ingredients, res, true))
-    // Gets all ingredients from db
-    let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res, true))
-    let materials = []
-    data.materials.forEach(m =>
-        materials.push(
-            [
-                recipeID,
-                Enumerable.from(ingredientsFromDB).where(ing => ing.name === m.ingredient).first().id,
-                m.amount
-            ]
-        )
-    );
-    // For each ingredient, insert row in bridge.
-    const bridgeQuery = format(`INSERT INTO MaterialsBridge(recipeid, ingredientid, ing_amount)  VALUES %L`, materials);
-    db.query(bridgeQuery, (err, result) => {
-        if (err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try{
+        const tea = await (teaAPI.getTeaByName(db, data.teaName, res, true));
+        const recipeQuery = {
+            text: 'INSERT INTO recipes(title, difficulty, yield, procedure, teaID)  VALUES($1, $2, $3, $4, $5) RETURNING id',
+            values: [data.title, data.difficulty, data.yield, data.procedure, tea.id],
         }
-        console.log(result, data);
-        res.send({
-            message: 'Recipe successfully added.',
-            data
-        });
-    });
+        // Insert recipe in db
+        let recipeID = await db.query(recipeQuery);
+        recipeID = recipeID.rows[0].id;
+        let ingredients = await data.materials.map(m => m.ingredient).flat()
+        // Add new ingredients to the db
+        await (ingredientAPI.addMultipleIngredients(db, ingredients, res, true))
+        // Gets all ingredients from db
+        let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res, true))
+        let materials = []
+        data.materials.forEach(m =>
+            materials.push(
+                [
+                    recipeID,
+                    Enumerable.from(ingredientsFromDB).where(ing => ing.name === m.ingredient).first().id,
+                    m.amount
+                ]
+            )
+        );
+        // Insert material entities
+        await (materialBridgeAPI.addMultipleMaterialEntities(db, materials, res, true));
+        res.end(
+            `Recipe "${data.title}" added successfully.`, 'utf8', () => {
+                console.log(`Added new recipe`);
+            }
+        );
+    }
+    catch(err){
+        res.send(err);
+    }
 };
 //#endregion
 
