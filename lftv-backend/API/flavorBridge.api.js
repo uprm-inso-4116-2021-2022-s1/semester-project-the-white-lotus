@@ -1,3 +1,5 @@
+const format = require('pg-format');
+
 //#region Add FlavorEntity
 // Add FlavorEntity
 const addFlavorEntity = async (db, req, res, nestedRes = false) => {
@@ -33,12 +35,12 @@ const addMultipleFlavorEntities = async (db, req, res, nestedRes = false) => {
         allFlavorEntities+=(`,('${ing}')`)
     )
     // TODO: Fix query
-    const sql = `INSERT INTO FlavorBridge(name) VALUES${allFlavorEntities} ON CONFLICT DO NOTHING`
+    const sql = format(`INSERT INTO FlavorBridge(tasteid, noteid, recipeid)  VALUES %L ON CONFLICT DO NOTHING`, FlavorEntities);
     try{
         const result = await db.query(sql);
         if (nestedRes){
             res.write(
-                `${result.rowCount} FlavorEntities added successfully.`, 'utf8', () => {
+                `\n${result.rowCount} FlavorEntities added successfully.`, 'utf8', () => {
                     console.log(`Added '${result.rowCount}' FlavorEntities`);
                 }
             )

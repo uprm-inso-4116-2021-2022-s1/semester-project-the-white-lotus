@@ -122,7 +122,7 @@ const getMultipleNotes = async (db, req, res, nestedRes = false) => {
         const result = await db.query(sql);
         if (nestedRes){
             res.write(
-                `${result.rows.length} notes fetched successfully.`, 'utf8', () => {
+                `\n${result.rows.length} notes fetched successfully.`, 'utf8', () => {
                     console.log(`Fetched ${result.rows.length} notes`);
                 }
             )

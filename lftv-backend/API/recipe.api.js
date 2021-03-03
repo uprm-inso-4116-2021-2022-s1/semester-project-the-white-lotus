@@ -2,6 +2,9 @@ const Enumerable = require("linq");
 const teaAPI = require("./tea.api");
 const ingredientAPI = require("./ingredient.api");
 const materialBridgeAPI = require("./materialBridge.api");
+const tastesAPI = require("./tastes.api");
+const notesAPI = require("./notes.api");
+const flavorBridgeAPI = require("./flavorBridge.api");
 //#region Add Recipe
 // Add new Recipe to database
 const addRecipe =  async (db, req, res) => {
@@ -11,7 +14,9 @@ const addRecipe =  async (db, req, res) => {
         yield: req.body.yield,
         procedure: req.body.procedure,
         materials: req.body.materials,
-        teaName: req.body.teaName
+        teaName: req.body.teaName,
+        taste: req.body.taste,
+        notes: req.body.notes,
     };
     try{
         const tea = await (teaAPI.getTeaByName(db, data.teaName, res, true));
@@ -39,8 +44,21 @@ const addRecipe =  async (db, req, res) => {
         );
         // Insert material entities
         await (materialBridgeAPI.addMultipleMaterialEntities(db, materials, res, true));
+        const taste = await (tastesAPI.getTasteByName(db, data.taste, res,true ));
+        const notes = await (notesAPI.getMultipleNotes(db, data.notes, res,true ));
+        let flavors = []
+        notes.forEach(n =>
+            flavors.push(
+                [
+                    taste.id,
+                    n.id,
+                    recipeID,
+                ]
+            )
+        )
+        await (flavorBridgeAPI.addMultipleFlavorEntities(db, flavors, res, true ))
         res.end(
-            `Recipe "${data.title}" added successfully.`, 'utf8', () => {
+            `\nRecipe "${data.title}" added successfully.`, 'utf8', () => {
                 console.log(`Added new recipe`);
             }
         );
@@ -69,6 +87,7 @@ const removeRecipeByID = (db, req, res) => {
 };
 //#endregion
 
+// TODO: FIX
 //#region Edit Recipe
 // Edit data by id
 // TODO: Finish
@@ -131,57 +150,55 @@ const editRecipe = async (db, req, res) => {
 
 //#region Get data
 // Get all recipes
-// TODO: Fix
-const getAllRecipes = async (db, req, res) => {
+const getAllRecipes = async (db, req, res, nestedRes = false) => {
     let sql = 'SELECT * FROM recipes';
     try {
         const recipes = await db.query(sql);
-        res.send({
-            message: `All recipes fetched successfully.`,
-            recipes
-        });
-        // res.write(
-        //     `All recipes fetched successfully.`, 'utf8', () => {
-        //     console.log(`Fetched '${recipes.rows.length}' recipes`);
-        // })
+        if (nestedRes){
+            res.write(
+                `All recipes fetched successfully.`, 'utf8', () => {
+                console.log(`Fetched '${recipes.rows.length}' recipes`);
+            })
+        }
+        else{
+            res.send({
+                message: `All recipes fetched successfully.`,
+                recipes
+            });
+        }
         return recipes.rows;
     } catch (err) {
         res.send(err);
     }
-    // const recipes = db.query(sql, (err, result) => {
-    //     if(err) {
-    //         console.log(err);
-    //         res.send(`Error, check console log.`);
-    //     }
-    //     // const recipes = result.rows
-    //     return result.rows;
-    //     // res.send({
-    //     //     message: `All recipes fetched successfully.`,
-    //     //     recipes
-    //     // });
-    // });
 };
 // Get data by id
-const getRecipeByID = (db, req, res) => {
+const getRecipeByID = async (db, req, res, nestedRes = false) => {
     let sql = `SELECT * FROM recipes WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try{
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `Recipe '${result.rows[0].title}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${result.rows[0].title}' recipe`);
+                })
         }
-        const data = result.rows[0]
-        console.log(data);
-        res.send({
-            message: `Recipe with id ${req.params.id} fetched successfully.`,
-            data
-        });
-    });
+        else{
+            res.send({
+                message: `Recipe '${result.rows[0].title}' fetched successfully.`,
+                result
+            })
+        }
+        return result.rows[0]
+
+    }catch(err){
+        res.send(err)
+    }
 };
-// TODO: TEST
+// TODO: FIX
 const getFullRecipes = async (db, req, res) => {
     let allRecipes = await getAllRecipes(db, req, res)
     let allTeas = await teaAPI.getAllTeas(db, req, res)
-    let materialBridgeEntities = await materialBridgeAPI.getAllMaterialBridgeEntities(db, req, res)
+    let allMaterialEntities = await materialBridgeAPI.getAllMaterialEntities(db, req, res)
     let fullRecipes = []
     allRecipes.forEach(recipe =>
         fullRecipes.push(
@@ -192,7 +209,7 @@ const getFullRecipes = async (db, req, res) => {
                 recipe.yield,
                 recipe.procedure,
                 Enumerable.from(allTeas).where(t => t.id === recipe.teaid).select(t => [t.id, t.name]).first(),
-                Enumerable.from(materialBridgeEntities).where(m => m.recipeid === recipe.id).select(m => [m.ingredientid, m.amount])
+                Enumerable.from(allMaterialEntities).where(m => m.recipeid === recipe.id).select(m => [m.ingredientid, m.amount])
             ]
         )
     )
@@ -203,7 +220,7 @@ const getFullRecipes = async (db, req, res) => {
     )
     return fullRecipes;
 }
-// TODO: TEST
+// TODO: FIX
 const getFullRecipeByID = (db, req, res) => {
     let recipeID = req.params.id
     let recipe = allRecipes.first(r => r.id == recipeID)

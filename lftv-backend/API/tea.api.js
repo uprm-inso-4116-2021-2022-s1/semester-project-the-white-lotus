@@ -232,7 +232,7 @@ const getTeaByName =  async (db, req, res, nestedRes = false) => {
         const result = await db.query(sql);
         if (nestedRes){
             res.write(
-                `Tea with name '${teaName}' fetched successfully.`, 'utf8', () => {
+                `\nTea with name '${teaName}' fetched successfully.`, 'utf8', () => {
                     console.log(`Fetched '${teaName}'`);
                 }
             )

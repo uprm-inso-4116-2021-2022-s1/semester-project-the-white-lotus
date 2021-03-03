@@ -36,7 +36,7 @@ const addMultipleMaterialEntities = async (db, req, res, nestedRes = false) => {
         const result = await db.query(sql);
         if (nestedRes){
             res.write(
-                `${result.rowCount} MaterialEntities added successfully.`, 'utf8', () => {
+                `\n${result.rowCount} MaterialEntities added successfully.`, 'utf8', () => {
                     console.log(`Added '${result.rowCount}' MaterialEntities`);
                 }
             )

@@ -57,18 +57,19 @@ const getAllTastes = async (db, req, res, nestedRes = false) => {
 };
 // Get taste by name
 const getTasteByName = async (db, req, res, nestedRes) => {
-    let sql = `SELECT * FROM tastes WHERE name = '${req.params.name}'`;
+    let name = nestedRes? req : req.params.name;
+    let sql = `SELECT * FROM tastes WHERE name = '${name}'`;
     try {
         const taste = await db.query(sql);
         if (nestedRes){
             res.write(
-                `Taste '${req.params.name}' fetched successfully.`, 'utf8', () => {
-                    console.log(`Fetched '${tastes.rows.length}' teas`);
+                `\nTaste '${name}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${taste.rows.length}' taste`);
                 })
         }
         else{
             res.send({
-                message: `Taste '${req.params.name}' fetched successfully.`,
+                message: `Taste '${name}' fetched successfully.`,
                 taste
             })
         }
