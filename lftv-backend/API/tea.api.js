@@ -16,7 +16,8 @@
 // Create Tea
 const addTea = (db, req, res) => {
     let tea = {type: req.body.type, name: req.body.name, tea_desc: req.body.tea_desc};
-    let sql = 'INSERT INTO teas SET ?';
+    let sql = `INSERT INTO teas(type, name, tea_desc) VALUES('${tea.type}', '${tea.name}', '${tea.tea_desc}')`;
+
     db.query(sql, tea, (err, result) => {
         if(err) {
             console.log(err);
