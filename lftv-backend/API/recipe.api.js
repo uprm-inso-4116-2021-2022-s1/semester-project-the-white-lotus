@@ -90,7 +90,6 @@ const removeRecipeByID = (db, req, res) => {
 // TODO: FIX
 //#region Edit Recipe
 // Edit data by id
-// TODO: Finish
 const editRecipe = async (db, req, res) => {
     let data = req.body;
     let recipeTitle = data.title === undefined? null: `'${data.title}'`;
@@ -173,7 +172,8 @@ const getAllRecipes = async (db, req, res, nestedRes = false) => {
 };
 // Get data by id
 const getRecipeByID = async (db, req, res, nestedRes = false) => {
-    let sql = `SELECT * FROM recipes WHERE id = ${req.params.id}`;
+    let id = nestedRes? req : req.params.id
+    let sql = `SELECT * FROM recipes WHERE id = ${id}`;
     try{
         const result = await db.query(sql);
         if (nestedRes){
@@ -194,50 +194,73 @@ const getRecipeByID = async (db, req, res, nestedRes = false) => {
         res.send(err)
     }
 };
-// TODO: FIX
-const getFullRecipes = async (db, req, res) => {
-    let allRecipes = await getAllRecipes(db, req, res)
-    let allTeas = await teaAPI.getAllTeas(db, req, res)
-    let allMaterialEntities = await materialBridgeAPI.getAllMaterialEntities(db, req, res)
-    let fullRecipes = []
-    allRecipes.forEach(recipe =>
-        fullRecipes.push(
-            [
-                recipe.id,
-                recipe.title,
-                recipe.difficulty,
-                recipe.yield,
-                recipe.procedure,
-                Enumerable.from(allTeas).where(t => t.id === recipe.teaid).select(t => [t.id, t.name]).first(),
-                Enumerable.from(allMaterialEntities).where(m => m.recipeid === recipe.id).select(m => [m.ingredientid, m.amount])
-            ]
-        )
-    )
-    fullRecipes.forEach(r =>
-        r[7].forEach(m =>
-            m[0] = allIngredients.first(i => i.id === m[0])
-        )
-    )
-    return fullRecipes;
+// Get Full Recipes
+const getFullRecipes = async (db, req, res, nestedRes = false) => {
+    let allRecipes = await getAllRecipes(db, req, res, true)
+    try{
+        let fullRecipes = await Promise.all(allRecipes.map(async recipe => {return await getFullRecipeByID(db, recipe.id, res, true)}));
+        if (nestedRes) {
+            res.write(
+                `${fullRecipes.length} recipes fetched successfully.`, 'utf8', () => {
+                    console.log(`${fullRecipes.rowCount} recipes fetched successfully.`);
+                })
+        } else {
+            let len = fullRecipes.length
+            fullRecipes = JSON.stringify(fullRecipes, null, 4)
+            res.end(`\n ${len} recipes fetched successfully : ${fullRecipes}`);
+        }
+        return fullRecipes;
+    }
+    catch(err){
+        res.end(err)
+    }
 }
-// TODO: FIX
-const getFullRecipeByID = (db, req, res) => {
-    let recipeID = req.params.id
-    let recipe = allRecipes.first(r => r.id == recipeID)
-    let materials = materialBridge.where(mb => mb.recipeid == recipeID).select(mb => {mb.ingredient, mb.amount})
-    let tea = allTeas.first(t => t.id == recipe.teaid)
-    let fullRecipe =  [
-        recipe.id,
-        recipe.title,
-        recipe.difficulty,
-        recipe.yield,
-        recipe.procedure,
-        tea,
-        materials
-    ]
-    fullRecipe[7].forEach(m =>
-            m[0] = allIngredients.first(i => i.id === m[0])
-    )
+// Get Full Recipe By ID
+const getFullRecipeByID = async (db, req, res, nestedRes = false) => {
+    try {
+        let recipeID = nestedRes ? req : req.params.id;
+        let recipe = await getRecipeByID(db, recipeID, res, true);
+        let tea = await teaAPI.getTeaByID(db, recipe.teaid, res, true);
+        let flavors = await flavorBridgeAPI.getFlavorEntityByRecipeID(db, recipeID, res, true);
+        let taste = await tastesAPI.getTasteByID(db, flavors[0].tasteid, res, true);
+        let allNotes = await notesAPI.getAllNotes(db, req, res, true);
+        let allIngredients = await ingredientAPI.getAllIngredients(db, req, res, true);
+        let allMaterials = await materialBridgeAPI.getMaterialEntityByRecipeID(db, recipeID, res, true);
+        let mappedNotes = []
+        Enumerable.from(flavors).forEach(flavor =>
+            mappedNotes.push(Enumerable.from(allNotes).where(note => note.id === flavor.noteid).select(note => note.name).first())
+        )
+        let mappedMaterials = [];
+        Enumerable.from(allMaterials).forEach(material =>
+            mappedMaterials.push({
+                ingredient: Enumerable.from(allIngredients).where(ing => ing.id === material.ingredientid).select(ing => ing.name).first(),
+                amount: material.ing_amount,
+            })
+        )
+        let fullRecipe = {
+            id: recipeID,
+            title: recipe.title,
+            difficulty: recipe.difficulty,
+            yield: recipe.yield,
+            procedure: recipe.procedure,
+            tea: tea[0].name,
+            materials: mappedMaterials,
+            taste: taste[0].name,
+            notes: mappedNotes
+        }
+        if (nestedRes) {
+            res.write(
+                `Recipe '${fullRecipe.title}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched recipe with id = '${recipeID}' ingredients`);
+                })
+        } else {
+            fullRecipe = JSON.stringify(fullRecipe, null, 4)
+            res.end(`Full recipe with id = '${recipeID}' fetched successfully: \n\n ${fullRecipe}`);
+        }
+        return fullRecipe;
+    } catch(err){
+        res.end(err);
+    }
 }
 //#endregion
 
@@ -249,5 +272,6 @@ module.exports = {
     editRecipe,
     getAllRecipes,
     getRecipeByID,
+    getFullRecipeByID,
     getFullRecipes
 }

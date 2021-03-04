@@ -106,12 +106,13 @@ const getAllMaterialEntities = async (db, req, res, nestedRes = false) => {
 
 // Get materialBridgeEntity by id
 const getMaterialEntityByID = async (db, req, res, nestedRes = false) => {
-    let sql = `SELECT * FROM MaterialsBridge WHERE id = ${req.params.id}`;
+    let id = nestedRes? req : req.params.id
+    let sql = `SELECT * FROM MaterialsBridge WHERE id = ${id}`;
     try {
         const result = await db.query(sql);
         if (nestedRes){
             res.write(
-                `MaterialEntity '${req.params.id}' fetched successfully.`, 'utf8', () => {
+                `MaterialEntity '${id}' fetched successfully.`, 'utf8', () => {
                     console.log(`Fetched '${result.rows.length}' MaterialEntities`);
                 })
         }
@@ -126,6 +127,29 @@ const getMaterialEntityByID = async (db, req, res, nestedRes = false) => {
         res.send(err);
     }
 };
+// Get materialBridgeEntity by recipeID
+const getMaterialEntityByRecipeID = async (db, req, res, nestedRes = false) => {
+    let recipeID = nestedRes? req: req.params.recipeid
+    let sql = `SELECT * FROM MaterialsBridge WHERE recipeid = ${recipeID}`;
+    try {
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `MaterialEntity with recipe id = '${recipeID}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${result.rows.length}' MaterialEntities`);
+                })
+        }
+        else{
+            res.send({
+                message: `MaterialEntity with recipe id = '${recipeID}' fetched successfully.`,
+                result
+            })
+        }
+        return result.rows
+    } catch (err) {
+        res.send(err);
+    }
+};
 //#endregion
 
 module.exports = {
@@ -133,5 +157,6 @@ module.exports = {
     getAllMaterialEntities,
     getMaterialEntityByID,
     addMaterialEntity,
-    addMultipleMaterialEntities
+    addMultipleMaterialEntities,
+    getMaterialEntityByRecipeID
 }

@@ -107,22 +107,46 @@ const getAllFlavorEntities = async (db, req, res, nestedRes = false) => {
 };
 // Get FlavorEntity by id
 const getFlavorEntityByID = async (db, req, res, nestedRes = false) => {
-    let sql = `SELECT * FROM FlavorEntity WHERE id = '${req.params.id}'`;
+    let id = nestedRes? req : req.params.id
+    let sql = `SELECT * FROM flavorbridge WHERE id = '${id}'`;
     try {
         const result = await db.query(sql);
         if (nestedRes){
             res.write(
-                `FlavorEntity '${req.params.id}' fetched successfully.`, 'utf8', () => {
+                `FlavorEntity '${id}' fetched successfully.`, 'utf8', () => {
                     console.log(`Fetched '${result.rows.length}' FlavorEntities`);
                 })
         }
         else{
             res.send({
-                message: `FlavorEntity '${req.params.id}' fetched successfully.`,
+                message: `FlavorEntity '${id}' fetched successfully.`,
                 result
             })
         }
         return result.rows[0]
+    } catch (err) {
+        res.send(err);
+    }
+};
+// Get FlavorEntity by recipe id
+const getFlavorEntityByRecipeID = async (db, req, res, nestedRes = false) => {
+    let id = nestedRes? req : req.params.recipeid
+    let sql = `SELECT * FROM flavorbridge WHERE recipeid = '${id}'`;
+    try {
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `FlavorEntity with recipe id = '${id}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${result.rows.length}' FlavorEntities`);
+                })
+        }
+        else{
+            res.send({
+                message: `FlavorEntity with recipe id = '${id}' fetched successfully.`,
+                result
+            })
+        }
+        return result.rows
     } catch (err) {
         res.send(err);
     }
@@ -135,4 +159,5 @@ module.exports = {
     removeFlavorEntityByID,
     getAllFlavorEntities,
     getFlavorEntityByID,
+    getFlavorEntityByRecipeID
 }

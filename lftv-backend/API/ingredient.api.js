@@ -114,6 +114,29 @@ const getIngredientByName = async (db, req, res, nestedRes = false) => {
         res.send(err);
     }
 };
+// Get ingredient by id
+const getIngredientByID = async (db, req, res, nestedRes = false) => {
+    let id = nestedRes? req : req.params.id
+    let sql = `SELECT * FROM ingredients WHERE id = '${id}'`;
+    try {
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `Ingredient '${id}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${result.rows.length}' ingredients`);
+                })
+        }
+        else{
+            res.send({
+                message: `Ingredient '${id}' fetched successfully.`,
+                result
+            })
+        }
+        return result.rows[0]
+    } catch (err) {
+        res.send(err);
+    }
+};
 
 // Get multiple ingredients
 const getMultipleIngredients = async (db, req, res, nestedRes = false) => {
@@ -147,6 +170,7 @@ module.exports = {
     addIngredientByName,
     removeIngredientByName,
     getIngredientByName,
+    getIngredientByID,
     getAllIngredients,
     getMultipleIngredients,
     addMultipleIngredients

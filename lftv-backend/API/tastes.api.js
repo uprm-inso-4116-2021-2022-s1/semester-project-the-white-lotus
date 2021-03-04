@@ -55,6 +55,29 @@ const getAllTastes = async (db, req, res, nestedRes = false) => {
         res.send(err);
     }
 };
+// Get taste by id
+const getTasteByID = async (db, req, res, nestedRes = false) => {
+    const id = nestedRes? req : req.params.id
+    let sql = `SELECT * FROM tastes WHERE id = ${id}`;
+    try {
+        const taste = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `Taste with id ${id} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched taste with id '${id}'.`);
+                })
+            return taste.rows;
+        }
+        else{
+            res.send({
+                message: `Taste with id ${id} fetched successfully.`,
+                taste
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
+};
 // Get taste by name
 const getTasteByName = async (db, req, res, nestedRes) => {
     let name = nestedRes? req : req.params.name;
@@ -84,5 +107,6 @@ module.exports = {
     addTaste,
     removeTasteByName,
     getAllTastes,
-    getTasteByName
+    getTasteByName,
+    getTasteByID
 }

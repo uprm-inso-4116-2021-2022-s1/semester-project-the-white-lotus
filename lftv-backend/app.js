@@ -203,7 +203,9 @@ app.get('/getrecipebyid/:id', jsonParser, (req, res) => {
 app.get('/getfullrecipes', jsonParser, (req, res) => {
     recipeAPI.getFullRecipes(db, req, res);
 });
-
+app.get('/getfullrecipebyid/:id', jsonParser, (req, res) => {
+    recipeAPI.getFullRecipeByID(db, req, res);
+});
 //#endregion
 
 //#region Ingredient

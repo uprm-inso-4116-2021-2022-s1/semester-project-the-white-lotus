@@ -88,19 +88,20 @@ const getAllNotes = async (db, req, res, nestedRes = false) => {
 
 // Get Note by name
 const getNoteByName = async (db, req, res, nestedRes = false) => {
-    let sql = `SELECT * FROM Notes WHERE name = '${req.params.name}'`;
+    let name = nestedRes? req : req.params.name
+    let sql = `SELECT * FROM Notes WHERE name = '${name}'`;
     try{
         const result = await db.query(sql);
         if (nestedRes){
             res.write(
-                `Note '${req.params.name}' fetched successfully.`, 'utf8', () => {
-                    console.log(`Fetched '${req.params.name}'`);
+                `Note '${name}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${name}'`);
                 }
             )
         }
         else{
             res.send({
-                message: `Note '${req.params.name}' fetched successfully.`,
+                message: `Note '${name}' fetched successfully.`,
                 result
             });
         }
@@ -109,7 +110,30 @@ const getNoteByName = async (db, req, res, nestedRes = false) => {
         res.send(err);
     }
 };
-
+// Get Note by id
+const getNoteByID = async (db, req, res, nestedRes = false) => {
+    let id = nestedRes? req : req.params.id
+    let sql = `SELECT * FROM Notes WHERE id = '${id}'`;
+    try{
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `Note '${id}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${id}'`);
+                }
+            )
+        }
+        else{
+            res.send({
+                message: `Note '${id}' fetched successfully.`,
+                result
+            });
+        }
+        return result.rows[0];
+    } catch(err){
+        res.send(err);
+    }
+};
 // Get multiple notes
 const getMultipleNotes = async (db, req, res, nestedRes = false) => {
     let notes = nestedRes? req : req.body.notes
@@ -145,5 +169,6 @@ module.exports = {
     removeNoteByName,
     getAllNotes,
     getNoteByName,
+    getNoteByID,
     getMultipleNotes
 }

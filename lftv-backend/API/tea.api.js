@@ -204,19 +204,20 @@ const getTeasByType = async (db, req, res, nestedRes = false) => {
 
 // Get tea by id
 const getTeaByID = async (db, req, res, nestedRes = false) => {
-    let sql = `SELECT * FROM teas WHERE id = ${req.params.id}`;
+    const id = nestedRes? req : req.params.id
+    let sql = `SELECT * FROM teas WHERE id = ${id}`;
     try {
         const teas = await db.query(sql);
         if (nestedRes){
             res.write(
-                `Tea with id ${req.params.type} fetched successfully.`, 'utf8', () => {
-                    console.log(`Fetched tea with id '${req.params.id}'.`);
+                `Tea with id ${id} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched tea with id '${id}'.`);
                 })
             return teas.rows;
         }
         else{
             res.send({
-                message: `Tea with id ${req.params.type} fetched successfully.`,
+                message: `Tea with id ${id} fetched successfully.`,
                 teas
             })
         }
