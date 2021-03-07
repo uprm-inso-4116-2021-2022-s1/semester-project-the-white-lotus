@@ -1,23 +1,23 @@
 // Create Tea table
 // This is NOT to be used, just to show how it'd work
-const creatTeaTable = (db, req, res) => {
-    let sql = 'CREATE TABLE teas(id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY, type VARCHAR(255), name VARCHAR(255), tea_desc VARCHAR(1024))';
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send(`Teas table created successfully.`);
-    });
-};
+// const creatTeaTable = (db, req, res) => {
+//     let sql = 'CREATE TABLE teas(id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY, type VARCHAR(255), name VARCHAR(255), tea_desc VARCHAR(1024))';
+//     db.query(sql, (err, result) => {
+//         if(err) {
+//             console.log(err);
+//             res.send(`Error, check console log.`);
+//         }
+//         console.log(result);
+//         res.send(`Teas table created successfully.`);
+//     });
+// };
 
 //#region Add Tea
 // Create Tea
 const addTea = (db, req, res) => {
     let tea = {type: req.body.type, name: req.body.name, tea_desc: req.body.tea_desc};
-    let sql = 'INSERT INTO teas SET ?';
-    db.query(sql, tea, (err, result) => {
+    let sql = `INSERT INTO teas(type, name, tea_desc) VALUES('${tea.type}', '${tea.name}', '${tea.tea_desc}')`;
+    db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
             res.send(`Error, check console log.`);
@@ -50,7 +50,7 @@ const removeTeaByID = (db, req, res) => {
 
 // Remove tea by name
 const removeTeaByName = (db, req, res) => {
-    let sql = `DELETE FROM teas WHERE name = "${req.params.name}"`;
+    let sql = `DELETE FROM teas WHERE name = '${req.params.name}'`;
     db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
@@ -155,73 +155,103 @@ const editDescByName = (db, req, res) => {
 //#endregion
 
 //#region Get tea
-// Get all teas
-const getAllTeas = (db, req, res) => {
-    let sql = 'SELECT * FROM teas';
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+const getAllTeas = async (db, req, res, nestedRes= false) => {
+    let sql = `SELECT * FROM teas`;
+    try {
+        const teas = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `All teas fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${teas.rows.length}' teas`);
+                })
+            return teas.rows;
         }
-        console.log(result);
-        res.send({
-            message: `All teas fetched successfully.`,
-            result
-        });
-    });
+        else{
+            res.send({
+                message: `All ${teas.rowCount} teas fetched successfully.`,
+                teas
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
 };
 
+
 // Get teas by type
-const getTeasByType = (db, req, res) => {
+const getTeasByType = async (db, req, res, nestedRes = false) => {
     let sql = `SELECT * FROM teas WHERE type = '${req.params.type}'`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try {
+        const teas = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `All ${teas.rowCount} teas with type ${req.params.type} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${req.params.type}' teas`);
+                })
+            return teas.rows;
         }
-        console.log(result);
-        res.send({
-            message: `All teas with type ${req.params.type} fetched successfully.`,
-            result
-        });
-    });
+        else{
+            res.send({
+                message: `All ${teas.rowCount} teas with type ${req.params.type} fetched successfully.`,
+                teas
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
 };
 
 // Get tea by id
-const getTeaByID = (db, req, res) => {
-    let sql = `SELECT * FROM teas WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+const getTeaByID = async (db, req, res, nestedRes = false) => {
+    const id = nestedRes? req : req.params.id
+    let sql = `SELECT * FROM teas WHERE id = ${id}`;
+    try {
+        const teas = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `Tea with id ${id} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched tea with id '${id}'.`);
+                })
+            return teas.rows;
         }
-        console.log(result);
-        res.send({
-            message: `Tea with id ${req.params.type} fetched successfully.`,
-            result
-        });
-    });
+        else{
+            res.send({
+                message: `Tea with id ${id} fetched successfully.`,
+                teas
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
 };
 
 // Get tea by name
-const getTeaByName = (db, req, res) => {
-    let sql = `SELECT * FROM teas WHERE name = '${req.params.name}'`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+const getTeaByName =  async (db, req, res, nestedRes = false) => {
+    const teaName = req.params === undefined? req : req.params.name
+    let sql = `SELECT * FROM teas WHERE name = '${teaName}'`;
+    try{
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `\nTea with name '${teaName}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${teaName}'`);
+                }
+            )
         }
-        console.log(result);
-        res.send({
-            message: `Tea with name ${req.params.name} fetched successfully.`,
-            result
-        });
-    });
+        else{
+            res.send({
+                message: `Tea with name '${teaName}' fetched successfully.`,
+                result
+            });
+        }
+        return result.rows[0];
+    } catch(err){
+        res.send(err);
+    }
 };
 //#endregion
 
 module.exports = {
-    creatTeaTable,
     addTea,
     removeTeaByID,
     removeTeaByName,
