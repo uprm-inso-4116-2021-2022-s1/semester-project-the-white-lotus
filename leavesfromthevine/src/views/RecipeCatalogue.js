@@ -25,36 +25,6 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
 import AddPopover from "../components/Page/AddPopover";
 
-class GetTea extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tea: []
-        }
-    };
-
-
-    componentDidMount() {
-        let url = 'http://localhost:5432/getteabyid/' + this.props.tea
-        fetch(url)
-            .then((response) => response.json())
-            .then((tests) => this.setState({tea: tests.result.rows}))
-    }
-
-    render() {
-
-        return (
-            <>
-                {this.state.tea.map((properties) =>
-                    <CardSubtitle>{properties.name}</CardSubtitle>
-                )}
-            </>
-        )
-    }
-
-
-}
-
 function PageHeader() {
     let pageHeader = React.createRef();
 
@@ -100,14 +70,14 @@ function RecipeCatalogue() {
 
     document.documentElement.classList.remove("nav-open");
     React.useEffect(() => {
-        fetch('http://localhost:5432/getrecipes')
+        fetch('http://localhost:5432/getfullrecipes')
             .then((response) => response.json())
             .then((tests) => setRecipes(tests.result.rows))
         document.body.classList.add("recipe-page");
         return function cleanup() {
             document.body.classList.remove("recipe-page");
         };
-    }, []);
+    });
 
     return (
         <>
@@ -120,7 +90,6 @@ function RecipeCatalogue() {
                             <Row className="mr-auto ml-auto">
                                 <Col>
                                     <AddPopover/>
-                                    <p></p>
                                 </Col>
                             </Row>
                         </div>
@@ -129,7 +98,7 @@ function RecipeCatalogue() {
                                 <Card style={{width: '20rem'}}>
                                     <CardBody>
                                         <CardTitle>{properties.title}</CardTitle>
-                                        <GetTea tea={properties.teaid}/>
+                                        <CardSubtitle>{properties.teaname}</CardSubtitle>
                                         <CardText>
                                             <p>Yield: {properties.yield}</p>
                                             <p>Ingredients:{properties.ingredients}</p>
