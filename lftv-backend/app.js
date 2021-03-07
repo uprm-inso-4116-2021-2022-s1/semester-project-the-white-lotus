@@ -180,6 +180,7 @@ app.get('/getteabyid/:id', jsonParser, (req, res) => {
 app.get('/getteabyname/:name', jsonParser, (req, res) => {
     teaAPI.getTeaByName(db, req, res);
 });
+//12 requests
 //#endregion
 
 //#region Recipe API
@@ -206,6 +207,7 @@ app.get('/getfullrecipes', jsonParser, (req, res) => {
 app.get('/getfullrecipebyid/:id', jsonParser, (req, res) => {
     recipeAPI.getFullRecipeByID(db, req, res);
 });
+// 6 requests
 //#endregion
 
 //#region Ingredient
@@ -227,6 +229,7 @@ app.post('/addmultipleingredients/', jsonParser, (req, res) => {
 app.delete('/removeingredient/:name', jsonParser, (req, res) => {
     ingredientAPI.removeIngredientByName(db, req, res);
 });
+// 6 requests
 //#endregion
 
 //#region Notes API
@@ -248,6 +251,7 @@ app.post('/addmultiplenotes', jsonParser, (req, res) => {
 app.delete('/removenote/:name', jsonParser, (req, res) => {
     noteAPI.removeNoteByName(db, req, res);
 });
+// 6 requests
 //#endregions
 
 //#region Taste API
@@ -263,6 +267,7 @@ app.post('/addtaste/:name', jsonParser, (req, res) => {
 app.delete('/removetaste/:name', jsonParser, (req, res) => {
     tasteAPI.removeTasteByName(db, req, res);
 });
+// 4 requests
 //#endregion
 
 //#region FlavorBridge
@@ -281,6 +286,7 @@ app.post('/addmultipleflavorentities/', jsonParser, (req, res) => {
 app.delete('/removeflavorentitybyid/:id', jsonParser, (req, res) => {
     flavorBridgeAPI.removeFlavorEntityByID(db, req, res);
 });
+// 5 requests
 //#endregion
 
 //#region MaterialBridge
@@ -299,6 +305,7 @@ app.post('/addmultiplematerialentities/', jsonParser, (req, res) => {
 app.delete('/removematerialentitybyid/:id', jsonParser, (req, res) => {
     materialBridgeAPI.removeMaterialEntityByID(db, req, res);
 });
+//5 requests
 //#endregion
 
 

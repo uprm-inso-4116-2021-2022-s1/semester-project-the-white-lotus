@@ -155,13 +155,13 @@ const getAllRecipes = async (db, req, res, nestedRes = false) => {
         const recipes = await db.query(sql);
         if (nestedRes){
             res.write(
-                `All recipes fetched successfully.`, 'utf8', () => {
+                `All ${recipes.rowCount} recipes fetched successfully.`, 'utf8', () => {
                 console.log(`Fetched '${recipes.rows.length}' recipes`);
             })
         }
         else{
             res.send({
-                message: `All recipes fetched successfully.`,
+                message: `All ${recipes.rowCount} recipes fetched successfully.`,
                 recipes
             });
         }
@@ -194,72 +194,96 @@ const getRecipeByID = async (db, req, res, nestedRes = false) => {
         res.send(err)
     }
 };
-// Get Full Recipes
 const getFullRecipes = async (db, req, res, nestedRes = false) => {
-    let allRecipes = await getAllRecipes(db, req, res, true)
-    try{
-        let fullRecipes = await Promise.all(allRecipes.map(async recipe => {return await getFullRecipeByID(db, recipe.id, res, true)}));
-        if (nestedRes) {
+    let sql = `select recipes.id,
+                    recipes.title, 
+                    recipes.difficulty,
+                    recipes.yield,
+                    recipes.procedure,
+                    teas.name as TeaName, 
+                    teas.type as TeaType, 
+                    tastes.name as Taste, 
+                    array_agg(distinct notes.name) as Note,
+                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Ingredients 
+                from recipes
+                left join teas on recipes.teaid = teas.id
+                left join flavorbridge as fb on recipes.id = fb.recipeid
+                left join tastes on fb.tasteid = tastes.id
+                left join notes on fb.noteid = notes.id
+                left join materialsbridge as mb on recipes.id = mb.recipeid
+                left join ingredients on ingredients.id = mb.ingredientid
+                group by (recipes.id,        
+                        recipes.title, 
+                        recipes.difficulty,
+                        recipes.yield,
+                        recipes.procedure,
+                        teaname, 
+                        teatype, 
+                        taste);`
+    try {
+        const result = await db.query(sql);
+        if (nestedRes){
             res.write(
-                `${fullRecipes.length} recipes fetched successfully.`, 'utf8', () => {
-                    console.log(`${fullRecipes.rowCount} recipes fetched successfully.`);
+                `${result.rowCount} full recipes fetched successfully.`, 'utf8', () => {
+                    console.log(`'${result.rowCount}' full recipes fetched successfully.`);
                 })
-        } else {
-            let len = fullRecipes.length
-            fullRecipes = JSON.stringify(fullRecipes, null, 4)
-            res.end(`\n ${len} recipes fetched successfully : ${fullRecipes}`);
+            return result.rows;
         }
-        return fullRecipes;
-    }
-    catch(err){
-        res.end(err)
+        else{
+            res.send({
+                message: `${result.rowCount} full recipes fetched successfully.`,
+                result
+            })
+        }
+    } catch (err) {
+        res.send(err);
     }
 }
-// Get Full Recipe By ID
 const getFullRecipeByID = async (db, req, res, nestedRes = false) => {
+    let id = nestedRes ? req : req.params.id;
+    let sql = `select recipes.id,
+                    recipes.title, 
+                    recipes.difficulty,
+                    recipes.yield,
+                    recipes.procedure,
+                    teas.name as TeaName, 
+                    teas.type as TeaType, 
+                    tastes.name as Taste, 
+                    array_agg(distinct notes.name) as Note,
+                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Ingredients 
+                from recipes
+                left join teas on recipes.teaid = teas.id
+                left join flavorbridge as fb on recipes.id = fb.recipeid
+                left join tastes on fb.tasteid = tastes.id
+                left join notes on fb.noteid = notes.id
+                left join materialsbridge as mb on recipes.id = mb.recipeid
+                left join ingredients on ingredients.id = mb.ingredientid
+                group by (recipes.id,        
+                        recipes.title, 
+                        recipes.difficulty,
+                        recipes.yield,
+                        recipes.procedure,
+                        teaname, 
+                        teatype, 
+                        taste)
+                having recipes.id = ${id};`;
     try {
-        let recipeID = nestedRes ? req : req.params.id;
-        let recipe = await getRecipeByID(db, recipeID, res, true);
-        let tea = await teaAPI.getTeaByID(db, recipe.teaid, res, true);
-        let flavors = await flavorBridgeAPI.getFlavorEntityByRecipeID(db, recipeID, res, true);
-        let taste = await tastesAPI.getTasteByID(db, flavors[0].tasteid, res, true);
-        let allNotes = await notesAPI.getAllNotes(db, req, res, true);
-        let allIngredients = await ingredientAPI.getAllIngredients(db, req, res, true);
-        let allMaterials = await materialBridgeAPI.getMaterialEntityByRecipeID(db, recipeID, res, true);
-        let mappedNotes = []
-        Enumerable.from(flavors).forEach(flavor =>
-            mappedNotes.push(Enumerable.from(allNotes).where(note => note.id === flavor.noteid).select(note => note.name).first())
-        )
-        let mappedMaterials = [];
-        Enumerable.from(allMaterials).forEach(material =>
-            mappedMaterials.push({
-                ingredient: Enumerable.from(allIngredients).where(ing => ing.id === material.ingredientid).select(ing => ing.name).first(),
-                amount: material.ing_amount,
-            })
-        )
-        let fullRecipe = {
-            id: recipeID,
-            title: recipe.title,
-            difficulty: recipe.difficulty,
-            yield: recipe.yield,
-            procedure: recipe.procedure,
-            tea: tea[0].name,
-            materials: mappedMaterials,
-            taste: taste[0].name,
-            notes: mappedNotes
-        }
-        if (nestedRes) {
+        const result = await db.query(sql);
+        if (nestedRes){
             res.write(
-                `Recipe '${fullRecipe.title}' fetched successfully.`, 'utf8', () => {
-                    console.log(`Fetched recipe with id = '${recipeID}' ingredients`);
+                `Full recipe with id ${id} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched taste with id '${id}'.`);
                 })
-        } else {
-            fullRecipe = JSON.stringify(fullRecipe, null, 4)
-            res.end(`Full recipe with id = '${recipeID}' fetched successfully: \n\n ${fullRecipe}`);
+            return result.rows;
         }
-        return fullRecipe;
-    } catch(err){
-        res.end(err);
+        else{
+            res.send({
+                message: `Full recipe with id ${id} fetched successfully.`,
+                result
+            })
+        }
+    } catch (err) {
+        res.send(err);
     }
 }
 //#endregion

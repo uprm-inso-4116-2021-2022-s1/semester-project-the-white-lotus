@@ -17,8 +17,7 @@
 const addTea = (db, req, res) => {
     let tea = {type: req.body.type, name: req.body.name, tea_desc: req.body.tea_desc};
     let sql = `INSERT INTO teas(type, name, tea_desc) VALUES('${tea.type}', '${tea.name}', '${tea.tea_desc}')`;
-
-    db.query(sql, tea, (err, result) => {
+    db.query(sql, (err, result) => {
         if(err) {
             console.log(err);
             res.send(`Error, check console log.`);
@@ -169,7 +168,7 @@ const getAllTeas = async (db, req, res, nestedRes= false) => {
         }
         else{
             res.send({
-                message: `All teas fetched successfully.`,
+                message: `All ${teas.rowCount} teas fetched successfully.`,
                 teas
             })
         }
@@ -186,14 +185,14 @@ const getTeasByType = async (db, req, res, nestedRes = false) => {
         const teas = await db.query(sql);
         if (nestedRes){
             res.write(
-                `All teas with type ${req.params.type} fetched successfully.`, 'utf8', () => {
+                `All ${teas.rowCount} teas with type ${req.params.type} fetched successfully.`, 'utf8', () => {
                     console.log(`Fetched '${req.params.type}' teas`);
                 })
             return teas.rows;
         }
         else{
             res.send({
-                message: `All teas with type ${req.params.type} fetched successfully.`,
+                message: `All ${teas.rowCount} teas with type ${req.params.type} fetched successfully.`,
                 teas
             })
         }

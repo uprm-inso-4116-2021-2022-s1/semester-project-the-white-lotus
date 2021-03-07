@@ -76,13 +76,13 @@ const getAllIngredients = async (db, req, res, nestedRes = false) => {
         const result = await db.query(sql);
         if (nestedRes){
             res.write(
-                `All ingredients fetched successfully.`, 'utf8', () => {
+                `All ${result.rowCount} ingredients fetched successfully.`, 'utf8', () => {
                     console.log(`Fetched '${result.rows.length}' ingredients`);
                 })
         }
         else{
             res.send({
-                message: `All ingredients fetched successfully.`,
+                message: `All ${result.rowCount} ingredients fetched successfully.`,
                 result
             })
         }
@@ -158,6 +158,7 @@ const getMultipleIngredients = async (db, req, res, nestedRes = false) => {
         else{
             res.send({
                 message: `Ingredients (${allIngredients}) fetched successfully.`,
+                result
             });
         }
         return result.rows;

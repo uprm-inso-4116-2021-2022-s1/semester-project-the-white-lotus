@@ -77,7 +77,7 @@ const getAllNotes = async (db, req, res, nestedRes = false) => {
         }
         else{
             res.send({
-                message: `All teas fetched successfully.`,
+                message: `All ${result.rowCount} notes fetched successfully.`,
                 result
             })
         }

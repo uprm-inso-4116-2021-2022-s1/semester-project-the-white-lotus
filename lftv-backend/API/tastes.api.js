@@ -46,7 +46,7 @@ const getAllTastes = async (db, req, res, nestedRes = false) => {
         }
         else{
             res.send({
-                message: `All tastes fetched successfully.`,
+                message: `All ${tastes.rowCount} tastes fetched successfully.`,
                 tastes
             })
         }
