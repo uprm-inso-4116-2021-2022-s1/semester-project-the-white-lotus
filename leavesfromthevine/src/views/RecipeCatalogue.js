@@ -19,51 +19,80 @@
 import React from "react";
 
 // reactstrap components
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle, Button } from 'reactstrap';
+import {Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle} from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
-import recipes from '../dummy data/recipes.json'
 import AddPopover from "../components/Page/AddPopover";
 
-function PageHeader() {
-  let pageHeader = React.createRef();
+class GetTea extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            tea: []
+        }
+    };
 
-  React.useEffect(() => {
-    if (window.innerWidth < 991) {
-      const updateScroll = () => {
-        let windowScrollTop = window.pageYOffset / 3;
-        pageHeader.current.style.transform =
-            "translate3d(0," + windowScrollTop + "px,0)";
-      };
-      window.addEventListener("scroll", updateScroll);
-      return function cleanup() {
-        window.removeEventListener("scroll", updateScroll);
-      };
+
+    componentDidMount() {
+        let url = 'http://localhost:5432/getteabyid/' + this.props.tea
+        fetch(url)
+            .then((response) => response.json())
+            .then((tests) => this.setState({tea: tests.result.rows}))
     }
-  });
 
-  return (
-      <>
-        <div
-            style={{
-              backgroundImage:
-                  "url(" + require("assets/img/dpi-library.jpg") + ")",
-            }}
-            className="page-header page-header-xs"
-            data-parallax={true}
-            ref={pageHeader}
-        >
-          <div className="filter" />
-          <Container>
-            <div className="motto text-center">
-                <h1>Recipe Catalogue</h1>
-                <br />
+    render() {
+
+        return (
+            <>
+                {this.state.tea.map((properties) =>
+                    <CardSubtitle>{properties.name}</CardSubtitle>
+                )}
+            </>
+        )
+    }
+
+
+}
+
+function PageHeader() {
+    let pageHeader = React.createRef();
+
+    React.useEffect(() => {
+        if (window.innerWidth < 991) {
+            const updateScroll = () => {
+                let windowScrollTop = window.pageYOffset / 3;
+                pageHeader.current.style.transform =
+                    "translate3d(0," + windowScrollTop + "px,0)";
+            };
+            window.addEventListener("scroll", updateScroll);
+            return function cleanup() {
+                window.removeEventListener("scroll", updateScroll);
+            };
+        }
+    });
+
+    return (
+        <>
+            <div
+                style={{
+                    backgroundImage:
+                        "url(" + require("assets/img/dpi-library.jpg") + ")",
+                }}
+                className="page-header page-header-xs"
+                data-parallax={true}
+                ref={pageHeader}
+            >
+                <div className="filter"/>
+                <Container>
+                    <div className="motto text-center">
+                        <h1>Recipe Catalogue</h1>
+                        <br/>
+                    </div>
+                </Container>
             </div>
-          </Container>
-        </div>
-      </>
-  );
+        </>
+    );
 }
 
 function RecipeCatalogue() {
@@ -72,51 +101,51 @@ function RecipeCatalogue() {
     document.documentElement.classList.remove("nav-open");
     React.useEffect(() => {
         fetch('http://localhost:5432/getrecipes')
-          .then((response) => response.json())
-          .then((tests) => setRecipes(tests.result.rows))
+            .then((response) => response.json())
+            .then((tests) => setRecipes(tests.result.rows))
         document.body.classList.add("recipe-page");
         return function cleanup() {
-        document.body.classList.remove("recipe-page");
+            document.body.classList.remove("recipe-page");
         };
     }, []);
 
-  return (
-      <>
-        <ExamplesNavbar />
-        <PageHeader />
-        <div className="main">
-          <div className="section text-center">
-            <Container>
-                <div align="right">
-                    <Row className="mr-auto ml-auto">
-                        <Col>
-                            <AddPopover />
-                            <p></p>
-                        </Col>
-                    </Row>
+    return (
+        <>
+            <ExamplesNavbar/>
+            <PageHeader/>
+            <div className="main">
+                <div className="section text-center">
+                    <Container>
+                        <div align="right">
+                            <Row className="mr-auto ml-auto">
+                                <Col>
+                                    <AddPopover/>
+                                    <p></p>
+                                </Col>
+                            </Row>
+                        </div>
+                        <Row className="mr-0 ml-0">
+                            {recipes.map((properties, index) => <Col key={index}>
+                                <Card style={{width: '20rem'}}>
+                                    <CardBody>
+                                        <CardTitle>{properties.title}</CardTitle>
+                                        <GetTea tea={properties.teaid}/>
+                                        <CardText>
+                                            <p>Yield: {properties.yield}</p>
+                                            <p>Ingredients:{properties.ingredients}</p>
+                                            <p>Procedure: {properties.procedure}</p>
+                                            <p>Difficulty: {properties.difficulty}</p>
+                                        </CardText>
+                                    </CardBody>
+                                </Card>
+                            </Col>)}
+                        </Row>
+                    </Container>
                 </div>
-                <Row className="mr-0 ml-0">
-                    {recipes.map((properties, index) => <Col key={index}>
-                        <Card style={{width: '20rem'}}>
-                            <CardBody>
-                                <CardTitle>{properties.name}</CardTitle>
-                                <CardSubtitle>{properties.tealeaves}</CardSubtitle>
-                                <CardText>
-                                    <p>Yield: {properties.yield}</p>
-                                    <p>Ingredients: {properties.ingredients}</p>
-                                    <p>Procedure: {properties.procedure}</p>
-                                    <p>Difficulty: {properties.difficulty}</p>
-                                </CardText>
-                            </CardBody>
-                        </Card>
-                    </Col>)}
-                </Row>
-            </Container>
-          </div>
-        </div>
-        <DemoFooter />
-      </>
-  );
+            </div>
+            <DemoFooter/>
+        </>
+    );
 }
 
 export default RecipeCatalogue;

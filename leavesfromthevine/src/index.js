@@ -18,7 +18,7 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import {BrowserRouter, Route, Redirect, Switch} from "react-router-dom";
 
 // styles
 import "assets/css/bootstrap.min.css";
@@ -34,47 +34,52 @@ import RegisterPage from "views/examples/RegisterPage.js";
 import RecipeCatalogue from "./views/RecipeCatalogue";
 import TeaCatalogue from "./views/TeaCatalogue";
 import ForumPage from "./views/ForumPage";
+import FunFacts from "./views/FunFacts";
 // others
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/home" render={(props) => <Home {...props} />} />
-      <Route
-        path="/nucleo-icons"
-        render={(props) => <NucleoIcons {...props} />}
-      />
-      <Route
-        path="/info-page"
-        render={(props) => <InfoPage {...props} />}
-      />
-      <Route
-        path="/profile-page"
-        render={(props) => <ProfilePage {...props} />}
-      />
-      <Route
-        path="/register-page"
-        render={(props) => <RegisterPage {...props} />}
-      />
-      <Route
-          path="/recipe-catalogue"
-          render={(props) => <RecipeCatalogue {...props} />}
-      />
-      <Route
-          path="/survey-page"
-          render={(props) => <SurveyPage {...props} />}
-      />
-      <Route
-          path="/tea-catalogue"
-          render={(props) => <TeaCatalogue {...props} />}
-        />
-        <Route
-          path="/forum-page"
-          render={(props) => <ForumPage {...props} />}
-        />
-      <Redirect to="/home" />
+    <BrowserRouter>
+        <Switch>
+            <Route path="/home" render={(props) => <Home {...props} />}/>
+            <Route
+                path="/nucleo-icons"
+                render={(props) => <NucleoIcons {...props} />}
+            />
+            <Route
+                path="/info-page"
+                render={(props) => <InfoPage {...props} />}
+            />
+            <Route
+                path="/profile-page"
+                render={(props) => <ProfilePage {...props} />}
+            />
+            <Route
+                path="/register-page"
+                render={(props) => <RegisterPage {...props} />}
+            />
+            <Route
+                path="/recipe-catalogue"
+                render={(props) => <RecipeCatalogue {...props} />}
+            />
+            <Route
+                path="/survey-page"
+                render={(props) => <SurveyPage {...props} />}
+            />
+            <Route
+                path="/tea-catalogue"
+                render={(props) => <TeaCatalogue {...props} />}
+            />
+            <Route
+                path="/forum-page"
+                render={(props) => <ForumPage {...props} />}
+            />
+            <Route
+                path="/fun-facts"
+                render={(props) => <FunFacts {...props} />}
+            />
+            <Redirect to="/home"/>
 
-    </Switch>
-  </BrowserRouter>,
-  document.getElementById("root")
+        </Switch>
+    </BrowserRouter>,
+    document.getElementById("root")
 );

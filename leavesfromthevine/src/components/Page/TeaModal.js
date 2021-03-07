@@ -1,12 +1,13 @@
 import React from "react";
 // reactstrap components
-import { Button, Modal } from "reactstrap";
+import {Button, Modal} from "reactstrap";
 
 class TeaModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            openModal: false
+            openModal: false,
+            tea: []
         };
     }
 
@@ -18,8 +19,15 @@ class TeaModal extends React.Component {
         this.setState({openModal: false})
     }
 
+    componentDidMount() {
+        let url = 'http://localhost:5432/getteabyid/' + this.props.teaid
+        fetch(url)
+            .then((response) => response.json())
+            .then((tests) => this.setState({tea: tests.result.rows}))
+    }
+
     render() {
-        return(
+        return (
             <>
                 <Button className="btn-round btn-neutral" type="button" onClick={this.handleClick}>View More</Button>
                 <Modal isOpen={this.state.openModal} toggle={this.handleClose}>
@@ -38,7 +46,11 @@ class TeaModal extends React.Component {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <p>IN HERE IT WOULD BE THE API CALL</p>
+                        {this.state.tea.map((properties) =>
+                            <div>
+                                <p>Type: {properties.type}</p>
+                            </div>
+                        )}
                     </div>
                     <div className="modal-footer">
                         <div className="left-side">
