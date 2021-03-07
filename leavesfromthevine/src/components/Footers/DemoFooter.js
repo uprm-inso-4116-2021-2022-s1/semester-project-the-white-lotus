@@ -31,10 +31,10 @@ function DemoFooter() {
             <ul>
               <li>
                 <a
-                  href="https://www.creative-tim.com?ref=pkr-footer"
+                  //href="https://www.creative-tim.com?ref=pkr-footer"
                   target="_blank"
                 >
-                  Creative Tim
+                  The White Lotus
                 </a>
               </li>
               <li>

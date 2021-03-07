@@ -60,7 +60,7 @@ function Home() {
         <SectionTeaTypes/>
         <SectionCarousel/>
         <SectionForumPreview />
-        <SectionButtons />
+        {/* <SectionButtons />
         <SectionNavbars />
         <SectionNavigation />
         <SectionProgress />
@@ -72,7 +72,7 @@ function Home() {
         <SectionDark />
         <SectionLogin />
         <SectionExamples />
-        <SectionDownload />
+        <SectionDownload /> */}
         <DemoFooter />
       </div>
     </>
