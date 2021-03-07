@@ -1,48 +1,76 @@
-// Create Recipe table
-// This is NOT to be used, just to show how it'd work
-const createRecipeTable = (db, req, res) => {
-    let sql = 'CREATE TABLE recipes(Id SERIAL PRIMARY KEY, Title VARCHAR(255), Difficulty VARCHAR(255), Yield VARCHAR(1024), Ingredients TEXT[], Procedure TEXT)';
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send(`Recipes table created successfully.`);
-    });
-};
-
+const Enumerable = require("linq");
+const teaAPI = require("./tea.api");
+const ingredientAPI = require("./ingredient.api");
+const materialBridgeAPI = require("./materialBridge.api");
+const tastesAPI = require("./tastes.api");
+const notesAPI = require("./notes.api");
+const flavorBridgeAPI = require("./flavorBridge.api");
 //#region Add Recipe
-// Create Recipe
-const addRecipe = (db, req, res) => {
-    let recipe = {
+// Add new Recipe to database
+const addRecipe =  async (db, req, res) => {
+    let data = {
         title: req.body.title,
         difficulty: req.body.difficulty,
         yield: req.body.yield,
-        teaLeaf: req.body.teaLeaf,
-        ingredients: req.body.ingredients,
-        procedure: req.body.procedure
+        procedure: req.body.procedure,
+        materials: req.body.materials,
+        teaName: req.body.teaName,
+        taste: req.body.taste,
+        notes: req.body.notes,
     };
-    const sql = {
-        text: 'INSERT INTO recipes(title, difficulty, yield, ingredients, procedure, tea_leaf)  VALUES($1, $2, $3, $4, $5, $6)',
-        values: [recipe.title, recipe.difficulty, recipe.yield, recipe.teaLeaf, recipe.ingredients, recipe.procedure, recipe.teaLeaf],
-    }
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try{
+        const tea = await (teaAPI.getTeaByName(db, data.teaName, res, true));
+        const recipeQuery = {
+            text: 'INSERT INTO recipes(title, difficulty, yield, procedure, teaID)  VALUES($1, $2, $3, $4, $5) RETURNING id',
+            values: [data.title, data.difficulty, data.yield, data.procedure, tea.id],
         }
-        console.log(result, recipe);
-        res.send({
-            message: 'Recipe successfully added.',
-            recipe
-        });
-    });
+        // Insert recipe in db
+        let recipeID = await db.query(recipeQuery);
+        recipeID = recipeID.rows[0].id;
+        let ingredients = await data.materials.map(m => m.ingredient).flat()
+        // Add new ingredients to the db
+        await (ingredientAPI.addMultipleIngredients(db, ingredients, res, true))
+        // Gets all ingredients from db
+        let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res, true))
+        let materials = []
+        data.materials.forEach(m =>
+            materials.push(
+                [
+                    recipeID,
+                    Enumerable.from(ingredientsFromDB).where(ing => ing.name === m.ingredient).first().id,
+                    m.amount
+                ]
+            )
+        );
+        // Insert material entities
+        await (materialBridgeAPI.addMultipleMaterialEntities(db, materials, res, true));
+        const taste = await (tastesAPI.getTasteByName(db, data.taste, res,true ));
+        const notes = await (notesAPI.getMultipleNotes(db, data.notes, res,true ));
+        let flavors = []
+        notes.forEach(n =>
+            flavors.push(
+                [
+                    taste.id,
+                    n.id,
+                    recipeID,
+                ]
+            )
+        )
+        await (flavorBridgeAPI.addMultipleFlavorEntities(db, flavors, res, true ))
+        res.end(
+            `\nRecipe "${data.title}" added successfully.`, 'utf8', () => {
+                console.log(`Added new recipe`);
+            }
+        );
+    }
+    catch(err){
+        res.send(err);
+    }
 };
 //#endregion
 
 //region Remove Recipe
-// Remove recipe by id
+// Remove data by id
 const removeRecipeByID = (db, req, res) => {
     let sql = `DELETE FROM recipes WHERE id = ${req.params.id}`;
     db.query(sql, (err, result) => {
@@ -59,200 +87,215 @@ const removeRecipeByID = (db, req, res) => {
 };
 //#endregion
 
+// TODO: FIX
 //#region Edit Recipe
-// ALL EDITS ARE DONE BY ID
-// Edit recipe by id
-const editRecipe = (db, req, res) => {
-    let recipe = req.body;
-    let recipeTitle = recipe.title === undefined? null: `'${recipe.title}'`;
-    let recipeYield = recipe.yield === undefined? null: `'${recipe.yield}'`;
-    let recipeDifficulty = recipe.difficulty === undefined? null: `'${recipe.difficulty}'`;
-    let recipeIngredients = recipe.ingredients === undefined? null: `'{${recipe.ingredients}}'`;
-    let recipeProcedure = recipe.procedure === undefined? null: `'${recipe.procedure}'`;
-    let recipeTeaLeaf = recipe.teaLeaf === undefined? null: `'${recipe.teaLeaf}'`;
+// Edit data by id
+const editRecipe = async (db, req, res) => {
+    let data = req.body;
+    let recipeTitle = data.title === undefined? null: `'${data.title}'`;
+    let recipeYield = data.yield === undefined? null: `'${data.yield}'`;
+    let recipeDifficulty = data.difficulty === undefined? null: `'${data.difficulty}'`;
+    let recipeProcedure = data.procedure === undefined? null: `'${data.procedure}'`;
+    let tea = await (teaAPI.getTeaByName(db, data.tea, res))
     let sql = `UPDATE recipes 
                SET title = coalesce(${recipeTitle}, title),
-               yield = coalesce(${recipeYield}, yield),
-               difficulty = coalesce(${recipeDifficulty}, difficulty),
-               ingredients = coalesce(${recipeIngredients}, ingredients),
-               procedure = coalesce(${recipeProcedure}, procedure),
-               tea_leaf = coalesce(${recipeTeaLeaf}, tea_leaf),
+                yield = coalesce(${recipeYield}, yield),
+                difficulty = coalesce(${recipeDifficulty}, difficulty),
+                procedure = coalesce(${recipeProcedure}, procedure),
+                teaid = coalesce(${tea.id}, teaid),
                WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send({
-            message: `Recipe updated to "${recipe}.`,
-            result
-        });
-    });
-};
-const editTitle = (db, req, res) => {
-    let newTitle = req.body.title;
-    let sql = `UPDATE recipes SET title = '${newTitle}' WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send({
-            message: `Title updated to "${newTitle}.`,
-            result
-        });
-    });
-};
-// Edit difficulty by id
-const editDifficulty = (db, req, res) => {
-    let newDifficulty = req.body.difficulty;
-    let sql = `UPDATE recipes SET difficulty = '${newDifficulty}' WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send({
-            message: `Difficulty updated to "${newDifficulty}.`,
-            result
-        });
-    });
-};
-// Edit Yield by id
-const editYield = (db, req, res) => {
-    let newYield = req.body.yield;
-    let sql = `UPDATE recipes SET yield = '${newYield}' WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send({
-            message: `Yield updated to "${newYield}.`,
-            result
-        });
-    });
-};
-// Edit Ingredients by id
-const editIngredients = (db, req, res) => {
-    let newIngredients = req.body.ingredients;
-    let sql = `UPDATE recipes SET ingredients = '{${newIngredients}}' WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send({
-            message: `Ingredients updated to "${newIngredients}.`,
-            result
-        });
-    });
-};
-// Edit Procedure by id
-const editProcedure = async (db, req, res) => {
-    let newProcedure = req.body.procedure;
-    let sql = `UPDATE recipes SET procedure = '${newProcedure}' WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send({
-            message: `Procedure updated to "${newProcedure}.`,
-            result
-        });
-    });
-};
-// Edit Tea Leaf by id
-const editTeaLeaf = async (db, req, res) => {
-    let newTeaLeaf = req.body.teaLeaf;
-    let sql = `UPDATE recipes SET tea_leaf = '${newTeaLeaf}' WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send({
-            message: `Tea Leaf updated to "${newTeaLeaf}.`,
-            result
-        });
-    });
-};
+    // try{
+    //     await db.query(sql);
+    // }catch(err){
+    //     res.send(err);
+    // }
+    // if (data.materials !== undefined) {
+    //     let ingredients = await data.materials.map(m => m.ingredient).flat()
+    //     // Add new ingredients to the db
+    //     await (ingredientAPI.addMultipleIngredients(db, ingredients, res))
+    //     // Get all ingredients from db
+    //     let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res))
+    //     let materials = []
+    //     data.materials.forEach(m =>
+    //         materials.push(
+    //             [
+    //                 req.params.id,
+    //                 Enumerable.from(ingredientsFromDB).where(ing => ing.name === m.ingredient).first().id,
+    //                 m.amount
+    //             ]
+    //         )
+    //     );
+    //     // Delete all existing rows for this recipe
+    //     const deleteQuery = format(`DELETE FROM recipeandingredientsbridge where recipeid = $(req.params.id)`);
+    //     try {
+    //         await db.query(deleteQuery);
+    //     } catch (err) {
+    //         res.send(err);
+    //     }
+    //     // For each ingredient, insert row in bridge.
+    //     const bridgeQuery = format(`INSERT INTO recipeandingredientsbridge(recipeid, ingredientid, ing_amount)  VALUES %L`, materials);
+    //     try {
+    //         await db.query(bridgeQuery);
+    //     } catch (err) {
+    //         res.send(err);
+    //     }
+    // }
+    // res.send({
+    //     message: `Recipe updated.`,
+    // });
+}
+
 //#endregion
 
-//#region Get recipe
+//#region Get data
 // Get all recipes
-const getAllRecipes = (db, req, res) => {
+const getAllRecipes = async (db, req, res, nestedRes = false) => {
     let sql = 'SELECT * FROM recipes';
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+    try {
+        const recipes = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `All ${recipes.rowCount} recipes fetched successfully.`, 'utf8', () => {
+                console.log(`Fetched '${recipes.rows.length}' recipes`);
+            })
         }
-        console.log(result);
-        res.send({
-            message: `All recipes fetched successfully.`,
-            result
-        });
-    });
+        else{
+            res.send({
+                message: `All ${recipes.rowCount} recipes fetched successfully.`,
+                recipes
+            });
+        }
+        return recipes.rows;
+    } catch (err) {
+        res.send(err);
+    }
 };
+// Get data by id
+const getRecipeByID = async (db, req, res, nestedRes = false) => {
+    let id = nestedRes? req : req.params.id
+    let sql = `SELECT * FROM recipes WHERE id = ${id}`;
+    try{
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `Recipe '${result.rows[0].title}' fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched '${result.rows[0].title}' recipe`);
+                })
+        }
+        else{
+            res.send({
+                message: `Recipe '${result.rows[0].title}' fetched successfully.`,
+                result
+            })
+        }
+        return result.rows[0]
 
-// Get recipe by id
-const getRecipeByID = (db, req, res) => {
-    let sql = `SELECT * FROM recipes WHERE id = ${req.params.id}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
-        }
-        console.log(result);
-        res.send({
-            message: `Recipe with id ${req.params.id} fetched successfully.`,
-            result
-        });
-    });
+    }catch(err){
+        res.send(err)
+    }
 };
-// Filter
-const filterRecipe = (db, req, res) => {
-    let sql = `SELECT * 
-               FROM recipes 
-               WHERE difficulty = ${req.params.difficulty},
-                AND tea_leaf = ${req.params.teaLeaf},
-                AND ingredients in ${req.params.ingredients}`;
-    db.query(sql, (err, result) => {
-        if(err) {
-            console.log(err);
-            res.send(`Error, check console log.`);
+const getFullRecipes = async (db, req, res, nestedRes = false) => {
+    let sql = `select recipes.id,
+                    recipes.title, 
+                    recipes.difficulty,
+                    recipes.yield,
+                    recipes.procedure,
+                    teas.name as TeaName, 
+                    teas.type as TeaType, 
+                    tastes.name as Taste, 
+                    array_agg(distinct notes.name) as Note,
+                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Ingredients 
+                from recipes
+                left join teas on recipes.teaid = teas.id
+                left join flavorbridge as fb on recipes.id = fb.recipeid
+                left join tastes on fb.tasteid = tastes.id
+                left join notes on fb.noteid = notes.id
+                left join materialsbridge as mb on recipes.id = mb.recipeid
+                left join ingredients on ingredients.id = mb.ingredientid
+                group by (recipes.id,        
+                        recipes.title, 
+                        recipes.difficulty,
+                        recipes.yield,
+                        recipes.procedure,
+                        teaname, 
+                        teatype, 
+                        taste);`
+    try {
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `${result.rowCount} full recipes fetched successfully.`, 'utf8', () => {
+                    console.log(`'${result.rowCount}' full recipes fetched successfully.`);
+                })
+            return result.rows;
         }
-        console.log(result);
-        res.send({
-            message: `Recipe with id ${req.params.id} fetched successfully.`,
-            result
-        });
-    });
-};
+        else{
+            res.send({
+                message: `${result.rowCount} full recipes fetched successfully.`,
+                result
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
+}
+const getFullRecipeByID = async (db, req, res, nestedRes = false) => {
+    let id = nestedRes ? req : req.params.id;
+    let sql = `select recipes.id,
+                    recipes.title, 
+                    recipes.difficulty,
+                    recipes.yield,
+                    recipes.procedure,
+                    teas.name as TeaName, 
+                    teas.type as TeaType, 
+                    tastes.name as Taste, 
+                    array_agg(distinct notes.name) as Note,
+                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Ingredients 
+                from recipes
+                left join teas on recipes.teaid = teas.id
+                left join flavorbridge as fb on recipes.id = fb.recipeid
+                left join tastes on fb.tasteid = tastes.id
+                left join notes on fb.noteid = notes.id
+                left join materialsbridge as mb on recipes.id = mb.recipeid
+                left join ingredients on ingredients.id = mb.ingredientid
+                group by (recipes.id,        
+                        recipes.title, 
+                        recipes.difficulty,
+                        recipes.yield,
+                        recipes.procedure,
+                        teaname, 
+                        teatype, 
+                        taste)
+                having recipes.id = ${id};`;
+    try {
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `Full recipe with id ${id} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched taste with id '${id}'.`);
+                })
+            return result.rows;
+        }
+        else{
+            res.send({
+                message: `Full recipe with id ${id} fetched successfully.`,
+                result
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
+}
 //#endregion
 
 
 
 module.exports = {
-    createRecipeTable,
     addRecipe,
     removeRecipeByID,
     editRecipe,
-    editTitle,
-    editDifficulty,
-    editYield,
-    editIngredients,
-    editProcedure,
-    editTeaLeaf,
     getAllRecipes,
-    getRecipeByID
+    getRecipeByID,
+    getFullRecipeByID,
+    getFullRecipes
 }

@@ -8,6 +8,11 @@ require('dotenv').config();
 //APIs
 const teaAPI = require('./API/tea.api');
 const recipeAPI = require("./API/recipe.api");
+const ingredientAPI = require("./API/ingredient.api");
+const noteAPI = require("./API/notes.api");
+const tasteAPI = require("./API/tastes.api");
+const flavorBridgeAPI = require("./API/flavorBridge.api");
+const materialBridgeAPI = require("./API/materialBridge.api");
 
 // Create connection
 const db = new Client({
@@ -33,31 +38,18 @@ const jsonParser = bodyParser.json();
 //required for requests to have x-www-form-urlencoded body
 const urlencodedParser = bodyParser.urlencoded({ extended : false});
 
-// Create DB
-// to create the db, uncomment the following lines and remove from above "database: 'lftv'," temporarily
-// run the server, go to that location, DB is created. comment the lines, put back what you removed from above.
-// app.get('/createdb', (req, res) => {
-//     let sql = 'CREATE DATABASE lftv';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('database created...');
-//     })
-// });
-
-
 //#region Example API
 // ******************************** EXAMPLE API ****************************************************
 
 // Create table
-app.get('/createpoststable', (req, res) => {
-    let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY (id))';
-    db.query(sql, (err, result) => {
-        if(err) throw err;
-        console.log(result);
-        res.send(`Posts table created...`);
-    })
-});
+// app.get('/createpoststable', (req, res) => {
+//     let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY (id))';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send(`Posts table created...`);
+//     })
+// });
 
 // Insert post
 app.get('/addpost', (req, res) => {
@@ -137,9 +129,9 @@ app.get('/deletepost/:id', (req, res) => {
 //#endregion
 
 //#region Tea API
-app.get('/createteastable', (req, res) => {
-    teaAPI.creatTeaTable(db, req, res);
-});
+// app.get('/createteastable', (req, res) => {
+//     teaAPI.createTeaTable(db, req, res);
+// });
 
 app.get('/addtea', jsonParser, (req, res) => {
     teaAPI.addTea(db, req, res);
@@ -173,7 +165,7 @@ app.get('/editdescbyname/:name', jsonParser, (req, res) => {
     teaAPI.editDescByName(db, req, res);
 });
 
-app.get('/gettea', jsonParser, (req, res) => {
+app.get('/getteas', jsonParser, (req, res) => {
     teaAPI.getAllTeas(db, req, res);
 });
 
@@ -188,6 +180,7 @@ app.get('/getteabyid/:id', jsonParser, (req, res) => {
 app.get('/getteabyname/:name', jsonParser, (req, res) => {
     teaAPI.getTeaByName(db, req, res);
 });
+//12 requests
 //#endregion
 
 //#region Recipe API
@@ -202,34 +195,119 @@ app.delete('/removerecipebyid/:id', jsonParser, (req, res) => {
 app.patch('/editrecipe/:id', jsonParser, (req, res) => {
     recipeAPI.editRecipe(db, req, res);
 });
-app.patch('/edittitle/:id', jsonParser, (req, res) => {
-    recipeAPI.editTitle(db, req, res);
-});
-
-app.patch('/editdifficulty/:id', jsonParser, (req, res) => {
-    recipeAPI.editDifficulty(db, req, res);
-});
-app.patch('/edityield/:id', jsonParser, (req, res) => {
-    recipeAPI.editYield(db, req, res);
-});
-app.patch('/editingredients/:id', jsonParser, (req, res) => {
-    recipeAPI.editIngredients(db, req, res);
-});
-app.patch('/editprocedure/:id', jsonParser, (req, res) => {
-    recipeAPI.editProcedure(db, req, res);
-});
-app.patch('/edittealeaf/:id', jsonParser, (req, res) => {
-    recipeAPI.editTeaLeaf(db, req, res);
-});
 app.get('/getrecipes', jsonParser, (req, res) => {
     recipeAPI.getAllRecipes(db, req, res);
 });
-
 app.get('/getrecipebyid/:id', jsonParser, (req, res) => {
     recipeAPI.getRecipeByID(db, req, res);
 });
-
+app.get('/getfullrecipes', jsonParser, (req, res) => {
+    recipeAPI.getFullRecipes(db, req, res);
+});
+app.get('/getfullrecipebyid/:id', jsonParser, (req, res) => {
+    recipeAPI.getFullRecipeByID(db, req, res);
+});
+// 6 requests
 //#endregion
+
+//#region Ingredient
+app.get('/getingredients', jsonParser, (req, res) => {
+    ingredientAPI.getAllIngredients(db, req, res);
+});
+app.get('/getingredientbyname/:name', jsonParser, (req, res) => {
+    ingredientAPI.getIngredientByName(db, req, res);
+});
+app.get('/getmultipleingredients', jsonParser, (req, res) => {
+    ingredientAPI.getMultipleIngredients(db, req, res);
+});
+app.post('/addingredient/:name', jsonParser, (req, res) => {
+    ingredientAPI.addIngredientByName(db, req, res);
+});
+app.post('/addmultipleingredients/', jsonParser, (req, res) => {
+    ingredientAPI.addMultipleIngredients(db, req, res);
+});
+app.delete('/removeingredient/:name', jsonParser, (req, res) => {
+    ingredientAPI.removeIngredientByName(db, req, res);
+});
+// 6 requests
+//#endregion
+
+//#region Notes API
+app.get('/getnotes', jsonParser, (req, res) => {
+    noteAPI.getAllNotes(db, req, res);
+});
+app.get('/getnotebyname/:name', jsonParser, (req, res) => {
+    noteAPI.getNoteByName(db, req, res);
+});
+app.get('/getmultiplenotes', jsonParser, (req, res) => {
+    noteAPI.getMultipleNotes(db, req, res);
+});
+app.post('/addnote/:name', jsonParser, (req, res) => {
+    noteAPI.addNote(db, req, res);
+});
+app.post('/addmultiplenotes', jsonParser, (req, res) => {
+    noteAPI.addMultipleNotes(db, req, res);
+});
+app.delete('/removenote/:name', jsonParser, (req, res) => {
+    noteAPI.removeNoteByName(db, req, res);
+});
+// 6 requests
+//#endregions
+
+//#region Taste API
+app.get('/gettastes', jsonParser, (req, res) => {
+    tasteAPI.getAllTastes(db, req, res);
+});
+app.get('/gettastebyname/:name', jsonParser, (req, res) => {
+    tasteAPI.getTasteByName(db, req, res);
+});
+app.post('/addtaste/:name', jsonParser, (req, res) => {
+    tasteAPI.addTaste(db, req, res);
+});
+app.delete('/removetaste/:name', jsonParser, (req, res) => {
+    tasteAPI.removeTasteByName(db, req, res);
+});
+// 4 requests
+//#endregion
+
+//#region FlavorBridge
+app.get('/getflavorentities', jsonParser, (req, res) => {
+    flavorBridgeAPI.getAllFlavorEntities(db, req, res);
+});
+app.get('/getflavorentitybyid/:id', jsonParser, (req, res) => {
+    flavorBridgeAPI.getFlavorEntityByID(db, req, res);
+});
+app.post('/addflavorentity/:name', jsonParser, (req, res) => {
+    flavorBridgeAPI.addFlavorEntity(db, req, res);
+});
+app.post('/addmultipleflavorentities/', jsonParser, (req, res) => {
+    flavorBridgeAPI.addMultipleFlavorEntities(db, req, res);
+});
+app.delete('/removeflavorentitybyid/:id', jsonParser, (req, res) => {
+    flavorBridgeAPI.removeFlavorEntityByID(db, req, res);
+});
+// 5 requests
+//#endregion
+
+//#region MaterialBridge
+app.get('/getmaterialentities', jsonParser, (req, res) => {
+    materialBridgeAPI.getAllMaterialEntities(db, req, res);
+});
+app.get('/getmaterialentitybyid/:id', jsonParser, (req, res) => {
+    materialBridgeAPI.getMaterialEntityByID(db, req, res);
+});
+app.post('/addmaterialentity/:name', jsonParser, (req, res) => {
+    materialBridgeAPI.addMaterialEntity(db, req, res);
+});
+app.post('/addmultiplematerialentities/', jsonParser, (req, res) => {
+    materialBridgeAPI.addMultipleMaterialEntities(db, req, res);
+});
+app.delete('/removematerialentitybyid/:id', jsonParser, (req, res) => {
+    materialBridgeAPI.removeMaterialEntityByID(db, req, res);
+});
+//5 requests
+//#endregion
+
 
 //#region ... API
 //#endregion
@@ -262,8 +340,7 @@ app.get('/', jsonParser, (req, res) => {
 });
 
 const PORT = process.env.PGPORT || 3000;
-
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`Server started on port ${PORT}`);
     console.log(`\nhttp://localhost:${PORT}`);
 });
