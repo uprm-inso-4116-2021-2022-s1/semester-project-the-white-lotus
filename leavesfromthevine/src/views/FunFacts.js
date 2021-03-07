@@ -19,11 +19,11 @@
 import React from "react";
 
 // reactstrap components
-import {Container, Table} from 'reactstrap';
+import {Container, Col, Row, Card, CardBody,CardText} from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
-import TeaModal from "../components/Page/TeaModal";
+import funfacts from '../dummy data/funfact.json'
 
 function PageHeader() {
     let pageHeader = React.createRef();
@@ -56,7 +56,7 @@ function PageHeader() {
                 <div className="filter"/>
                 <Container>
                     <div className="motto text-center">
-                        <h1>Tea Encyclopedia</h1>
+                        <h1>Fun Facts</h1>
                         <br/>
                     </div>
                 </Container>
@@ -66,16 +66,12 @@ function PageHeader() {
 }
 
 
-function TeaCatalogue() {
-    let [teas, setTeas] = React.useState([])
-    fetch('http://localhost:5432/getteas')
-        .then((response) => response.json())
-        .then((tests) => setTeas(tests.teas.rows))
+function FunFacts() {
     document.documentElement.classList.remove("nav-open");
     React.useEffect(() => {
-        document.body.classList.add("tea-catalogue");
+        document.body.classList.add("fun-facts");
         return function cleanup() {
-            document.body.classList.remove("tea-catalogue");
+            document.body.classList.remove("fun-facts");
         };
     });
     return (
@@ -84,29 +80,16 @@ function TeaCatalogue() {
             <PageHeader/>
             <div className="main">
                 <div className="section text-center">
-                    <Container>
-                        <Table>
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Type</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {teas.map((properties) => <tr>
-                                    <th scope="row">{properties.id}</th>
-                                    <td>{properties.type}</td>
-                                    <td>{properties.name}</td>
-                                    <td>{properties.tea_desc}</td>
-                                    <td><TeaModal teaname={properties.name} teaid={properties.id}/></td>
-                                </tr>
-                            )}
-                            </tbody>
-                        </Table>
-                    </Container>
+                    <Row className="mr-0 ml-0">
+                        {funfacts.single_fact.map((facts) =>
+                        <Col>
+                            <Card style={{width: '30rm'}}>
+                                <CardBody>
+                                    <CardText>{facts.fact}</CardText>
+                                </CardBody>
+                            </Card>
+                        </Col>)}
+                    </Row>
                 </div>
             </div>
             <DemoFooter/>
@@ -114,4 +97,4 @@ function TeaCatalogue() {
     );
 }
 
-export default TeaCatalogue;
+export default FunFacts;
