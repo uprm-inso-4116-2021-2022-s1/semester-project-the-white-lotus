@@ -71,18 +71,16 @@ function ProfilePage() {
             </div>
             <div className="name">
               <h4 className="title">
-                Jane Faker <br />
+                Jane Doe <br />
               </h4>
-              <h6 className="description">Music Producer</h6>
+              <h6 className="description">Tea amateur</h6>
             </div>
           </div>
           <Row>
             <Col className="ml-auto mr-auto text-center" md="6">
               <p>
-                An artist of considerable range, Jane Faker — the name taken by
-                Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-                and records all of his own music, giving it a warm, intimate
-                feel with a solid groove structure.
+                An artist of considerable range, Jane Doe. Always opened to new experiences
+                and always loved the idea of tea. My favorite is Chai tea.
               </p>
               <br />
               <Button className="btn-round" color="default" outline>
@@ -135,7 +133,7 @@ function ProfilePage() {
                         <Col className="ml-auto mr-auto" lg="7" md="4" xs="4">
                           <h6>
                             Flume <br />
-                            <small>Musical Producer</small>
+                            <small>Tea enthusiast</small>
                           </h6>
                         </Col>
                         <Col className="ml-auto mr-auto" lg="3" md="4" xs="4">
@@ -165,7 +163,7 @@ function ProfilePage() {
                         <Col lg="7" md="4" xs="4">
                           <h6>
                             Banks <br />
-                            <small>Singer</small>
+                            <small>Tea expert</small>
                           </h6>
                         </Col>
                         <Col lg="3" md="4" xs="4">

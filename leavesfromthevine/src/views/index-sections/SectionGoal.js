@@ -55,7 +55,7 @@ function SectionGoal() {
                       Discover new tea recipes or twists to ones you knew.
                       Here we present a library of teas and recipes of all types.
                     </p>
-                    <Button className="btn-link" color="info" href="/recipe-page">
+                    <Button className="btn-link" color="info" href="/recipe-catalogue">
                       See more
                     </Button>
                   </div>

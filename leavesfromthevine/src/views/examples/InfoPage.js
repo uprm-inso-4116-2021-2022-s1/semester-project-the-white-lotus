@@ -59,11 +59,10 @@ function InfoPage() {
               <Col className="ml-auto mr-auto" md="8">
                 <h2 className="title">Let's talk product</h2>
                 <h5 className="description">
-                  This is the paragraph where you can write more details about
-                  your product. Keep you user engaged by providing meaningful
-                  information. Remember that by this time, the user is curious,
-                  otherwise he wouldn't scroll to get here. Add a button if you
-                  want the user to see more.
+                We wish to provide amatures and expert on teas alike the possibility 
+                of finding recepies and other related things that they might enjoy. 
+                With this provide a user-friendly platform and give as much of an enjoyable 
+                experience as possible.
                 </h5>
                 <br />
                 <Button
@@ -211,14 +210,14 @@ function InfoPage() {
                     <a href="#pablo" onClick={(e) => e.preventDefault()}>
                       <img
                         alt="..."
-                        src={require("assets/img/faces/joe-gardner-2.jpg")}
+                        src={require("assets/img/faces/kaci-baum-2.jpg")}
                       />
                     </a>
                   </div>
                   <CardBody>
                     <a href="#pablo" onClick={(e) => e.preventDefault()}>
                       <div className="author">
-                        <CardTitle tag="h4">Sophie West</CardTitle>
+                        <CardTitle tag="h4">Brigitte Bardot</CardTitle>
                         <h6 className="card-category">Designer</h6>
                       </div>
                     </a>
