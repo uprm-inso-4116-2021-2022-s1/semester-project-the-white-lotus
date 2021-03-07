@@ -45,7 +45,7 @@ function SectionTeaTypes() {
                   <CardBody>
                     <CardTitle><h2>White tea</h2></CardTitle>
                     <CardText>Wilted and unoxidized</CardText>
-                    <Button color="primary">Go somewhere</Button>
+                    <Button color="primary">More</Button>
                   </CardBody>
                 </Card>
               </Col>
@@ -67,7 +67,7 @@ function SectionTeaTypes() {
                   <CardBody>
                     <CardTitle><h2>Yellow tea</h2></CardTitle>
                     <CardText>Unwilted and unoxidized but allowed to yellow</CardText>
-                    <Button color="primary">Go somewhere</Button>
+                    <Button color="primary">More</Button>
                   </CardBody>
                 </Card>
               </Col>
@@ -88,7 +88,7 @@ function SectionTeaTypes() {
                   <CardBody>
                     <CardTitle><h2>Green tea</h2></CardTitle>
                     <CardText>Unwilted and unoxidized</CardText>
-                    <Button color="primary">Go somewhere</Button>
+                    <Button color="primary">More</Button>
                   </CardBody>
                 </Card>
               </Col>
@@ -113,7 +113,7 @@ function SectionTeaTypes() {
                   <CardBody>
                     <CardTitle><h2>Oolong tea</h2></CardTitle>
                     <CardText>Wilted, bruised, and partially oxidized</CardText>
-                    <Button color="primary">Go somewhere</Button>
+                    <Button color="primary">More</Button>
                   </CardBody>
                 </Card>
               </Col>
@@ -135,7 +135,7 @@ function SectionTeaTypes() {
                   <CardBody>
                     <CardTitle><h2>Black tea</h2></CardTitle>
                     <CardText>Wilted, sometimes crushed, and fully oxidized</CardText>
-                    <Button color="primary">Go somewhere</Button>
+                    <Button color="primary">More</Button>
                   </CardBody>
                 </Card>
               </Col>
@@ -156,7 +156,7 @@ function SectionTeaTypes() {
                   <CardBody>
                     <CardTitle><h2>Dark tea</h2></CardTitle>
                     <CardText>Green tea that has been allowed to ferment/compost</CardText>
-                    <Button color="primary">Go somewhere</Button>
+                    <Button color="primary">More</Button>
                   </CardBody>
                 </Card>
               </Col>

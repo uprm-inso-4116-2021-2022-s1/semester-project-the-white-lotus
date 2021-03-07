@@ -205,13 +205,13 @@ function ExamplesNavbar() {
               </NavItem>
 
 
-              <NavItem>
+              {/* <NavItem>
                 <NavLink
                     href="/info-page"
                 >
                   Settings
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
 
               <NavItem>
                 <NavLink
@@ -232,11 +232,27 @@ function ExamplesNavbar() {
 
               <NavItem>
                 <NavLink
+                    href="/tea-catalogue"
+                >
+                  Teas
+                </NavLink>
+              </NavItem>
+
+              <NavItem>
+                <NavLink
+                    href="/survey-page"
+                >
+                  Tea Survey
+                </NavLink>
+              </NavItem>
+
+              {/* <NavItem>
+                <NavLink
                     href="/register-page"
                 >
                   Register
                 </NavLink>
-              </NavItem>
+              </NavItem> */}
 
               <LoginModal/>
 

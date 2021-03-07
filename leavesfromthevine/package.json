@@ -3,8 +3,13 @@
   "version": "1.2.0",
   "private": true,
   "dependencies": {
+    "body-parser": "^1.19.0",
     "classnames": "2.2.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "moment": "2.26.0",
+    "mysql": "github:mysqljs/mysql",
+    "mysql2": "^2.2.5",
     "node-sass": "4.14.1",
     "nouislider": "14.5.0",
     "react": "16.13.1",
@@ -14,7 +19,8 @@
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.1",
-    "reactstrap": "8.4.1"
+    "reactstrap": "8.4.1",
+    "sequelize": "^6.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -24,7 +30,8 @@
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
     "compile-sass": "node-sass src/assets/scss/paper-kit.scss src/assets/css/paper-kit.css",
     "minify-sass": "node-sass src/assets/scss/paper-kit.scss src/assets/css/paper-kit.min.css --output-style compressed",
-    "map-sass": "node-sass src/assets/scss/paper-kit.scss src/assets/css/paper-kit.css --source-map true"
+    "map-sass": "node-sass src/assets/scss/paper-kit.scss src/assets/css/paper-kit.css --source-map true",
+    "dev": "nodemon ../lftv-backend/app.js"
   },
   "eslintConfig": {
     "extends": "react-app"

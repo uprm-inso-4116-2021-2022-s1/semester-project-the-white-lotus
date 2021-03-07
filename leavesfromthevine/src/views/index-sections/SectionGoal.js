@@ -72,7 +72,7 @@ function SectionGoal() {
                       Don't know much about tea or what to try? Take this 
                       survey and discover possible teas you might enjoy.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
+                    <Button className="btn-link" color="info" href="/survey-page">
                       See more
                     </Button>
                   </div>
@@ -89,7 +89,7 @@ function SectionGoal() {
                       Communicate, meet, share recepies and much more 
                       with other LFTV users at our Forum.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
+                    <Button className="btn-link" color="info" href="/forum-page">
                       See more
                     </Button>
                   </div>

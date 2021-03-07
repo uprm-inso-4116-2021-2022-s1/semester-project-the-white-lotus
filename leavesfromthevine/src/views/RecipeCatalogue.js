@@ -24,6 +24,7 @@ import { Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle,
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../components/Footers/DemoFooter";
 import recipes from '../dummy data/recipes.json'
+import AddPopover from "../components/Page/AddPopover";
 
 function PageHeader() {
   let pageHeader = React.createRef();
@@ -65,16 +66,19 @@ function PageHeader() {
   );
 }
 
-
-
 function RecipeCatalogue() {
-  document.documentElement.classList.remove("nav-open");
-  React.useEffect(() => {
-    document.body.classList.add("recipe-page");
-    return function cleanup() {
-      document.body.classList.remove("recipe-page");
-    };
-  });
+    let [recipes, setRecipes] = React.useState([])
+
+    document.documentElement.classList.remove("nav-open");
+    React.useEffect(() => {
+        fetch('http://localhost:5432/getrecipes')
+          .then((response) => response.json())
+          .then((tests) => setRecipes(tests.result.rows))
+        document.body.classList.add("recipe-page");
+        return function cleanup() {
+        document.body.classList.remove("recipe-page");
+        };
+    }, []);
 
   return (
       <>
@@ -86,14 +90,13 @@ function RecipeCatalogue() {
                 <div align="right">
                     <Row className="mr-auto ml-auto">
                         <Col>
-                            <Button className="btn-round btn-icon" color="success" outline>
-                                <i className="nc-icon nc-simple-add" /> Add new recipe</Button>
+                            <AddPopover />
                             <p></p>
                         </Col>
                     </Row>
                 </div>
                 <Row className="mr-0 ml-0">
-                    {recipes.single_recipe.map((properties) => <Col>
+                    {recipes.map((properties, index) => <Col key={index}>
                         <Card style={{width: '20rem'}}>
                             <CardBody>
                                 <CardTitle>{properties.name}</CardTitle>
