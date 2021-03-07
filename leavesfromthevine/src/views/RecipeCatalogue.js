@@ -71,7 +71,7 @@ function RecipeCatalogue() {
 
     document.documentElement.classList.remove("nav-open");
     React.useEffect(() => {
-        fetch('http://localhost:5432/getrecipes')
+        fetch('http://localhost:5432/getfullrecipes')
           .then((response) => response.json())
           .then((tests) => setRecipes(tests.result.rows))
         document.body.classList.add("recipe-page");
@@ -99,11 +99,12 @@ function RecipeCatalogue() {
                     {recipes.map((properties, index) => <Col key={index}>
                         <Card style={{width: '20rem'}}>
                             <CardBody>
-                                <CardTitle>{properties.name}</CardTitle>
-                                <CardSubtitle>{properties.tealeaves}</CardSubtitle>
+                                <CardTitle>{properties.title}</CardTitle>
+                                <CardSubtitle>{properties.teaname}</CardSubtitle>
                                 <CardText>
                                     <p>Yield: {properties.yield}</p>
                                     <p>Ingredients: {properties.ingredients}</p>
+                                    <p>Taste: {properties.taste}</p>
                                     <p>Procedure: {properties.procedure}</p>
                                     <p>Difficulty: {properties.difficulty}</p>
                                 </CardText>
