@@ -68,9 +68,9 @@ function PageHeader() {
 
 function TeaCatalogue() {
     let [teas, setTeas] = React.useState([])
-    fetch('http://localhost:5432/gettea')
+    fetch('http://localhost:5432/getteas')
         .then((response) => response.json())
-        .then((tests) => setTeas(tests.result.rows))
+        .then((tests) => setTeas(tests.teas.rows))
     document.documentElement.classList.remove("nav-open");
     React.useEffect(() => {
         document.body.classList.add("tea-catalogue");

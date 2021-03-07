@@ -23,7 +23,7 @@ class TeaModal extends React.Component {
         let url = 'http://localhost:5432/getteabyid/' + this.props.teaid
         fetch(url)
             .then((response) => response.json())
-            .then((tests) => this.setState({tea: tests.result.rows}))
+            .then((tests) => this.setState({tea: tests.teas.rows}))
     }
 
     render() {
@@ -49,6 +49,7 @@ class TeaModal extends React.Component {
                         {this.state.tea.map((properties) =>
                             <div>
                                 <p>Type: {properties.type}</p>
+                                <p>Description: {properties.tea_desc}</p>
                             </div>
                         )}
                     </div>
