@@ -207,6 +207,9 @@ app.get('/getfullrecipes', jsonParser, (req, res) => {
 app.get('/getfullrecipebyid/:id', jsonParser, (req, res) => {
     recipeAPI.getFullRecipeByID(db, req, res);
 });
+app.get('/getRecipeByFilter', jsonParser, (req, res) => {
+    recipeAPI.getRecipeByFilter(db, req, res);
+});
 // 6 requests
 //#endregion
 

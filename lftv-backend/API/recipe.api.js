@@ -96,6 +96,7 @@ const editRecipe = async (db, req, res) => {
     let recipeYield = data.yield === undefined? null: `'${data.yield}'`;
     let recipeDifficulty = data.difficulty === undefined? null: `'${data.difficulty}'`;
     let recipeProcedure = data.procedure === undefined? null: `'${data.procedure}'`;
+    //let recipeMaterials = data.materials === undefined? null: data.materials;
     let tea = await (teaAPI.getTeaByName(db, data.tea, res))
     let sql = `UPDATE recipes 
                SET title = coalesce(${recipeTitle}, title),
@@ -104,6 +105,11 @@ const editRecipe = async (db, req, res) => {
                 procedure = coalesce(${recipeProcedure}, procedure),
                 teaid = coalesce(${tea.id}, teaid),
                WHERE id = ${req.params.id}`;
+    // Edit ingredients
+    // Edit taste
+    // Edit notes
+
+
     // try{
     //     await db.query(sql);
     // }catch(err){
@@ -287,7 +293,73 @@ const getFullRecipeByID = async (db, req, res, nestedRes = false) => {
     }
 }
 //#endregion
-
+/*
+Filter: Difficulty, Type, Taste, Notes, Ingredients
+ */
+const getRecipeByFilter = async (db, req, res, nestedRes = false) => {
+    let difficulty = req.body.difficulty === undefined? null: `'${req.body.difficulty}'`;
+    let teatype = req.body.teatype === undefined? null: `'${req.body.teatype}'`;
+    let taste = req.body.taste === undefined? null: `'${req.body.taste}'`;
+    let notes = req.body.notes === undefined? null: req.body.notes;
+    let ingredients = req.body.ingredients === undefined? null: req.body.ingredients;
+    let sql = `select recipes.id,
+                    recipes.title,
+                    recipes.difficulty,
+                    recipes.yield,
+                    recipes.procedure,
+                    teas.name as TeaName,
+                    teas.type as TeaType,
+                    tastes.name as Taste,
+                    array_agg(distinct notes.name) as Note,
+                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Ingredients
+                from recipes
+                left join teas on recipes.teaid = teas.id
+                left join flavorbridge as fb on recipes.id = fb.recipeid
+                left join tastes on fb.tasteid = tastes.id
+                left join notes on fb.noteid = notes.id
+                left join materialsbridge as mb on recipes.id = mb.recipeid
+                left join ingredients on ingredients.id = mb.ingredientid
+                group by (recipes.id,
+                        recipes.title,
+                        recipes.difficulty,
+                        recipes.yield,
+                        recipes.procedure,
+                        teaname,
+                        teatype,
+                        taste)
+                having recipes.difficulty = coalesce(${difficulty}, recipes.difficulty)
+                and teas.type = coalesce(${teatype}, teas.type)
+                and tastes.name = coalesce(${taste}, tastes.name);`
+    try {
+        const queryResult = await db.query(sql);
+        let recipeCandidates = queryResult.rows;
+        let result = [];
+        recipeCandidates.forEach(recipe => {
+                let mappedIngredients = recipe.ingredients.map(ing => ing[0]).flat();
+                if (ingredients === null || ingredients?.every(i => mappedIngredients.includes(i))) {
+                    if (notes === null || notes?.every(n => recipe.note.includes(n))) {
+                        result.push(recipe);
+                    }
+                }
+            }
+        );
+        if (nestedRes){
+            res.write(
+                `${result.length} recipes matched the request.`, 'utf8', () => {
+                    console.log(`${result.length} recipes matched the request.`);
+                })
+            return result;
+        }
+        else{
+            res.send({
+                message: `[${result.length}] recipes matched the request.`,
+                result
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
+}
 
 
 module.exports = {
@@ -297,5 +369,6 @@ module.exports = {
     getAllRecipes,
     getRecipeByID,
     getFullRecipeByID,
-    getFullRecipes
+    getFullRecipes,
+    getRecipeByFilter
 }
