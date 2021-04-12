@@ -96,59 +96,52 @@ const editRecipe = async (db, req, res) => {
     let recipeYield = data.yield === undefined? null: `'${data.yield}'`;
     let recipeDifficulty = data.difficulty === undefined? null: `'${data.difficulty}'`;
     let recipeProcedure = data.procedure === undefined? null: `'${data.procedure}'`;
-    //let recipeMaterials = data.materials === undefined? null: data.materials;
     let tea = await (teaAPI.getTeaByName(db, data.tea, res))
-    let sql = `UPDATE recipes 
+    // Bridges
+    let recipeMaterials = data.materials === undefined? null: data.materials;
+    let recipeNotes= data.notes === undefined? null: data.notes;
+    let recipeTaste = data.taste === undefined? null: `'${data.taste}'`;
+    let recipeQuery = `UPDATE recipes 
                SET title = coalesce(${recipeTitle}, title),
                 yield = coalesce(${recipeYield}, yield),
                 difficulty = coalesce(${recipeDifficulty}, difficulty),
                 procedure = coalesce(${recipeProcedure}, procedure),
                 teaid = coalesce(${tea.id}, teaid),
                WHERE id = ${req.params.id}`;
-    // Edit ingredients
-    // Edit taste
-    // Edit notes
+    try {
+        const recipeResult = await db.query(recipeQuery);
+    } catch(err){
 
+    }
+    // Overwrite ingredients
+    if (recipeMaterials !== null){
+        const materialsQuery = ``;
+        try{
+            await db.query(materialsQuery);
+        } catch(err){
 
-    // try{
-    //     await db.query(sql);
-    // }catch(err){
-    //     res.send(err);
-    // }
-    // if (data.materials !== undefined) {
-    //     let ingredients = await data.materials.map(m => m.ingredient).flat()
-    //     // Add new ingredients to the db
-    //     await (ingredientAPI.addMultipleIngredients(db, ingredients, res))
-    //     // Get all ingredients from db
-    //     let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res))
-    //     let materials = []
-    //     data.materials.forEach(m =>
-    //         materials.push(
-    //             [
-    //                 req.params.id,
-    //                 Enumerable.from(ingredientsFromDB).where(ing => ing.name === m.ingredient).first().id,
-    //                 m.amount
-    //             ]
-    //         )
-    //     );
-    //     // Delete all existing rows for this recipe
-    //     const deleteQuery = format(`DELETE FROM recipeandingredientsbridge where recipeid = $(req.params.id)`);
-    //     try {
-    //         await db.query(deleteQuery);
-    //     } catch (err) {
-    //         res.send(err);
-    //     }
-    //     // For each ingredient, insert row in bridge.
-    //     const bridgeQuery = format(`INSERT INTO recipeandingredientsbridge(recipeid, ingredientid, ing_amount)  VALUES %L`, materials);
-    //     try {
-    //         await db.query(bridgeQuery);
-    //     } catch (err) {
-    //         res.send(err);
-    //     }
-    // }
-    // res.send({
-    //     message: `Recipe updated.`,
-    // });
+        }
+    }
+    // Overwrite taste
+    if (recipeTaste !== null){
+        const tasteQuery = `UPDATE flavorbridge
+                SET tasteid = coalesce (${recipeTaste}, tasteid)
+                WHERE recipeid = ${req.params.id}`;
+        try{
+            await db.query(tasteQuery);
+        } catch(err){
+
+        }
+    }
+    // Overwrite notes
+    if (recipeNotes !== null){
+        const notesQuery = ``;
+        try{
+            await db.query(notesQuery);
+        } catch(err){
+
+        }
+    }
 }
 
 //#endregion
@@ -345,8 +338,8 @@ const getRecipeByFilter = async (db, req, res, nestedRes = false) => {
         );
         if (nestedRes){
             res.write(
-                `${result.length} recipes matched the request.`, 'utf8', () => {
-                    console.log(`${result.length} recipes matched the request.`);
+                `[${result.length}] recipes matched the request.`, 'utf8', () => {
+                    console.log(`[${result.length}] recipes matched the request.`);
                 })
             return result;
         }
