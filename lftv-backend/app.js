@@ -319,6 +319,9 @@ app.get('/getfunfacts', jsonParser, (req, res) => {
 app.get('/getfunfactbyid/:id', jsonParser, (req, res) => {
     funFactAPI.getFunFactByID(db, req, res);
 });
+app.get('/getrandomfact', jsonParser, (req, res) => {
+    funFactAPI.getRandomFact(db, req, res);
+});
 app.post('/addfunfact', jsonParser, (req, res) => {
     funFactAPI.addFunFact(db, req, res);
 });

@@ -84,11 +84,34 @@ const getFunFactByID = async (db, req, res, nestedRes = false) => {
     }
 };
 
+// Get random fact
+const getRandomFact = async (db, req, res, nestedRes = false) => {
+    const facts = await getAllFunFacts(db, req, res, true);
+    const index = Math.floor(Math.random() * facts.length);
+    const result = facts[index];
+
+        if (nestedRes) {
+            res.write(
+                `Fun fact with id = ${result.id} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched with id = ${result.id} fun fact.`);
+                })
+        }
+        else {
+            res.end(
+                `\nFun fact with id = ${result.id} fetched successfully.`, 'utf8', () => {
+                    console.log(`Fetched with id = ${result.id} fun fact.`);
+                }
+            );
+        }
+    return result
+}
+
 //#endregion
 
 module.exports = {
     addFunFact,
     removeFunFactByID,
     getAllFunFacts,
-    getFunFactByID
+    getFunFactByID,
+    getRandomFact
 }
