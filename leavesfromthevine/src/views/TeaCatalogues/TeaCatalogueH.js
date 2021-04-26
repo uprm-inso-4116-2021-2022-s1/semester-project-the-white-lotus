@@ -155,7 +155,6 @@ function TeaCatalogueH() {
                     </Container>
                 </div>
             </div>
-            <DemoFooter/>
         </>
     );
 }

@@ -22,7 +22,6 @@ import React from "react";
 import {Container, DropdownItem, DropdownMenu, DropdownToggle, Table, UncontrolledDropdown} from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import DemoFooter from "../../components/Footers/DemoFooter";
 import TeaModal from "../../components/Page/TeaModal";
 
 function PageHeader() {
@@ -155,7 +154,6 @@ function TeaCatalogueW() {
                     </Container>
                 </div>
             </div>
-            <DemoFooter/>
         </>
     );
 }

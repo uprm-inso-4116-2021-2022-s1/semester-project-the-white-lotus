@@ -155,7 +155,6 @@ function TeaCatalogueY() {
                     </Container>
                 </div>
             </div>
-            <DemoFooter/>
         </>
     );
 }

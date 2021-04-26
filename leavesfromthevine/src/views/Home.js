@@ -73,7 +73,6 @@ function Home() {
         <SectionLogin />
         <SectionExamples />
         <SectionDownload />*/}
-        <DemoFooter />
       </div>
     </>
   );
