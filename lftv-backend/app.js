@@ -181,6 +181,9 @@ app.get('/getteabyid/:id', jsonParser, (req, res) => {
 app.get('/getteabyname/:name', jsonParser, (req, res) => {
     teaAPI.getTeaByName(db, req, res);
 });
+app.get('/getteabyfilter', jsonParser, (req, res) => {
+    teaAPI.getTeaByFilter(db, req, res);
+});
 //12 requests
 //#endregion
 

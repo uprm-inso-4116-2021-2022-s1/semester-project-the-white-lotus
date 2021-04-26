@@ -249,6 +249,35 @@ const getTeaByName =  async (db, req, res, nestedRes = false) => {
         res.send(err);
     }
 };
+
+// Get tea by filter
+const getTeaByFilter = async (db, req, res, nestedRes = false) => {
+    const type = req.body.type === undefined? null : `'${req.body.type}'`;
+    const name = req.body.name === undefined? null : `'${req.body.name}'`;
+    let sql = `select * 
+                from teas
+                where teas.type = coalesce(${type}, teas.type) 
+                    and teas.name = coalesce(${name}, teas.name)`;
+    try {
+        const result = await db.query(sql);
+        if (nestedRes){
+            res.write(
+                `[${result.rowCount}] teas matched the request.`, 'utf8', () => {
+                    console.log(`[${result.rowCount}] teas matched the request.`);
+                })
+            return result;
+        }
+        else{
+            res.send({
+                message: `[${result.rowCount}] teas matched the request.`,
+                result
+            })
+        }
+    } catch (err) {
+        res.send(err);
+    }
+
+};
 //#endregion
 
 module.exports = {
@@ -263,5 +292,6 @@ module.exports = {
     getAllTeas,
     getTeasByType,
     getTeaByID,
-    getTeaByName
+    getTeaByName,
+    getTeaByFilter
 }
