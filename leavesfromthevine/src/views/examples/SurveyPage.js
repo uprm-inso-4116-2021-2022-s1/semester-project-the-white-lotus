@@ -132,7 +132,6 @@ function ProfilePage() {
           </Card>
         </Container>
       </div>
-      <DemoFooter />
     </>
   );
 }

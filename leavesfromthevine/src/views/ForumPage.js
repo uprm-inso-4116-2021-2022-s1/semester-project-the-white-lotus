@@ -83,7 +83,6 @@ function ForumPage() {
           </Card>
         </Container>
       </div>
-      <DemoFooter />
     </>
   );
 }
