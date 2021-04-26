@@ -156,7 +156,7 @@ const editDescByName = (db, req, res) => {
 
 //#region Get tea
 const getAllTeas = async (db, req, res, nestedRes= false) => {
-    let sql = `SELECT * FROM teas`;
+    let sql = `SELECT * FROM teas where id != 23`;
     try {
         const teas = await db.query(sql);
         if (nestedRes){

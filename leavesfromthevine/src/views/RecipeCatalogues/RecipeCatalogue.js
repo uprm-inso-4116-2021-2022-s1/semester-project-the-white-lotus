@@ -140,9 +140,9 @@ function RecipeCatalogue() {
                                         <CardTitle>{properties.title}</CardTitle>
                                         <CardSubtitle>{properties.teaname}</CardSubtitle>
                                         <CardText>
-                                            <p>Note: {properties.note}</p>
+                                            <p>Note: {properties.note + ""}</p>
                                             <p>Yield: {properties.yield}</p>
-                                            <p>Ingredients:{properties.ingredients}</p>
+                                            <p>Ingredients: {properties.ingredients + ""}</p>
                                             <p>Procedure: {properties.procedure}</p>
                                             <p>Difficulty: {properties.difficulty}</p>
                                         </CardText>
