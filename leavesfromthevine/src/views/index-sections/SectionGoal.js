@@ -84,12 +84,13 @@ function SectionGoal() {
                     <i className="nc-icon nc-sun-fog-29" />
                   </div>
                   <div className="description">
-                    <h4 className="info-title">LFTV Forum</h4>
+                    <h4 className="info-title">Fun Facts</h4>
                     <p>
-                      Communicate, meet, share recepies and much more 
-                      with other LFTV users at our Forum.
+                      See and recive many fun facts about tea while
+                      you can browse for recipes and different types of
+                      tea.
                     </p>
-                    <Button className="btn-link" color="info" href="/forum-page">
+                    <Button className="btn-link" color="info" href="/fun-facts">
                       See more
                     </Button>
                   </div>

@@ -19,11 +19,11 @@
 import React from "react";
 
 // reactstrap components
-import {Container, Table} from 'reactstrap';
+import {Container, DropdownItem, DropdownMenu, DropdownToggle, Table, UncontrolledDropdown} from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import DemoFooter from "../components/Footers/DemoFooter";
-import TeaModal from "../components/Page/TeaModal";
+import DemoFooter from "../../components/Footers/DemoFooter";
+import TeaModal from "../../components/Page/TeaModal";
 
 function PageHeader() {
     let pageHeader = React.createRef();
@@ -83,6 +83,48 @@ function TeaCatalogue() {
             <ExamplesNavbar/>
             <PageHeader/>
             <div className="main">
+                <Container>
+                    <h3>Filters:</h3>
+                    <p></p>
+                    <UncontrolledDropdown>
+                        <DropdownToggle
+                            aria-expanded={false}
+                            aria-haspopup={true}
+                            caret
+                            color="success"
+                            data-toggle="dropdown"
+                            href="#pablo"
+                            id="dropdownMenuLink"
+                            onClick={e => e.preventDefault()}
+                            role="button"
+                        >
+                            Types of Tea
+                        </DropdownToggle>
+                        <DropdownMenu aria-labelledby="dropdownMenuLink">
+                            <DropdownItem href="/tea-catalogue">
+                                All Types
+                            </DropdownItem>
+                            <DropdownItem href="/green-tea-catalogue">
+                                Green Tea
+                            </DropdownItem>
+                            <DropdownItem href="/yellow-tea-catalogue">
+                                Yellow Tea
+                            </DropdownItem>
+                            <DropdownItem href="/black-tea-catalogue">
+                                Black Tea
+                            </DropdownItem>
+                            <DropdownItem href="/white-tea-catalogue">
+                                White Tea
+                            </DropdownItem>
+                            <DropdownItem href="/oolong-tea-catalogue">
+                                Oolong Tea
+                            </DropdownItem>
+                            <DropdownItem href="/herbal-tea-catalogue">
+                                Herbal Tea
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                </Container>
                 <div className="section text-center">
                     <Container>
                         <Table>

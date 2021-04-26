@@ -20,10 +20,18 @@ import React from "react";
 
 // reactstrap components
 import {Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle} from 'reactstrap';
+import {
+    Button,
+    ButtonGroup,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+    UncontrolledDropdown
+} from "reactstrap";
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import DemoFooter from "../components/Footers/DemoFooter";
-import AddPopover from "../components/Page/AddPopover";
+import DemoFooter from "../../components/Footers/DemoFooter";
+import AddPopover from "../../components/Page/AddPopover";
 
 function PageHeader() {
     let pageHeader = React.createRef();
@@ -78,12 +86,44 @@ function RecipeCatalogue() {
             document.body.classList.remove("recipe-page");
         };
     });
-
     return (
         <>
             <ExamplesNavbar/>
             <PageHeader/>
             <div className="main">
+                <Container>
+                    <h3>Filters:</h3>
+                    <p></p>
+                    <UncontrolledDropdown>
+                        <DropdownToggle
+                            aria-expanded={false}
+                            aria-haspopup={true}
+                            caret
+                            color="success"
+                            data-toggle="dropdown"
+                            href="#pablo"
+                            id="dropdownMenuLink"
+                            onClick={e => e.preventDefault()}
+                            role="button"
+                        >
+                            Difficulties
+                        </DropdownToggle>
+                        <DropdownMenu aria-labelledby="dropdownMenuLink">
+                            <DropdownItem href="/recipe-catalogue">
+                                All Recipes
+                            </DropdownItem>
+                            <DropdownItem href="/e-recipe-catalogue">
+                                Easy
+                            </DropdownItem>
+                            <DropdownItem href="/m-recipe-catalogue">
+                                Medium
+                            </DropdownItem>
+                            <DropdownItem href="/h-recipe-catalogue">
+                                Hard
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                </Container>
                 <div className="section text-center">
                     <Container>
                         <div align="right">
@@ -100,6 +140,7 @@ function RecipeCatalogue() {
                                         <CardTitle>{properties.title}</CardTitle>
                                         <CardSubtitle>{properties.teaname}</CardSubtitle>
                                         <CardText>
+                                            <p>Note: {properties.note}</p>
                                             <p>Yield: {properties.yield}</p>
                                             <p>Ingredients:{properties.ingredients}</p>
                                             <p>Procedure: {properties.procedure}</p>

@@ -31,10 +31,19 @@ import InfoPage from "views/examples/InfoPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import SurveyPage from "views/examples/SurveyPage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
-import RecipeCatalogue from "./views/RecipeCatalogue";
-import TeaCatalogue from "./views/TeaCatalogue";
+import RecipeCatalogue from "./views/RecipeCatalogues/RecipeCatalogue";
+import TeaCatalogue from "./views/TeaCatalogues/TeaCatalogue";
 import ForumPage from "./views/ForumPage";
 import FunFacts from "./views/FunFacts";
+import GreenCatalogue from "./views/TeaCatalogues/TeaCatalogueG";
+import YellowCatalogue from "./views/TeaCatalogues/TeaCatalogueY";
+import WhiteCatalogue from "./views/TeaCatalogues/TeaCatalogueW";
+import BlackCatalogue from "./views/TeaCatalogues/TeaCatalogueB";
+import OolongCatalogue from "./views/TeaCatalogues/TeaCatalogueO";
+import HerbalCatalogue from "./views/TeaCatalogues/TeaCatalogueH";
+import EasyRecipe from "./views/RecipeCatalogues/RecipeCatalogueE";
+import MediumRecipe from "./views/RecipeCatalogues/RecipeCatalogueM";
+import HardRecipe from "./views/RecipeCatalogues/RecipeCatalogueH";
 // others
 
 ReactDOM.render(
@@ -76,6 +85,42 @@ ReactDOM.render(
             <Route
                 path="/fun-facts"
                 render={(props) => <FunFacts {...props} />}
+            />
+            <Route
+                path="/green-tea-catalogue"
+                render={(props) => <GreenCatalogue {...props} />}
+            />
+            <Route
+                path="/yellow-tea-catalogue"
+                render={(props) => <YellowCatalogue {...props} />}
+            />
+            <Route
+                path="/white-tea-catalogue"
+                render={(props) => <WhiteCatalogue {...props} />}
+            />
+            <Route
+                path="/black-tea-catalogue"
+                render={(props) => <BlackCatalogue {...props} />}
+            />
+            <Route
+                path="/oolong-tea-catalogue"
+                render={(props) => <OolongCatalogue {...props} />}
+            />
+            <Route
+                path="/herbal-tea-catalogue"
+                render={(props) => <HerbalCatalogue {...props} />}
+            />
+            <Route
+                path="/e-recipe-catalogue"
+                render={(props) => <EasyRecipe {...props} />}
+            />
+            <Route
+                path="/m-recipe-catalogue"
+                render={(props) => <MediumRecipe {...props} />}
+            />
+            <Route
+                path="/h-recipe-catalogue"
+                render={(props) => <HardRecipe {...props} />}
             />
             <Redirect to="/home"/>
 

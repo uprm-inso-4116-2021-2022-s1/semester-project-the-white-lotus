@@ -218,14 +218,6 @@ function IndexNavbar() {
               </NavLink>
             </NavItem> */}
 
-            <NavItem>
-              <NavLink
-                href="/profile-page"
-              >
-              Profile
-              </NavLink>
-            </NavItem>
-
             {/* JUST FOR TESTING PURPOSES */}
             <NavItem>
               <NavLink

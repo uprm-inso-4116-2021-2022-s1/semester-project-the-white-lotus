@@ -329,7 +329,7 @@ const getRecipeByFilter = async (db, req, res, nestedRes = false) => {
         let result = [];
         recipeCandidates.forEach(recipe => {
                 let mappedIngredients = recipe.ingredients.map(ing => ing[0]).flat();
-                if (ingredients === null || ingredients?.every(i => mappedIngredients.includes(i))) {
+                if (ingredients === null || ingredients.every(i => mappedIngredients.includes(i))) {
                     if (notes === null || notes.every(n => recipe.note.includes(n))) {
                         result.push(recipe);
                     }

@@ -67,6 +67,10 @@ function PageHeader() {
 
 
 function FunFacts() {
+    let [facts, setFacts] = React.useState([])
+    fetch('http://localhost:5432/getfunfacts')
+        .then((response) => response.json())
+        .then((tests) => setFacts(tests.FunFacts.rows))
     document.documentElement.classList.remove("nav-open");
     React.useEffect(() => {
         document.body.classList.add("fun-facts");
@@ -81,11 +85,11 @@ function FunFacts() {
             <div className="main">
                 <div className="section text-center">
                     <Row className="mr-0 ml-0">
-                        {funfacts.single_fact.map((facts) =>
+                        {facts.map((facts) =>
                         <Col>
-                            <Card style={{width: '30rm'}}>
+                            <Card style={{width: '30rem'}}>
                                 <CardBody>
-                                    <CardText>{facts.fact}</CardText>
+                                    <CardText>{facts.funfact}</CardText>
                                 </CardBody>
                             </Card>
                         </Col>)}
