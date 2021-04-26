@@ -13,6 +13,7 @@ const noteAPI = require("./API/notes.api");
 const tasteAPI = require("./API/tastes.api");
 const flavorBridgeAPI = require("./API/flavorBridge.api");
 const materialBridgeAPI = require("./API/materialBridge.api");
+const funFactAPI = require("./API/funfact.api");
 
 // Create connection
 const db = new Client({
@@ -207,6 +208,9 @@ app.get('/getfullrecipes', jsonParser, (req, res) => {
 app.get('/getfullrecipebyid/:id', jsonParser, (req, res) => {
     recipeAPI.getFullRecipeByID(db, req, res);
 });
+app.get('/getRecipeByFilter', jsonParser, (req, res) => {
+    recipeAPI.getRecipeByFilter(db, req, res);
+});
 // 6 requests
 //#endregion
 
@@ -308,6 +312,22 @@ app.delete('/removematerialentitybyid/:id', jsonParser, (req, res) => {
 //5 requests
 //#endregion
 
+//#region FunFact API
+app.get('/getfunfacts', jsonParser, (req, res) => {
+    funFactAPI.getAllFunFacts(db, req, res);
+});
+app.get('/getfunfactbyid/:id', jsonParser, (req, res) => {
+    funFactAPI.getFunFactByID(db, req, res);
+});
+app.get('/getrandomfact', jsonParser, (req, res) => {
+    funFactAPI.getRandomFact(db, req, res);
+});
+app.post('/addfunfact', jsonParser, (req, res) => {
+    funFactAPI.addFunFact(db, req, res);
+});
+app.delete('/removefunfact/:id', jsonParser, (req, res) => {
+    funFactAPI.removeFunFactByID(db, req, res);
+});
 
 //#region ... API
 //#endregion
