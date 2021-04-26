@@ -55,7 +55,9 @@ function SurveyPageHeader() {
         <div className="content-center">
           <Container>
             <div className="title-brand">
-              <h1 className="presentation-title">Tea Survey</h1>
+              <div className="motto text-center">
+                <h1>Tea Survey</h1>
+              </div>
             </div>
           </Container>
         </div>

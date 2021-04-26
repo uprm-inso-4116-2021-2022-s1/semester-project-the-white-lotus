@@ -8,7 +8,7 @@ export default function LoginModal() {
     <>
       <Button
         className="btn-round"
-        color="primary"
+        color="success"
         type="button"
         onClick={() => setLoginModal(true)}
       >
@@ -42,14 +42,14 @@ export default function LoginModal() {
             <label>Password</label>
             <Input defaultValue="" placeholder="Password" type="password" />
           </FormGroup>
-          <Button block className="btn-round" color="primary">
+          <Button block className="btn-round" color="success">
             Log in
           </Button>
         </div>
         <div className="modal-footer no-border-footer">
           <span className="text-muted text-center">
             Looking{" "}
-            <a href="/register-page" 
+            <a href="/register-page"
             to="/home"
             target="_blank">
               create an account

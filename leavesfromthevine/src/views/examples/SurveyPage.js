@@ -119,7 +119,7 @@ function ProfilePage() {
               <Col className="ml-auto mr-auto" md="1">
                 <Button
                   className="btn-round mr-1"
-                  color="primary"
+                  color="success"
                   href="/landing-page"
                 >
                   Submit

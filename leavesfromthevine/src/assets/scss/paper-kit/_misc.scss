@@ -6,10 +6,10 @@ body{
     font-family: 'Montserrat', "Helvetica", Arial, sans-serif;
 }
 a{
-  color: $info-color;
+  color: $success-color;
 
   &:hover, &:focus{
-     color: $info-states-color;
+     color: $success-states-color;
      text-decoration: none;
   }
 

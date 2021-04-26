@@ -34,19 +34,22 @@ import {
 
 const items = [
   {
-    src: require("assets/img/soroush-karimi.jpg"),
-    altText: "Recipe 1",
-    caption: "Recipe 1",
+    src: require("assets/img/blue_cup.jpg"),
+    altText: "Tip #1",
+    captionHeader: "Tip #1",
+    caption: "Complement tea with your favorite pastry for a better experience",
   },
   {
-    src: require("assets/img/federico-beccari.jpg"),
+    src: require("assets/img/japanese_tea.jpg"),
     altText: "Recipe 2",
-    caption: "Recipe 2",
+    captionHeader: "Tip #2",
+    caption: "Don't worry about the color. Tea might surprise you!",
   },
   {
-    src: require("assets/img/joshua-stannard.jpg"),
+    src: require("assets/img/teapot.jpg"),
     altText: "Recipe 3",
-    caption: "Recipe 3",
+    captionHeader: "Tip #3",
+    caption: "Tea parties are not just for kids. It's a fun and healthy activity for all ages!",
   },
 ];
 
@@ -100,7 +103,7 @@ function SectionCarousel() {
                         <img src={item.src} alt={item.altText} />
                         <CarouselCaption
                           captionText={item.caption}
-                          captionHeader=""
+                          captionHeader= {item.captionHeader}
                         />
                       </CarouselItem>
                     );

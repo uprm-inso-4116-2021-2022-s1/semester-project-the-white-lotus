@@ -153,7 +153,6 @@ function RecipeCatalogue() {
                     </Container>
                 </div>
             </div>
-            <DemoFooter/>
         </>
     );
 }

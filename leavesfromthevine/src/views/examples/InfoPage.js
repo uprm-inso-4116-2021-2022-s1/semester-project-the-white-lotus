@@ -224,8 +224,8 @@ function InfoPage() {
             <Row>
               <Col md="3">
                 <div className="info">
-                  <div className="icon icon-info">
-                    <i className="nc-icon nc-album-2" />
+                  <div className="icon icon-success">
+                    <i className="nc-icon nc-time-alarm" />
                   </div>
                   <div className="description">
                     <h4 className="info-title">Energy</h4>
@@ -242,8 +242,8 @@ function InfoPage() {
               </Col>
               <Col md="3">
                 <div className="info">
-                  <div className="icon icon-info">
-                    <i className="nc-icon nc-bulb-63" />
+                  <div className="icon icon-success">
+                    <i className="nc-icon nc-user-run" />
                   </div>
                   <div className="description">
                     <h4 className="info-title">Weight Loss</h4>
@@ -258,8 +258,8 @@ function InfoPage() {
               </Col>
               <Col md="3">
                 <div className="info">
-                  <div className="icon icon-info">
-                    <i className="nc-icon nc-chart-bar-32" />
+                  <div className="icon icon-success">
+                    <i className="nc-icon nc-satisfied" />
                   </div>
                   <div className="description">
                     <h4 className="info-title">Digestion and Immune Health</h4>
@@ -275,8 +275,8 @@ function InfoPage() {
               </Col>
               <Col md="3">
                 <div className="info">
-                  <div className="icon icon-info">
-                    <i className="nc-icon nc-chart-bar-32" />
+                  <div className="icon icon-success">
+                    <i className="nc-icon nc-favourite-28" />
                   </div>
                   <div className="description">
                     <h4 className="info-title">Heart Health</h4>
@@ -320,45 +320,20 @@ function InfoPage() {
             <Row>
               <Col className="ml-auto mr-auto" md="8">
                 <h2 className="text-center"> Questions? </h2>
-                <Form className="contact-form">
-                  <Row>
-                    <Col md="6">
-                      <label>Name</label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="nc-icon nc-single-02" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input placeholder="Name" type="text" />
-                      </InputGroup>
-                    </Col>
-                    <Col md="6">
-                      <label>Email</label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="nc-icon nc-email-85" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input placeholder="Email" type="text" />
-                      </InputGroup>
-                    </Col>
-                  </Row>
-                  <label>Message</label>
-                  <Input
-                    placeholder="Tell us your thoughts and feelings..."
-                    type="textarea"
-                    rows="4"
-                  />
-                  <Row>
-                    <Col className="ml-auto mr-auto" md="4">
-                      <Button className="btn-fill" color="danger" size="lg">
-                        Send Message
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form>
+                <h5 class = "text-center">
+                  <br/>
+                  <a href="mailto:alondra.pereira@upr.com">Alondra Pereira</a>
+                  <br/>
+                  <a href="mailto:maria.muñoz10@upr.com">M. Alejandra Muñoz</a>
+                  <br/>
+                  <a href="mailto:diego.paris@upr.com">Diego París</a>
+                  <br/>
+                  <a href="mailto:fher.rodriguez@upr.com">Fher Rodríguez</a>
+                  <br/>
+                  <a href="mailto:jomar.santos@upr.com">Jomar Santos</a>
+                  <br/>
+                  <a href="mailto:hector.miranda8@upr.com">Héctor Miranda</a>
+                </h5>
               </Col>
             </Row>
           </Container>
