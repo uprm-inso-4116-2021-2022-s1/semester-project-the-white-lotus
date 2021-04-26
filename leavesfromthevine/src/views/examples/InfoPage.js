@@ -38,7 +38,6 @@ import {
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import LandingPageHeader from "components/Headers/LandingPageHeader.js";
-import DemoFooter from "components/Footers/DemoFooter.js";
 
 function InfoPage() {
   document.documentElement.classList.remove("nav-open");
@@ -53,27 +52,176 @@ function InfoPage() {
       <ExamplesNavbar />
       <LandingPageHeader />
       <div className="main">
-        <div className="section text-center">
+        <div className="section text-center ">
           <Container>
             <Row>
               <Col className="ml-auto mr-auto" md="8">
-                <h2 className="title">Let's talk product</h2>
+                <h2 className="title">Types</h2>
                 <h5 className="description">
-                  This is the paragraph where you can write more details about
-                  your product. Keep you user engaged by providing meaningful
-                  information. Remember that by this time, the user is curious,
-                  otherwise he wouldn't scroll to get here. Add a button if you
-                  want the user to see more.
+                  Some types of tea are White, Yellow, Green, Oolong, Black and Dark (post-fermented).
+                  Even though the come from the same plant, they are produced differently and their identity corresponds
+                  to the wiltedness and oxygenation of their leaves. Tea that is not made from Camellia sinensis leaves is called
+                  herbal tea, which uses infusions of fruit and other parts of a plant. Some people believe herbal tea is not really
+                  tea, while others take it to be another type of this fascinating beverage.
                 </h5>
                 <br />
-                <Button
-                  className="btn-round"
-                  color="info"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  See Details
-                </Button>
+              </Col>
+            </Row>
+            <br />
+            <br />
+            <Row>
+              <Col md="4">
+                <Card className="card-profile card-plain">
+                  <div className="card-avatar">
+                    <a>
+                      <img
+                          alt="..."
+                          src={require("assets/img/faces/clem-onojeghuo-3.jpg")}
+                      />
+                    </a>
+                  </div>
+                  <CardBody>
+                    <a>
+                      <div className="author">
+                        <CardTitle tag="h4">White</CardTitle>
+                        <h6 className="card-category">Subtitle</h6>
+                      </div>
+                    </a>
+                    <p className="card-description text-center">
+                      Description
+                    </p>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card className="card-profile card-plain">
+                  <div className="card-avatar">
+                    <a>
+                      <img
+                          alt="..."
+                          src={require("assets/img/faces/joe-gardner-2.jpg")}
+                      />
+                    </a>
+                  </div>
+                  <CardBody>
+                    <a>
+                      <div className="author">
+                        <CardTitle tag="h4">Yellow</CardTitle>
+                        <h6 className="card-category">Subtitle</h6>
+                      </div>
+                    </a>
+                    <p className="card-description text-center">
+                      Description
+                    </p>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card className="card-profile card-plain">
+                  <div className="card-avatar">
+                    <a>
+                      <img
+                          alt="..."
+                          src={require("assets/img/faces/erik-lucatero-2.jpg")}
+                      />
+                    </a>
+                  </div>
+                  <CardBody>
+                    <a>
+                      <div className="author">
+                        <CardTitle tag="h4">Green</CardTitle>
+                        <h6 className="card-category">Sub</h6>
+                      </div>
+                    </a>
+                    <p className="card-description text-center">
+                      Desc
+                    </p>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card className="card-profile card-plain">
+                  <div className="card-avatar">
+                    <a>
+                      <img
+                          alt="..."
+                          src={require("assets/img/faces/clem-onojeghuo-3.jpg")}
+                      />
+                    </a>
+                  </div>
+                  <CardBody>
+                    <a>
+                      <div className="author">
+                        <CardTitle tag="h4">Oolong</CardTitle>
+                        <h6 className="card-category">Subtitle</h6>
+                      </div>
+                    </a>
+                    <p className="card-description text-center">
+                      Description
+                    </p>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card className="card-profile card-plain">
+                  <div className="card-avatar">
+                    <a>
+                      <img
+                          alt="..."
+                          src={require("assets/img/faces/clem-onojeghuo-3.jpg")}
+                      />
+                    </a>
+                  </div>
+                  <CardBody>
+                    <a>
+                      <div className="author">
+                        <CardTitle tag="h4">Black</CardTitle>
+                        <h6 className="card-category">Subtitle</h6>
+                      </div>
+                    </a>
+                    <p className="card-description text-center">
+                      Description
+                    </p>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card className="card-profile card-plain">
+                  <div className="card-avatar">
+                    <a>
+                      <img
+                          alt="..."
+                          src={require("assets/img/faces/clem-onojeghuo-3.jpg")}
+                      />
+                    </a>
+                  </div>
+                  <CardBody>
+                    <a>
+                      <div className="author">
+                        <CardTitle tag="h4">Dark</CardTitle>
+                        <h6 className="card-category">Subtitle</h6>
+                      </div>
+                    </a>
+                    <p className="card-description text-center">
+                      Description
+                    </p>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+        <div className="section section-dark text-center">
+          <Container>
+            <Row>
+              <Col className="ml-auto mr-auto" md="8">
+                <h2 className="title">Benefits</h2>
+                <h5 className="description">
+                  Consuming tea has proven medical benefits including, but is not limited to,
+                  energy, weight loss, immune and digestive system enhancement and reduction of
+                  heart attack risk.
+                </h5>
+                <br />
               </Col>
             </Row>
             <br />
@@ -85,14 +233,11 @@ function InfoPage() {
                     <i className="nc-icon nc-album-2" />
                   </div>
                   <div className="description">
-                    <h4 className="info-title">Beautiful Gallery</h4>
+                    <h4 className="info-title">Energy</h4>
                     <p className="description">
                       Spend your time generating new ideas. You don't have to
                       think of implementing.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
-                      See more
-                    </Button>
                   </div>
                 </div>
               </Col>
@@ -102,14 +247,11 @@ function InfoPage() {
                     <i className="nc-icon nc-bulb-63" />
                   </div>
                   <div className="description">
-                    <h4 className="info-title">New Ideas</h4>
+                    <h4 className="info-title">Weight Loss</h4>
                     <p>
                       Larger, yet dramatically thinner. More powerful, but
                       remarkably power efficient.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
-                      See more
-                    </Button>
                   </div>
                 </div>
               </Col>
@@ -119,204 +261,52 @@ function InfoPage() {
                     <i className="nc-icon nc-chart-bar-32" />
                   </div>
                   <div className="description">
-                    <h4 className="info-title">Statistics</h4>
+                    <h4 className="info-title">Immune and Digestive System</h4>
                     <p>
                       Choose from a veriety of many colors resembling sugar
                       paper pastels.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
-                      See more
-                    </Button>
                   </div>
                 </div>
               </Col>
               <Col md="3">
                 <div className="info">
                   <div className="icon icon-info">
-                    <i className="nc-icon nc-sun-fog-29" />
+                    <i className="nc-icon nc-chart-bar-32" />
                   </div>
                   <div className="description">
-                    <h4 className="info-title">Delightful design</h4>
+                    <h4 className="info-title">Heart Attack</h4>
                     <p>
-                      Find unique and handmade delightful designs related items
-                      directly from our sellers.
+                      Choose from a veriety of many colors resembling sugar
+                      paper pastels.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
-                      See more
-                    </Button>
                   </div>
                 </div>
               </Col>
             </Row>
           </Container>
         </div>
-        <div className="section section-dark text-center">
+        <div className="section text-center">
           <Container>
-            <h2 className="title">Let's talk about us</h2>
             <Row>
-              <Col md="4">
-                <Card className="card-profile card-plain">
-                  <div className="card-avatar">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/faces/clem-onojeghuo-3.jpg")}
-                      />
-                    </a>
-                  </div>
-                  <CardBody>
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <div className="author">
-                        <CardTitle tag="h4">Henry Ford</CardTitle>
-                        <h6 className="card-category">Product Manager</h6>
-                      </div>
-                    </a>
-                    <p className="card-description text-center">
-                      Teamwork is so important that it is virtually impossible
-                      for you to reach the heights of your capabilities or make
-                      the money that you want without becoming very good at it.
-                    </p>
-                  </CardBody>
-                  <CardFooter className="text-center">
-                    <Button
-                      className="btn-just-icon btn-neutral"
-                      color="link"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fa fa-twitter" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fa fa-google-plus" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fa fa-linkedin" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Col>
-              <Col md="4">
-                <Card className="card-profile card-plain">
-                  <div className="card-avatar">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/faces/joe-gardner-2.jpg")}
-                      />
-                    </a>
-                  </div>
-                  <CardBody>
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <div className="author">
-                        <CardTitle tag="h4">Sophie West</CardTitle>
-                        <h6 className="card-category">Designer</h6>
-                      </div>
-                    </a>
-                    <p className="card-description text-center">
-                      A group becomes a team when each member is sure enough of
-                      himself and his contribution to praise the skill of the
-                      others. No one can whistle a symphony. It takes an
-                      orchestra to play it.
-                    </p>
-                  </CardBody>
-                  <CardFooter className="text-center">
-                    <Button
-                      className="btn-just-icon btn-neutral"
-                      color="link"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fa fa-twitter" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fa fa-google-plus" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fa fa-linkedin" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Col>
-              <Col md="4">
-                <Card className="card-profile card-plain">
-                  <div className="card-avatar">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/faces/erik-lucatero-2.jpg")}
-                      />
-                    </a>
-                  </div>
-                  <CardBody>
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <div className="author">
-                        <CardTitle tag="h4">Robert Orben</CardTitle>
-                        <h6 className="card-category">Developer</h6>
-                      </div>
-                    </a>
-                    <p className="card-description text-center">
-                      The strength of the team is each individual member. The
-                      strength of each member is the team. If you can laugh
-                      together, you can work together, silence isn’t golden,
-                      it’s deadly.
-                    </p>
-                  </CardBody>
-                  <CardFooter className="text-center">
-                    <Button
-                      className="btn-just-icon btn-neutral"
-                      color="link"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fa fa-twitter" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fa fa-google-plus" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <i className="fa fa-linkedin" />
-                    </Button>
-                  </CardFooter>
-                </Card>
+              <Col className="ml-auto mr-auto" md="8">
+                <h2 className="title">Market</h2>
+                <h5 className="description">
+                  Currently, tea is the most popular manufactured drink and the secondmost consumed beverage,
+                  second only to water. The market size value in 2020 forthe tea industry was 14.02 billion
+                  of dollars and is expected to grow 5.5% from 2019to 2025.
+                </h5>
+                <br />
               </Col>
             </Row>
+            <br />
           </Container>
         </div>
         <div className="section landing-section">
           <Container>
             <Row>
               <Col className="ml-auto mr-auto" md="8">
-                <h2 className="text-center">Keep in touch?</h2>
+                <h2 className="text-center"> Questions? </h2>
                 <Form className="contact-form">
                   <Row>
                     <Col md="6">
@@ -361,7 +351,6 @@ function InfoPage() {
           </Container>
         </div>
       </div>
-      <DemoFooter />
     </>
   );
 }

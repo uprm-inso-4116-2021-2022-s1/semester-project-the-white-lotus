@@ -22,7 +22,6 @@ import React from "react";
 import {Container, Col, Row, Card, CardBody,CardText} from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import DemoFooter from "../components/Footers/DemoFooter";
 import funfacts from '../dummy data/funfact.json'
 
 function PageHeader() {
@@ -92,7 +91,6 @@ function FunFacts() {
                     </Row>
                 </div>
             </div>
-            <DemoFooter/>
         </>
     );
 }

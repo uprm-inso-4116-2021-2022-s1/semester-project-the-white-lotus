@@ -19,7 +19,7 @@
 import React from "react";
 
 // reactstrap components
-import { Button, Container } from "reactstrap";
+import { Container } from "reactstrap";
 
 // core components
 
@@ -45,33 +45,36 @@ function LandingPageHeader() {
       <div
         style={{
           backgroundImage:
-            "url(" + require("assets/img/daniel-olahh.jpg") + ")",
+            "url(" + require("assets/img/fog2.jpg") + ")",
         }}
         className="page-header"
         data-parallax={true}
         ref={pageHeader}
       >
         <div className="filter" />
-        <Container>
-          <div className="motto text-center">
-            <h1>Example page</h1>
-            <h3>Start designing your landing page here.</h3>
-            <br />
-            <Button
-              href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-              className="btn-round mr-1"
-              color="neutral"
-              target="_blank"
-              outline
-            >
-              <i className="fa fa-play" />
-              Watch video
-            </Button>
-            <Button className="btn-round" color="neutral" type="button" outline>
-              Download
-            </Button>
-          </div>
-        </Container>
+        <div className="content-center">
+          <Container>
+            <div className="title-brand">
+              <div className="motto text-center">
+                <h1>Tea</h1>
+                <h3>Def. Tea is an aromatic beverage that originated in China in 59 BC (probably earlier).
+                  Most tea is made from the leaves of a plant named Camellia sinensis.</h3>
+              </div>
+              <div className="fog-low">
+                <img alt="..." src={require("assets/img/fog-low.png")} />
+              </div>
+              <div className="fog-low right">
+                <img alt="..." src={require("assets/img/fog-low.png")} />
+              </div>
+            </div>
+          </Container>
+        </div>
+        <div
+            className="moving-clouds"
+            style={{
+              backgroundImage: "url(" + require("assets/img/clouds.png") + ")",
+            }}
+        />
       </div>
     </>
   );

@@ -22,7 +22,6 @@ import React from "react";
 import {Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle} from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import DemoFooter from "../components/Footers/DemoFooter";
 import AddPopover from "../components/Page/AddPopover";
 
 function PageHeader() {
@@ -47,7 +46,7 @@ function PageHeader() {
             <div
                 style={{
                     backgroundImage:
-                        "url(" + require("assets/img/dpi-library.jpg") + ")",
+                        "url(" + require("assets/img/ancient-books.jpeg") + ")",
                 }}
                 className="page-header page-header-xs"
                 data-parallax={true}
@@ -112,7 +111,6 @@ function RecipeCatalogue() {
                     </Container>
                 </div>
             </div>
-            <DemoFooter/>
         </>
     );
 }

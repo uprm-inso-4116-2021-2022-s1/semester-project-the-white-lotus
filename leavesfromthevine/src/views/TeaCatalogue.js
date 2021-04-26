@@ -22,7 +22,6 @@ import React from "react";
 import {Container, Table} from 'reactstrap';
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import DemoFooter from "../components/Footers/DemoFooter";
 import TeaModal from "../components/Page/TeaModal";
 
 function PageHeader() {
@@ -47,7 +46,7 @@ function PageHeader() {
             <div
                 style={{
                     backgroundImage:
-                        "url(" + require("assets/img/tea_catalogue.jpeg") + ")",
+                        "url(" + require("assets/img/tea-mountain.jpeg") + ")",
                 }}
                 className="page-header page-header-xs"
                 data-parallax={true}
@@ -109,7 +108,6 @@ function TeaCatalogue() {
                     </Container>
                 </div>
             </div>
-            <DemoFooter/>
         </>
     );
 }
