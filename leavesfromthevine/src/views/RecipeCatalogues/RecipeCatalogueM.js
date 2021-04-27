@@ -55,7 +55,7 @@ function PageHeader() {
             <div
                 style={{
                     backgroundImage:
-                        "url(" + require("assets/img/dpi-library.jpg") + ")",
+                        "url(" + require("assets/img/tea-flowers.jpg") + ")",
                 }}
                 className="page-header page-header-xs"
                 data-parallax={true}
