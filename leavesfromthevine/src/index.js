@@ -35,6 +35,7 @@ import RecipeCatalogue from "./views/RecipeCatalogues/RecipeCatalogue";
 import TeaCatalogue from "./views/TeaCatalogues/TeaCatalogue";
 import ForumPage from "./views/ForumPage";
 import FunFacts from "./views/FunFacts";
+import SurveyResult from "./views/SurveyResult";
 import GreenCatalogue from "./views/TeaCatalogues/TeaCatalogueG";
 import YellowCatalogue from "./views/TeaCatalogues/TeaCatalogueY";
 import WhiteCatalogue from "./views/TeaCatalogues/TeaCatalogueW";
@@ -121,6 +122,10 @@ ReactDOM.render(
             <Route
                 path="/h-recipe-catalogue"
                 render={(props) => <HardRecipe {...props} />}
+            />
+            <Route
+                path="/survey-result"
+                render={(props) => <SurveyResult {...props} />}
             />
             <Redirect to="/home"/>
 

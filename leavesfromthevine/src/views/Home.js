@@ -42,6 +42,7 @@ import SectionForumPreview from "views/index-sections/SectionForumPreview.js";
 import SectionDownload from "views/index-sections/SectionDownload.js";
 import SectionTeaTypes from "views/index-sections/SectionTeaTypes.js";
 import SectionGoal from "views/index-sections/SectionGoal.js";
+import {Col, Container, Row} from "reactstrap";
 
 function Home() {
   document.documentElement.classList.remove("nav-open");
@@ -73,6 +74,30 @@ function Home() {
         <SectionLogin />
         <SectionExamples />
         <SectionDownload />*/}
+          <div className="section landing-section">
+              <Container>
+                  <Row>
+                      <Col className="ml-auto mr-auto" md="8">
+                          <h1 className="text-center"> Questions? </h1>
+                          <h3 className="text-center"> Contact our team!</h3>
+                          <h5 className="text-center">
+                              <br/>
+                              <a href="mailto:alondra.pereira@upr.com">Alondra Pereira</a>
+                              <br/>
+                              <a href="mailto:maria.muñoz10@upr.com">M. Alejandra Muñoz</a>
+                              <br/>
+                              <a href="mailto:diego.paris@upr.com">Diego París</a>
+                              <br/>
+                              <a href="mailto:fher.rodriguez@upr.com">Fher Rodríguez</a>
+                              <br/>
+                              <a href="mailto:jomar.santos@upr.com">Jomar Santos</a>
+                              <br/>
+                              <a href="mailto:hector.miranda8@upr.com">Héctor Miranda</a>
+                          </h5>
+                      </Col>
+                  </Row>
+              </Container>
+          </div>
       </div>
     </>
   );

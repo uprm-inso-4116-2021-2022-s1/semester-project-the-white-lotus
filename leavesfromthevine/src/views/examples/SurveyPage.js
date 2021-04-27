@@ -42,7 +42,6 @@ import {
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import SurveyPageHeader from "components/Headers/SurveyPageHeader.js";
-import DemoFooter from "components/Footers/DemoFooter.js";
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = React.useState("1");
@@ -52,7 +51,6 @@ function ProfilePage() {
       setActiveTab(tab);
     }
   };
-
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
     document.body.classList.add("landing-page");
@@ -123,7 +121,6 @@ function ProfilePage() {
                 <CardBody>
                   <CardTitle></CardTitle>
                   <CardSubtitle></CardSubtitle>
-
                   <legend>Difficulty</legend>
                   <FormGroup check>
                     <Label check>
@@ -149,8 +146,6 @@ function ProfilePage() {
             Hard<span className="form-check-sign" />
                     </Label>
                   </FormGroup>
-
-
                 </CardBody>
               </Col>
               <Col md="6">
@@ -485,7 +480,7 @@ function ProfilePage() {
                 <Button
                   className="btn-round mr-1"
                   color="success"
-                  href="/recipe-catalogue"
+                  href="/survey-result"
                 >
                   Submit
               </Button>
@@ -493,7 +488,6 @@ function ProfilePage() {
             </Row>
             <br />
             <br />
-
           </Card>
         </Container>
       </div>

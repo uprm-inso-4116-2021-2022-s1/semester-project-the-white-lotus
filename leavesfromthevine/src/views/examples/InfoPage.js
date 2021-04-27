@@ -315,29 +315,6 @@ function InfoPage() {
             <br />
           </Container>
         </div>
-        <div className="section landing-section">
-          <Container>
-            <Row>
-              <Col className="ml-auto mr-auto" md="8">
-                <h2 className="text-center"> Questions? </h2>
-                <h5 class = "text-center">
-                  <br/>
-                  <a href="mailto:alondra.pereira@upr.com">Alondra Pereira</a>
-                  <br/>
-                  <a href="mailto:maria.muñoz10@upr.com">M. Alejandra Muñoz</a>
-                  <br/>
-                  <a href="mailto:diego.paris@upr.com">Diego París</a>
-                  <br/>
-                  <a href="mailto:fher.rodriguez@upr.com">Fher Rodríguez</a>
-                  <br/>
-                  <a href="mailto:jomar.santos@upr.com">Jomar Santos</a>
-                  <br/>
-                  <a href="mailto:hector.miranda8@upr.com">Héctor Miranda</a>
-                </h5>
-              </Col>
-            </Row>
-          </Container>
-        </div>
       </div>
     </>
   );
