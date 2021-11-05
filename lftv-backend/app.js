@@ -22,7 +22,7 @@ const db = new Client({
     password: process.env.PGPASS,
     database: process.env.PGDB,
     port: process.env.PGPORT,
-    ssl: true,
+    ssl: false,
 });
 
 // Connect to database
@@ -361,7 +361,6 @@ app.get('/', jsonParser, (req, res) => {
     }
     res.send(response);
 });
-
 const PORT = process.env.PGPORT || 3000;
 app.listen(PORT, async () => {
     console.log(`Server started on port ${PORT}`);
