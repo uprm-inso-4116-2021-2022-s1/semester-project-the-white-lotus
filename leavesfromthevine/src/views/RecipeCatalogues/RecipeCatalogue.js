@@ -33,6 +33,7 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../../components/Footers/DemoFooter";
 import AddPopover from "../../components/Page/AddPopover";
 import IndexNavbar from "../../components/Navbars/IndexNavbar";
+import RecipeModal from "./AddRecipeModal";
 
 function PageHeader() {
     let pageHeader = React.createRef();
@@ -130,7 +131,8 @@ function RecipeCatalogue() {
                         <div align="right">
                             <Row className="mr-auto ml-auto">
                                 <Col>
-                                    <AddPopover/>
+                                    {/*<AddPopover/>*/}
+                                    <RecipeModal/>
                                 </Col>
                             </Row>
                         </div>
