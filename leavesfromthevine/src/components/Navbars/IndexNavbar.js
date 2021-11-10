@@ -208,8 +208,6 @@ function IndexNavbar() {
               Info Page
               </NavLink>
             </NavItem>
-            
-
             {/* <NavItem>
               <NavLink
                 href="/info-page"

@@ -32,12 +32,13 @@ import {
   InputGroup,
   Container,
   Row,
-  Col, CardImg,
+  Col, CardImg, CardText,
 } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import LandingPageHeader from "components/Headers/LandingPageHeader.js";
+import IndexNavbar from "../../components/Navbars/IndexNavbar";
 
 function InfoPage() {
   document.documentElement.classList.remove("nav-open");
@@ -49,7 +50,7 @@ function InfoPage() {
   });
   return (
     <>
-      <ExamplesNavbar />
+      <IndexNavbar />
       <LandingPageHeader />
       <div className="main">
         <div className="section text-center ">
@@ -295,6 +296,24 @@ function InfoPage() {
             </Row>
           </Container>
         </div>
+        <div className="section section-success text-center">
+          <Container>
+            <Row>
+              <Col className="ml-auto mr-auto" md="8">
+                <h2 className="title">Herbal tea: A special case of tea</h2>
+                <h5 className="description text-dark">
+                  With the definition of tea being a process that includes camellia leaf as one of its main ingredients,
+                  herbal tea does not follow this definition, as it is made from dried herbs, spices, flowers, fruits, seeds, roots
+                  or leaves of other plants. This kind of beverage is best described as an infusion of ingredients. However, this
+                  beverage is still referred to as tea by many people, so even though it is not considered a real type of tea
+                  by definition it is often included in tea lists by convention.
+                </h5>
+                <br />
+              </Col>
+            </Row>
+            <br />
+          </Container>
+        </div>
         <div className="section text-center">
           <Container>
             <Row>
@@ -317,21 +336,90 @@ function InfoPage() {
         </div>
         <div className="section section-dark text-center">
           <Container>
-            <Row>
-              <Col className="ml-auto mr-auto" md="8">
-                <h2 className="title">Herbal tea</h2>
-                <h3 className="text-success">A special case of tea</h3>
-                <h5 className="description">
-                  With the definition of tea being a process that includes camellia leaf as one of its main ingredients,
-                  herbal tea does not follow this definition, as it is made from dried herbs, spices, flowers, fruits, seeds, roots
-                  or leaves of other plants. This kind of beverage is best described as an infusion of ingredients. However, this
-                  beverage is still referred to as tea by many people, so even though it is not considered a real type of tea
-                  by definition it is often included in tea lists by convention.
-                </h5>
-                <br />
+            <h2 className="title">Teaware</h2>
+            <h5 className="description">
+              There is a wide variety of methods to prepare tea and it varies according to culture, convenience or simply personal preference.
+             Therefore, different equipment is needed. Teaware is basically the name used to describe all the non-edible materials used
+              in the preparation and consumption of tea. Here is a list of the most commonly used ones.
+            </h5>
+            <br/>
+            <Row className="text-center" md="6">
+              <Col md="4">
+                <Card style={{width: '20rem'}}>
+                  <CardImg top src="https://mymodernmet.com/wp/wp-content/uploads/2019/04/unique-teapots-7.jpg" alt="..." />
+                  <CardBody>
+                    <CardTitle><h2>Teapot</h2></CardTitle>
+                    <CardText>Used to steep tea leaves in hot water</CardText>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card style={{width: '20rem'}}>
+                  <CardImg top src="https://getteakettle.com/wp-content/uploads/2017/06/Electric-Tea-Kettle-Featured.jpg" alt="..." />
+                  <CardBody>
+                    <CardTitle><h2>Tea Kettle</h2></CardTitle>
+                    <CardText>Used to boil water</CardText>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card style={{width: '20rem'}}>
+                  <CardImg top src="https://c1.wallpaperflare.com/preview/119/370/398/tea-cup-vintage-tea-cup-tea-coffee.jpg" alt="..." />
+                  <CardBody>
+                    <CardTitle><h2>Teacup</h2></CardTitle>
+                    <CardText>Vessels from which to drink the hot tea, after the leaves have been strained.</CardText>
+                  </CardBody>
+                </Card>
               </Col>
             </Row>
-            <br />
+
+            <Row className="text-center" md="6">
+              <Col md="4">
+                <Card style={{width: '20rem'}}>
+                  <CardImg top src="https://assets.bonappetit.com/photos/5e5e9eb7ac090900090fd874/3:2/w_3473,h_2315,c_limit/HLI-Tea-Strainer-6x9.jpg" alt="..." />
+                  <CardBody>
+                    <CardTitle><h2>Tea strainer</h2></CardTitle>
+                    <CardText>Used to extract leaves from tea solutions</CardText>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card style={{width: '20rem'}}>
+                  <CardImg top src="https://www.letsdrinktea.com/wp-content/uploads/2019/09/Silver-tea-infusers.jpg" alt="..." />
+                  <CardBody>
+                    <CardTitle><h2>Tea ball</h2></CardTitle>
+                    <CardText>Used to hold tea leaves in water for removal after steeping</CardText>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card style={{width: '20rem' }}>
+                  <CardImg top src="https://scitechdaily.com/images/Plastic-Mesh-Tea-Bag.jpg" alt="..." />
+                  <CardBody>
+                    <CardTitle><h2>Tea bag</h2></CardTitle>
+                    <CardText>Can be used similarly to the tea ball.</CardText>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card style={{width: '20rem' }}>
+                  <CardImg top src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/SilverTeaCaddy.jpg/440px-SilverTeaCaddy.jpg" alt="..." />
+                  <CardBody>
+                    <CardTitle><h2>Tea caddy</h2></CardTitle>
+                    <CardText>Used to store and preserve the aroma and flavor of your favorite tea.</CardText>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col md="4">
+                <Card style={{width: '20rem' }}>
+                  <CardImg top src="https://i.pinimg.com/originals/c3/98/ce/c398ce22a7b72ed7b699addb7b2f552c.jpg" alt="..." />
+                  <CardBody>
+                    <CardTitle><h2>Tea cozy</h2></CardTitle>
+                    <CardText>A knitted cover for keeping a teapot hot after the tea is made.</CardText>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
           </Container>
         </div>
       </div>

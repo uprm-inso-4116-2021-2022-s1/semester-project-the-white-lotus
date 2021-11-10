@@ -203,17 +203,13 @@ function ExamplesNavbar() {
                   Info Page
                 </NavLink>
               </NavItem>
-
-
-              {/* <NavItem>
+              <NavItem>
                 <NavLink
-                    href="/info-page"
+                    href="/teaware"
                 >
-                  Settings
+                  Teaware
                 </NavLink>
-              </NavItem> */}
-
-              {/* JUST FOR TESTING PURPOSES */}
+              </NavItem>
               <NavItem>
                 <NavLink
                     href="/recipe-catalogue"
@@ -237,14 +233,6 @@ function ExamplesNavbar() {
                   Tea Survey
                 </NavLink>
               </NavItem>
-
-              {/* <NavItem>
-                <NavLink
-                    href="/register-page"
-                >
-                  Register
-                </NavLink>
-              </NavItem> */}
 
               <LoginModal/>
 

@@ -32,6 +32,7 @@ import {
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "../../components/Footers/DemoFooter";
 import AddPopover from "../../components/Page/AddPopover";
+import IndexNavbar from "../../components/Navbars/IndexNavbar";
 
 function PageHeader() {
     let pageHeader = React.createRef();
@@ -88,7 +89,7 @@ function RecipeCatalogue() {
     });
     return (
         <>
-            <ExamplesNavbar/>
+            <IndexNavbar/>
             <PageHeader/>
             <div className="main">
                 <Container>

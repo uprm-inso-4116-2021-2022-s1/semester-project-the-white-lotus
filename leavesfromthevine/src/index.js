@@ -28,6 +28,7 @@ import "assets/demo/demo.css?v=1.2.0";
 import Home from "views/Home.js";
 import NucleoIcons from "views/NucleoIcons.js";
 import InfoPage from "views/examples/InfoPage.js";
+import Teaware from "./views/Teaware";
 import ProfilePage from "views/examples/ProfilePage.js";
 import SurveyPage from "views/examples/SurveyPage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
@@ -58,6 +59,10 @@ ReactDOM.render(
             <Route
                 path="/info-page"
                 render={(props) => <InfoPage {...props} />}
+            />
+            <Route
+                path="/teaware"
+                render={(props) => <Teaware {...props} />}
             />
             <Route
                 path="/profile-page"

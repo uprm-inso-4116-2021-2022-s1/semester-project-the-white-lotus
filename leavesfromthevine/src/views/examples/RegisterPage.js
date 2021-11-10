@@ -23,6 +23,7 @@ import { Button, Card, Form, Input, Container, Row, Col } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
+import IndexNavbar from "../../components/Navbars/IndexNavbar";
 
 function RegisterPage() {
   document.documentElement.classList.remove("nav-open");
@@ -34,7 +35,7 @@ function RegisterPage() {
   });
   return (
     <>
-      <ExamplesNavbar />
+      <IndexNavbar />
       <div
         className="page-header"
         style={{

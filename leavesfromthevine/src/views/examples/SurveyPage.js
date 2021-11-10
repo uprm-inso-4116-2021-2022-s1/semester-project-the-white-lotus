@@ -42,6 +42,7 @@ import {
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import SurveyPageHeader from "components/Headers/SurveyPageHeader.js";
+import IndexNavbar from "../../components/Navbars/IndexNavbar";
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = React.useState("1");
@@ -60,7 +61,7 @@ function ProfilePage() {
   });
   return (
     <>
-      <ExamplesNavbar />
+      <IndexNavbar />
       <SurveyPageHeader />
       <div className="section profile-content">
         <Container>
