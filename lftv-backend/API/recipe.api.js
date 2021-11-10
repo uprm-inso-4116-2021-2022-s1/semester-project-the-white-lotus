@@ -5,6 +5,9 @@ const materialBridgeAPI = require("./materialBridge.api");
 const tastesAPI = require("./tastes.api");
 const notesAPI = require("./notes.api");
 const flavorBridgeAPI = require("./flavorBridge.api");
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
+
 //#region Add Recipe
 // Add new Recipe to database
 const addRecipe =  async (db, req, res) => {
@@ -353,9 +356,10 @@ const getRecipeByFilter = async (db, req, res, nestedRes = false) => {
         res.send(err);
     }
 }
-
+const allRecipes = async () => await prisma.recipes.findMany();
 
 module.exports = {
+    allRecipes,
     addRecipe,
     removeRecipeByID,
     editRecipe,

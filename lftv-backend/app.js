@@ -214,6 +214,9 @@ app.get('/getfullrecipebyid/:id', jsonParser, (req, res) => {
 app.get('/getRecipeByFilter', jsonParser, (req, res) => {
     recipeAPI.getRecipeByFilter(db, req, res);
 });
+app.get('/allRecipesPrisma', jsonParser, (req, res) => {
+    recipeAPI.allRecipes(db, req, res);
+});
 // 6 requests
 //#endregion
 
