@@ -22,7 +22,7 @@ const db = new Client({
     password: process.env.PGPASS,
     database: process.env.PGDB,
     port: process.env.PGPORT,
-    ssl: true,
+    ssl: false,
 });
 
 // Connect to database

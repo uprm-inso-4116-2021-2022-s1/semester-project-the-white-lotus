@@ -315,6 +315,25 @@ function InfoPage() {
             <br />
           </Container>
         </div>
+        <div className="section section-dark text-center">
+          <Container>
+            <Row>
+              <Col className="ml-auto mr-auto" md="8">
+                <h2 className="title">Herbal tea</h2>
+                <h3 className="text-success">A special case of tea</h3>
+                <h5 className="description">
+                  With the definition of tea being a process that includes camellia leaf as one of its main ingredients,
+                  herbal tea does not follow this definition, as it is made from dried herbs, spices, flowers, fruits, seeds, roots
+                  or leaves of other plants. This kind of beverage is best described as an infusion of ingredients. However, this
+                  beverage is still referred to as tea by many people, so even though it is not considered a real type of tea
+                  by definition it is often included in tea lists by convention.
+                </h5>
+                <br />
+              </Col>
+            </Row>
+            <br />
+          </Container>
+        </div>
       </div>
     </>
   );
