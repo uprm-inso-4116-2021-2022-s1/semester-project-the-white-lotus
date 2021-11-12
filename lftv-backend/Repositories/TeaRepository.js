@@ -1,5 +1,4 @@
 // Add tea
-
 async function AddTea(tea, db){
     let sql = `INSERT INTO teas(type, name, tea_desc) VALUES('${tea.type}', '${tea.name}', '${tea.tea_desc}')`;
     const result = db.query(sql);

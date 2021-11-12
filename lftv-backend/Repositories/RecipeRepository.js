@@ -1,27 +1,27 @@
-const teaAPI = require("./tea.api");
-const ingredientAPI = require("./ingredient.api");
+// Add new Recipe to database
 const Enumerable = require("linq");
-const materialBridgeAPI = require("./materialBridge.api");
-const tastesAPI = require("./tastes.api");
-const notesAPI = require("./notes.api");
-const flavorBridgeAPI = require("./flavorBridge.api");
+const {GetTeaByName} = require("./TeaRepository");
+const format = require("pg-format");
 
-async function addRecipe (recipe){
-    const tea = await (teaAPI.getTeaByName(db, recipe.teaName, res, true));
+async function AddRecipe (recipe, db){
+    let tea = await GetTeaByName(recipe.teaName, db);
+    tea = tea.rows;
     const recipeQuery = {
         text: 'INSERT INTO recipes(title, difficulty, yield, procedure, teaID)  VALUES($1, $2, $3, $4, $5) RETURNING id',
-        values: [data.title, data.difficulty, data.yield, data.procedure, tea.id],
+        values: [recipe.title, recipe.difficulty, recipe.yield, recipe.procedure, tea.id],
     }
-    // Insert recipe in db
+    // Insert recipe in db and store id
     let recipeID = await db.query(recipeQuery);
     recipeID = recipeID.rows[0].id;
-    let ingredients = await data.materials.map(m => m.ingredient).flat()
+    let ingredients = await recipe.materials.map(m => m.ingredient).flat()
     // Add new ingredients to the db
-    await (ingredientAPI.addMultipleIngredients(db, ingredients, res, true))
-    // Gets all ingredients from db
-    let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res, true))
+    await AddIngredients(ingredients, db);
+    // Get all ingredients from db
+    let ingredientsFromDB = await GetMultipleIngredients(ingredients, db);
+    ingredientsFromDB = ingredientsFromDB.rows;
+    // Map ingredients and amounts
     let materials = []
-    data.materials.forEach(m =>
+    recipe.materials.forEach(m =>
         materials.push(
             [
                 recipeID,
@@ -30,10 +30,13 @@ async function addRecipe (recipe){
             ]
         )
     );
-    // Insert material entities
-    await (materialBridgeAPI.addMultipleMaterialEntities(db, materials, res, true));
-    const taste = await (tastesAPI.getTasteByName(db, data.taste, res,true ));
-    const notes = await (notesAPI.getMultipleNotes(db, data.notes, res,true ));
+    // Add entities to material bridge
+    await AddMaterialEntities(materials, db);
+    // Get taste by name
+    const taste = await GetTasteByName (recipe.taste, db);
+    // Get notes by name
+    let notes = await GetNotesByName(recipe.notes, db);
+    notes = notes.rows;
     let flavors = []
     notes.forEach(n =>
         flavors.push(
@@ -44,65 +47,99 @@ async function addRecipe (recipe){
             ]
         )
     )
-    await (flavorBridgeAPI.addMultipleFlavorEntities(db, flavors, res, true ))
+    // Add entities to flavor bridge
+    await AddFlavorEntities(flavors, db);
 }
-const addRecipe =  async (db, req, res) => {
-    let data = {
-        title: req.body.title,
-        difficulty: req.body.difficulty,
-        yield: req.body.yield,
-        procedure: req.body.procedure,
-        materials: req.body.materials,
-        teaName: req.body.teaName,
-        taste: req.body.taste,
-        notes: req.body.notes,
-    };
-    try{
-        const tea = await (teaAPI.getTeaByName(db, data.teaName, res, true));
-        const recipeQuery = {
-            text: 'INSERT INTO recipes(title, difficulty, yield, procedure, teaID)  VALUES($1, $2, $3, $4, $5) RETURNING id',
-            values: [data.title, data.difficulty, data.yield, data.procedure, tea.id],
-        }
-        // Insert recipe in db
-        let recipeID = await db.query(recipeQuery);
-        recipeID = recipeID.rows[0].id;
-        let ingredients = await data.materials.map(m => m.ingredient).flat()
-        // Add new ingredients to the db
-        await (ingredientAPI.addMultipleIngredients(db, ingredients, res, true))
-        // Gets all ingredients from db
-        let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res, true))
-        let materials = []
-        data.materials.forEach(m =>
-            materials.push(
-                [
-                    recipeID,
-                    Enumerable.from(ingredientsFromDB).where(ing => ing.name === m.ingredient).first().id,
-                    m.amount
-                ]
-            )
-        );
-        // Insert material entities
-        await (materialBridgeAPI.addMultipleMaterialEntities(db, materials, res, true));
-        const taste = await (tastesAPI.getTasteByName(db, data.taste, res,true ));
-        const notes = await (notesAPI.getMultipleNotes(db, data.notes, res,true ));
-        let flavors = []
-        notes.forEach(n =>
-            flavors.push(
-                [
-                    taste.id,
-                    n.id,
-                    recipeID,
-                ]
-            )
-        )
-        await (flavorBridgeAPI.addMultipleFlavorEntities(db, flavors, res, true ))
-        res.end(
-            `\nRecipe "${data.title}" added successfully.`, 'utf8', () => {
-                console.log(`Added new recipe`);
-            }
-        );
-    }
-    catch(err){
-        res.send(err);
-    }
-};
+
+// Add multiple ingredients
+async function AddIngredients (ingredients, db){
+    let allIngredients = `('${ingredients[0]}')`
+    ingredients.slice(1).forEach( ing =>
+        allIngredients+=(`,('${ing}')`)
+    )
+    const sql = `INSERT INTO ingredients(name) VALUES${allIngredients} ON CONFLICT DO NOTHING`
+    const result = await db.query(sql);
+    return result;
+}
+
+// Add material entities
+async function AddMaterialEntities (materials, db){
+    const sql = format(`INSERT INTO MaterialsBridge(recipeid, ingredientid, ing_amount)  VALUES %L ON CONFLICT DO NOTHING`, materials);
+    const result = await db.query(sql);
+    return result;
+}
+
+// Add flavor entities
+async function AddFlavorEntities (flavorEntities, db){
+    let allFlavorEntities = `('${flavorEntities[0]}')`
+    flavorEntities.slice(1).forEach( ing =>
+        allFlavorEntities+=(`,('${ing}')`)
+    )
+    const sql = format(`INSERT INTO FlavorBridge(tasteid, noteid, recipeid)  VALUES %L ON CONFLICT DO NOTHING`, flavorEntities);
+    const result = await db.query(sql);
+    return result;
+}
+
+// Remove data by id
+async function RemoveRecipeByID (id, db){
+    let sql = `DELETE FROM recipes WHERE id = ${req.params.id}`;
+    const result = await db.query(sql);
+    return result;
+}
+
+// Get all recipes
+async function GetAllRecipes(db){
+    let sql = 'SELECT * FROM recipes';
+    const recipes = await db.query(sql);
+    return recipes;
+}
+
+// Get recipe by id
+async function GetRecipeByID (id, db){
+    let sql = `SELECT * FROM recipes WHERE id = ${id}`;
+    const result = await db.query(sql);
+    return result;
+}
+
+// Get multiple ingredients
+async function GetMultipleIngredients (ingredients, db){
+    let allIngredients = `'${ingredients[0]}'`
+    ingredients.slice(1).forEach(ing =>
+        allIngredients+=(`,'${ing}'`)
+    )
+    let sql = `SELECT * FROM ingredients WHERE name in (${allIngredients})`;
+    const result = await db.query(sql);
+    return result;
+}
+
+//Get taste by name
+async function GetTasteByName (name, db){
+    let sql = `SELECT * FROM tastes WHERE name = '${name}'`;
+    const taste = await db.query(sql);
+    return taste;
+}
+
+//Get notes by name
+async function GetNotesByName (notes, db){
+    let allNotes = `'${notes[0]}'`
+    notes.slice(1).forEach( ing =>
+        allNotes+=(`,'${ing}'`)
+    )
+    let sql = `SELECT * FROM notes WHERE name in (${allNotes})`;
+    const result = await db.query(sql);
+    return result;
+}
+
+
+module.exports = {
+    AddRecipe,
+    AddIngredients,
+    AddMaterialEntities,
+    AddFlavorEntities,
+    RemoveRecipeByID,
+    GetAllRecipes,
+    GetRecipeByID,
+    GetMultipleIngredients,
+    GetNotesByName,
+    GetTasteByName
+}
