@@ -18,6 +18,30 @@ const addRecipe =  async (db, req, res) => {
         taste: req.body.taste,
         notes: req.body.notes,
     };
+    // if (data.title === undefined){
+    //     throw new Error(`Recipe could not be added. You must add a title first.`);
+    // }
+    // if (data.difficulty === undefined){
+    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter a valid difficulty.`);
+    // }
+    // if (data.yield === undefined){
+    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter the yield first.`);
+    // }
+    // if (data.procedure === undefined){
+    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter the procedure first.`);
+    // }
+    // if (data.materials === undefined){
+    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter the materials first.`);
+    // }
+    // if (data.teaName === undefined){
+    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter a valid tea type.`);
+    // }
+    // if (data.taste === undefined){
+    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter a taste.`);
+    // }
+    // if (data.notes === undefined){
+    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter some notes.`);
+    // }
     try{
         const tea = await (teaAPI.getTeaByName(db, data.teaName, res, true));
         const recipeQuery = {
