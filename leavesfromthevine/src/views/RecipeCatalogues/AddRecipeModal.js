@@ -1,6 +1,6 @@
 import React from "react";
 // reactstrap components
-import {Button, Modal} from "reactstrap";
+import {Button, Col, Modal, Row} from "reactstrap";
 
 class RecipeModal extends React.Component {
     constructor(props) {
@@ -54,7 +54,7 @@ class RecipeModal extends React.Component {
                             <div className="form-group">
                                 <label htmlFor="title">Title</label>
                                 <input type="title" className="form-control" id="title"
-                                       placeholder="Recipe title"/>
+                                       placeholder="Ginger Cardamom Tea"/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="yield">Yield</label>
@@ -99,15 +99,19 @@ class RecipeModal extends React.Component {
                                 </select>
                             </div>
                             <div className="form-group">
+                                {/*TODO: Add and remove ingredients with button (+ and x)*/}
                                 <label htmlFor="ingredients">Ingredients</label>
-                                <select multiple className="form-control" id="ingredients">
-                                    {/*Populate with db. Amount needed*/}
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
+                                <Row>
+                                    <Col>
+                                        <input type="amount" className="form-control" id="amount"
+                                               placeholder="2 tablespoons"/>
+                                    </Col>
+                                    <Col>
+                                        <select className="form-control" id="ingredients">
+                                            <option>1</option>
+                                        </select>
+                                    </Col>
+                                </Row>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="procedure">Procedure</label>
