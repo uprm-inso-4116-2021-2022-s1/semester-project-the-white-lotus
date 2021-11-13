@@ -81,7 +81,59 @@ async function AddFlavorEntities (flavorEntities, db){
     const result = await db.query(sql);
     return result;
 }
-
+// Update recipe
+// TODO: FIX
+async function EditRecipe(newRecipe, db){
+    let newTitle = newRecipe.title === undefined
+        || newRecipe.title === ""
+        ? null
+        : `'${newRecipe.title}'`;
+    let newYield = newRecipe.yield === undefined
+        || newRecipe.yield === "" ? null
+        : `'${newRecipe.yield}'`;
+    let newDifficulty = newRecipe.difficulty === undefined
+        || newRecipe.difficulty === "" ? null
+        : `'${newRecipe.difficulty}'`;
+    let newProcedure = newRecipe.procedure === undefined
+        || newRecipe.procedure === "" ? null
+        : `'${newRecipe.procedure}'`;
+    let newTea = await GetTeaByName(newRecipe.teaName, db);
+    newTea = newTea.rows[0];
+    // Bridges
+    let newMaterials = newRecipe.materials === undefined
+        || newRecipe.materials.length === 0 ? null
+        : newRecipe.materials;
+    let newNotes= newRecipe.notes === undefined
+        || newRecipe.notes.length === 0 ? null
+        : newRecipe.notes;
+    let newTaste = newRecipe.taste === undefined
+        || newRecipe.taste === ""? null
+        : `'${newRecipe.taste}'`;
+    let recipeQuery = `UPDATE recipes 
+               SET title = coalesce(${newTitle}, title),
+                yield = coalesce(${newYield}, yield),
+                difficulty = coalesce(${newDifficulty}, difficulty),
+                procedure = coalesce(${newProcedure}, procedure),
+                teaid = coalesce(${newTea.id}, teaid),
+               WHERE id = ${newRecipe.id}`;
+    // Overwrite ingredients
+    if (newMaterials !== null){
+        const materialsQuery = ``;
+        await db.query(materialsQuery);
+    }
+    // Overwrite taste
+    if (newTaste !== null){
+        const tasteQuery = `UPDATE flavorbridge
+                SET tasteid = coalesce (${newTaste}, tasteid)
+                WHERE recipeid = ${newRecipe.id}`;
+        await db.query(tasteQuery);
+    }
+    // Overwrite notes
+    if (newNotes !== null){
+        const notesQuery = ``;
+        await db.query(notesQuery);
+    }
+}
 // Remove data by id
 async function RemoveRecipeByID (id, db){
     let sql = `DELETE FROM recipes WHERE id = ${req.params.id}`;
@@ -181,19 +233,79 @@ async function GetRecipeByFilter (filter, db){
         );
     return recipes;
 }
-const getRecipeByFilter = async (db, req, res, nestedRes = false) => {
-
+async function GetFullRecipeByID (recipeID, db){
+    let sql = `select recipes.id,
+                    recipes.title, 
+                    recipes.difficulty,
+                    recipes.yield,
+                    recipes.procedure,
+                    teas.name as TeaName, 
+                    teas.type as TeaType, 
+                    tastes.name as Taste, 
+                    array_agg(distinct notes.name) as Note,
+                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Ingredients 
+                from recipes
+                left join teas on recipes.teaid = teas.id
+                left join flavorbridge as fb on recipes.id = fb.recipeid
+                left join tastes on fb.tasteid = tastes.id
+                left join notes on fb.noteid = notes.id
+                left join materialsbridge as mb on recipes.id = mb.recipeid
+                left join ingredients on ingredients.id = mb.ingredientid
+                group by (recipes.id,        
+                        recipes.title, 
+                        recipes.difficulty,
+                        recipes.yield,
+                        recipes.procedure,
+                        teaname, 
+                        teatype, 
+                        taste)
+                having recipes.id = ${recipeID};`;
+    const result = await db.query(sql);
+    return result;
 }
+async function GetFullRecipes (db) {
+    let sql = `select recipes.id,
+                    recipes.title, 
+                    recipes.difficulty,
+                    recipes.yield,
+                    recipes.procedure,
+                    teas.name as TeaName, 
+                    teas.type as TeaType, 
+                    tastes.name as Taste, 
+                    array_agg(distinct notes.name) as Note,
+                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Ingredients 
+                from recipes
+                left join teas on recipes.teaid = teas.id
+                left join flavorbridge as fb on recipes.id = fb.recipeid
+                left join tastes on fb.tasteid = tastes.id
+                left join notes on fb.noteid = notes.id
+                left join materialsbridge as mb on recipes.id = mb.recipeid
+                left join ingredients on ingredients.id = mb.ingredientid
+                group by (recipes.id,        
+                        recipes.title, 
+                        recipes.difficulty,
+                        recipes.yield,
+                        recipes.procedure,
+                        teaname, 
+                        teatype, 
+                        taste);`
+    const result = await db.query(sql);
+    return result;
+}
+
 module.exports = {
     AddRecipe,
     AddIngredients,
     AddMaterialEntities,
     AddFlavorEntities,
+    EditRecipe,
     RemoveRecipeByID,
     GetAllRecipes,
     GetRecipeByID,
     GetMultipleIngredients,
     GetNotesByName,
     GetTasteByName,
-    GetRecipeByFilter
+    GetRecipeByFilter,
+    GetFullRecipeByID,
+    GetFullRecipes
 }
