@@ -5,10 +5,11 @@ const materialBridgeAPI = require("./materialBridge.api");
 const tastesAPI = require("./tastes.api");
 const notesAPI = require("./notes.api");
 const flavorBridgeAPI = require("./flavorBridge.api");
+const {AddRecipe, GetRecipeByFilter} = require("../Repositories/RecipeRepository");
 //#region Add Recipe
 // Add new Recipe to database
 const addRecipe =  async (db, req, res) => {
-    let data = {
+    let recipe = {
         title: req.body.title,
         difficulty: req.body.difficulty,
         yield: req.body.yield,
@@ -18,80 +19,17 @@ const addRecipe =  async (db, req, res) => {
         taste: req.body.taste,
         notes: req.body.notes,
     };
-    // if (data.title === undefined){
-    //     throw new Error(`Recipe could not be added. You must add a title first.`);
-    // }
-    // if (data.difficulty === undefined){
-    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter a valid difficulty.`);
-    // }
-    // if (data.yield === undefined){
-    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter the yield first.`);
-    // }
-    // if (data.procedure === undefined){
-    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter the procedure first.`);
-    // }
-    // if (data.materials === undefined){
-    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter the materials first.`);
-    // }
-    // if (data.teaName === undefined){
-    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter a valid tea type.`);
-    // }
-    // if (data.taste === undefined){
-    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter a taste.`);
-    // }
-    // if (data.notes === undefined){
-    //     throw new Error(`Recipe "${data.title}" could not be added. You must enter some notes.`);
-    // }
     try{
-        const tea = await (teaAPI.getTeaByName(db, data.teaName, res, true));
-        const recipeQuery = {
-            text: 'INSERT INTO recipes(title, difficulty, yield, procedure, teaID)  VALUES($1, $2, $3, $4, $5) RETURNING id',
-            values: [data.title, data.difficulty, data.yield, data.procedure, tea.id],
-        }
-        // Insert recipe in db
-        let recipeID = await db.query(recipeQuery);
-        recipeID = recipeID.rows[0].id;
-        let ingredients = await data.materials.map(m => m.ingredient).flat()
-        // Add new ingredients to the db
-        await (ingredientAPI.addMultipleIngredients(db, ingredients, res, true))
-        // Gets all ingredients from db
-        let ingredientsFromDB = await (ingredientAPI.getMultipleIngredients(db, ingredients, res, true))
-        let materials = []
-        data.materials.forEach(m =>
-            materials.push(
-                [
-                    recipeID,
-                    Enumerable.from(ingredientsFromDB).where(ing => ing.name === m.ingredient).first().id,
-                    m.amount
-                ]
-            )
-        );
-        // Insert material entities
-        await (materialBridgeAPI.addMultipleMaterialEntities(db, materials, res, true));
-        const taste = await (tastesAPI.getTasteByName(db, data.taste, res,true ));
-        const notes = await (notesAPI.getMultipleNotes(db, data.notes, res,true ));
-        let flavors = []
-        notes.forEach(n =>
-            flavors.push(
-                [
-                    taste.id,
-                    n.id,
-                    recipeID,
-                ]
-            )
-        )
-        await (flavorBridgeAPI.addMultipleFlavorEntities(db, flavors, res, true ))
-        res.end(
-            `\nRecipe "${data.title}" added successfully.`, 'utf8', () => {
-                console.log(`Added new recipe`);
-            }
-        );
+        await AddRecipe(recipe, db)
+        res.send({
+            message: `Recipe "${recipe.title}" added successfully.`
+        });
     }
     catch(err){
         res.send(err);
     }
 };
-//#endregion
+
 
 //region Remove Recipe
 // Remove data by id
@@ -309,75 +247,25 @@ const getFullRecipeByID = async (db, req, res, nestedRes = false) => {
         res.send(err);
     }
 }
-//#endregion
-/*
-Filter: Difficulty, Type, Taste, Notes, Ingredients
- */
+// Get recipe using difficulty, teatype, taste, notes, or/and ingredients.
 const getRecipeByFilter = async (db, req, res, nestedRes = false) => {
-    let difficulty = req.body.difficulty === undefined? null: `'${req.body.difficulty}'`;
-    let teatype = req.body.teatype === undefined? null: `'${req.body.teatype}'`;
-    let taste = req.body.taste === undefined? null: `'${req.body.taste}'`;
-    let notes = req.body.notes === undefined? null: req.body.notes;
-    let ingredients = req.body.ingredients === undefined? null: req.body.ingredients;
-    let sql = `select recipes.id,
-                    recipes.title,
-                    recipes.difficulty,
-                    recipes.yield,
-                    recipes.procedure,
-                    teas.name as TeaName,
-                    teas.type as TeaType,
-                    tastes.name as Taste,
-                    array_agg(distinct notes.name) as Note,
-                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Ingredients
-                from recipes
-                left join teas on recipes.teaid = teas.id
-                left join flavorbridge as fb on recipes.id = fb.recipeid
-                left join tastes on fb.tasteid = tastes.id
-                left join notes on fb.noteid = notes.id
-                left join materialsbridge as mb on recipes.id = mb.recipeid
-                left join ingredients on ingredients.id = mb.ingredientid
-                group by (recipes.id,
-                        recipes.title,
-                        recipes.difficulty,
-                        recipes.yield,
-                        recipes.procedure,
-                        teaname,
-                        teatype,
-                        taste)
-                having recipes.difficulty = coalesce(${difficulty}, recipes.difficulty)
-                and teas.type = coalesce(${teatype}, teas.type)
-                and tastes.name = coalesce(${taste}, tastes.name);`
     try {
-        const queryResult = await db.query(sql);
-        let recipeCandidates = queryResult.rows;
-        let result = [];
-        recipeCandidates.forEach(recipe => {
-                let mappedIngredients = recipe.ingredients.map(ing => ing[0]).flat();
-                if (ingredients === null || ingredients.every(i => mappedIngredients.includes(i))) {
-                    if (notes === null || notes.every(n => recipe.note.includes(n))) {
-                        result.push(recipe);
-                    }
-                }
-            }
-        );
-        if (nestedRes){
-            res.write(
-                `[${result.length}] recipes matched the request.`, 'utf8', () => {
-                    console.log(`[${result.length}] recipes matched the request.`);
-                })
-            return result;
+        const filter = {
+            difficulty: req.body.difficulty,
+            teatype: req.body.teatype,
+            taste: req.body.taste,
+            notes: req.body.notes,
+            ingredients: req.body.ingredients,
         }
-        else{
-            res.send({
-                message: `[${result.length}] recipes matched the request.`,
-                result
-            })
-        }
+        const result = await GetRecipeByFilter(filter, db);
+        res.send({
+            message: `[${result.length}] recipes matched the request.`,
+            result
+        })
     } catch (err) {
         res.send(err);
     }
 }
-
 
 module.exports = {
     addRecipe,
