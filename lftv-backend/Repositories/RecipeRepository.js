@@ -4,9 +4,28 @@ const {GetTeaByName} = require("./TeaRepository");
 const format = require("pg-format");
 
 async function AddRecipe (recipe, db){
+    let recipeDB = await GetRecipeByTitle(recipe.title, db)
+    if (recipeDB.rowCount !== 0){
+        throw new Error("Error: A recipe with the provided title already exists.")
+    }
     let tea = await GetTeaByName(recipe.teaName, db);
+    if (tea.rowCount === 0){
+        throw new Error("Error: Provided tea does not exist in the database.")
+    }
     tea = tea.rows[0];
     const teaID = tea.id;
+    // Get taste by name
+    let taste = await GetTasteByName (recipe.taste, db);
+    if (taste.rowCount === 0){
+        throw new Error("Error: Provided taste does not exist in the database.")
+    }
+    taste = taste.rows[0];
+    // Get notes by name
+    let notes = await GetNotesByName(recipe.notes, db);
+    if (notes.rowCount === 0){
+        throw new Error("Error: None of the provided notes exist in the database.")
+    }
+    notes = notes.rows;
     const recipeQuery = {
         text: 'INSERT INTO recipes(title, difficulty, yield, procedure, teaID)  VALUES($1, $2, $3, $4, $5) RETURNING id',
         values: [recipe.title, recipe.difficulty, recipe.yield, recipe.procedure, teaID],
@@ -33,12 +52,6 @@ async function AddRecipe (recipe, db){
     );
     // Add entities to material bridge
     await AddMaterialEntities(materials, db);
-    // Get taste by name
-    let taste = await GetTasteByName (recipe.taste, db);
-    taste = taste.rows[0];
-    // Get notes by name
-    let notes = await GetNotesByName(recipe.notes, db);
-    notes = notes.rows;
     let flavors = []
     notes.forEach(n =>
         flavors.push(
@@ -51,6 +64,7 @@ async function AddRecipe (recipe, db){
     )
     // Add entities to flavor bridge
     await AddFlavorEntities(flavors, db);
+    return
 }
 
 // Add multiple ingredients
@@ -151,6 +165,13 @@ async function GetAllRecipes(db){
 // Get recipe by id
 async function GetRecipeByID (id, db){
     let sql = `SELECT * FROM recipes WHERE id = ${id}`;
+    const result = await db.query(sql);
+    return result;
+}
+
+// Get recipe by title
+async function GetRecipeByTitle (name, db){
+    let sql = `SELECT * FROM recipes WHERE title = '${name}'`;
     const result = await db.query(sql);
     return result;
 }
