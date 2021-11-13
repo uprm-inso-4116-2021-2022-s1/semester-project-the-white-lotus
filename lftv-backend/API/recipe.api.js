@@ -26,7 +26,7 @@ const addRecipe =  async (db, req, res) => {
         });
     }
     catch(err){
-        res.send(err);
+        res.send(err.message);
     }
 };
 
@@ -68,7 +68,7 @@ const editRecipe = async (db, req, res) => {
             result
         });
     }catch(err){
-        res.send(err)
+        res.send(err.message)
     }
 }
 
@@ -85,7 +85,7 @@ const getAllRecipes = async (db, req, res, nestedRes = false) => {
         });
         return recipes.rows;
     } catch (err) {
-        res.send(err);
+        res.send(err.message);
     }
 };
 
@@ -101,7 +101,7 @@ const getRecipeByID = async (db, req, res, nestedRes = false) => {
         return result.rows[0]
 
     }catch(err){
-        res.send(err)
+        res.send(err.message)
     }
 };
 
@@ -114,7 +114,7 @@ const getFullRecipes = async (db, req, res, nestedRes = false) => {
             result
         })
     } catch (err) {
-        res.send(err);
+        res.send(err.message);
     }
 }
 
@@ -128,7 +128,7 @@ const getFullRecipeByID = async (db, req, res, nestedRes = false) => {
             result
         })
     } catch (err) {
-        res.send(err);
+        res.send(err.message);
     }
 }
 
@@ -148,7 +148,7 @@ const getRecipeByFilter = async (db, req, res, nestedRes = false) => {
             result
         })
     } catch (err) {
-        res.send(err);
+        res.send(err.message);
     }
 }
 
