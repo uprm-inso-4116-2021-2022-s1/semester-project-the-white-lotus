@@ -1,6 +1,6 @@
 //#region Add Tea
 // Create Tea
-const {GetAllTeas, GetTeasByType, GetTeaByID, GetTeaByName, GetTeaByFilter, AddTea, RemoveTeaByID, RemoveTeaByName} = require("../Controllers/TeaController");
+const {GetAllTeas, GetTeasByType, GetTeaByID, GetTeaByName, GetTeaByFilter, AddTea, RemoveTeaByID, RemoveTeaByName} = require("../Services/TeaService");
 //#region Add Tea
 const addTea = (db, req, res) => {
     let tea = {type: req.body.type, name: req.body.name, tea_desc: req.body.tea_desc};

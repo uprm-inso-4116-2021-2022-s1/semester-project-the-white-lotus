@@ -6,14 +6,14 @@ const cors = require('cors');
 require('dotenv').config();
 
 //APIs
-const teaAPI = require('./API/tea.api');
-const recipeAPI = require("./API/recipe.api");
-const ingredientAPI = require("./API/ingredient.api");
-const noteAPI = require("./API/notes.api");
-const tasteAPI = require("./API/tastes.api");
-const flavorBridgeAPI = require("./API/flavorBridge.api");
-const materialBridgeAPI = require("./API/materialBridge.api");
-const funFactAPI = require("./API/funfact.api");
+const teaAPI = require('./Controllers/tea.api');
+const recipeAPI = require("./Controllers/recipe.api");
+const ingredientAPI = require("./Controllers/ingredient.api");
+const noteAPI = require("./Controllers/notes.api");
+const tasteAPI = require("./Controllers/tastes.api");
+const flavorBridgeAPI = require("./Controllers/flavorBridge.api");
+const materialBridgeAPI = require("./Controllers/materialBridge.api");
+const funFactAPI = require("./Controllers/funfact.api");
 
 // Create connection
 const db = new Client({
@@ -39,8 +39,8 @@ const jsonParser = bodyParser.json();
 //required for requests to have x-www-form-urlencoded body
 const urlencodedParser = bodyParser.urlencoded({ extended : false});
 
-//#region Example API
-// ******************************** EXAMPLE API ****************************************************
+//#region Example Controllers
+// ******************************** EXAMPLE Controllers ****************************************************
 
 // Create table
 // app.get('/createpoststable', (req, res) => {
@@ -126,10 +126,10 @@ app.get('/deletepost/:id', (req, res) => {
     })
 });
 
-// ******************************** EXAMPLE API ****************************************************
+// ******************************** EXAMPLE Controllers ****************************************************
 //#endregion
 
-//#region Tea API
+//#region Tea Controllers
 // app.get('/createteastable', (req, res) => {
 //     teaAPI.createTeaTable(db, req, res);
 // });
@@ -187,7 +187,7 @@ app.get('/getteabyfilter', jsonParser, (req, res) => {
 //12 requests
 //#endregion
 
-//#region Recipe API
+//#region Recipe Controllers
 app.post('/addrecipe', jsonParser, (req, res) => {
     recipeAPI.addRecipe(db, req, res);
 });
@@ -239,7 +239,7 @@ app.delete('/removeingredient/:name', jsonParser, (req, res) => {
 // 6 requests
 //#endregion
 
-//#region Notes API
+//#region Notes Controllers
 app.get('/getnotes', jsonParser, (req, res) => {
     noteAPI.getAllNotes(db, req, res);
 });
@@ -261,7 +261,7 @@ app.delete('/removenote/:name', jsonParser, (req, res) => {
 // 6 requests
 //#endregions
 
-//#region Taste API
+//#region Taste Controllers
 app.get('/gettastes', jsonParser, (req, res) => {
     tasteAPI.getAllTastes(db, req, res);
 });
@@ -315,7 +315,7 @@ app.delete('/removematerialentitybyid/:id', jsonParser, (req, res) => {
 //5 requests
 //#endregion
 
-//#region FunFact API
+//#region FunFact Controllers
 app.get('/getfunfacts', jsonParser, (req, res) => {
     funFactAPI.getAllFunFacts(db, req, res);
 });
@@ -332,10 +332,10 @@ app.delete('/removefunfact/:id', jsonParser, (req, res) => {
     funFactAPI.removeFunFactByID(db, req, res);
 });
 
-//#region ... API
+//#region ... Controllers
 //#endregion
 
-//#region ... API
+//#region ... Controllers
 //#endregion
 
 app.get('/', jsonParser, (req, res) => {
