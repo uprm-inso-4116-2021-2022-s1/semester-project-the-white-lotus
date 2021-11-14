@@ -1,9 +1,13 @@
 //#region Add Tea
 // Create Tea
 const {GetAllTeas, GetTeasByType, GetTeaByID, GetTeaByName, GetTeaByFilter, AddTea, RemoveTeaByID, RemoveTeaByName} = require("../Repositories/TeaRepository");
+const {Tea} = require("../DTOs/Tea");
 //#region Add Tea
 const addTea = (db, req, res) => {
-    let tea = {type: req.body.type, name: req.body.name, tea_desc: req.body.tea_desc};
+    let tea = new Tea(
+        req.body.type,
+        req.body.name,
+        req.body.tea_desc);
     try{
         const result = AddTea(tea, db);
         res.send({
