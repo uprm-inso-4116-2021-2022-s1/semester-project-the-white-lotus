@@ -39,8 +39,8 @@ const jsonParser = bodyParser.json();
 //required for requests to have x-www-form-urlencoded body
 const urlencodedParser = bodyParser.urlencoded({ extended : false});
 
-//#region Example Controller
-// ******************************** EXAMPLE Controller ****************************************************
+//#region Example Controllers
+// ******************************** EXAMPLE Controllers ****************************************************
 
 // Create table
 // app.get('/createpoststable', (req, res) => {
@@ -126,10 +126,10 @@ app.get('/deletepost/:id', (req, res) => {
     })
 });
 
-// ******************************** EXAMPLE Controller ****************************************************
+// ******************************** EXAMPLE Controllers ****************************************************
 //#endregion
 
-//#region Tea Controller
+//#region Tea Controllers
 // app.get('/createteastable', (req, res) => {
 //     teaAPI.createTeaTable(db, req, res);
 // });
@@ -187,7 +187,7 @@ app.get('/getteabyfilter', jsonParser, (req, res) => {
 //12 requests
 //#endregion
 
-//#region Recipe Controller
+//#region Recipe Controllers
 app.post('/addrecipe', jsonParser, (req, res) => {
     recipeAPI.addRecipe(db, req, res);
 });
@@ -239,7 +239,7 @@ app.delete('/removeingredient/:name', jsonParser, (req, res) => {
 // 6 requests
 //#endregion
 
-//#region Notes Controller
+//#region Notes Controllers
 app.get('/getnotes', jsonParser, (req, res) => {
     noteAPI.getAllNotes(db, req, res);
 });
@@ -261,7 +261,7 @@ app.delete('/removenote/:name', jsonParser, (req, res) => {
 // 6 requests
 //#endregions
 
-//#region Taste Controller
+//#region Taste Controllers
 app.get('/gettastes', jsonParser, (req, res) => {
     tasteAPI.getAllTastes(db, req, res);
 });
@@ -315,7 +315,7 @@ app.delete('/removematerialentitybyid/:id', jsonParser, (req, res) => {
 //5 requests
 //#endregion
 
-//#region FunFact Controller
+//#region FunFact Controllers
 app.get('/getfunfacts', jsonParser, (req, res) => {
     funFactAPI.getAllFunFacts(db, req, res);
 });
@@ -332,10 +332,10 @@ app.delete('/removefunfact/:id', jsonParser, (req, res) => {
     funFactAPI.removeFunFactByID(db, req, res);
 });
 
-//#region ... Controller
+//#region ... Controllers
 //#endregion
 
-//#region ... Controller
+//#region ... Controllers
 //#endregion
 
 app.get('/', jsonParser, (req, res) => {
