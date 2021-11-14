@@ -6,14 +6,14 @@ const cors = require('cors');
 require('dotenv').config();
 
 //APIs
-const teaAPI = require('./Controller/tea.api');
-const recipeAPI = require("./Controller/recipe.api");
-const ingredientAPI = require("./Controller/ingredient.api");
-const noteAPI = require("./Controller/notes.api");
-const tasteAPI = require("./Controller/tastes.api");
-const flavorBridgeAPI = require("./Controller/flavorBridge.api");
-const materialBridgeAPI = require("./Controller/materialBridge.api");
-const funFactAPI = require("./Controller/funfact.api");
+const teaAPI = require('./Controllers/tea.api');
+const recipeAPI = require("./Controllers/recipe.api");
+const ingredientAPI = require("./Controllers/ingredient.api");
+const noteAPI = require("./Controllers/notes.api");
+const tasteAPI = require("./Controllers/tastes.api");
+const flavorBridgeAPI = require("./Controllers/flavorBridge.api");
+const materialBridgeAPI = require("./Controllers/materialBridge.api");
+const funFactAPI = require("./Controllers/funfact.api");
 
 // Create connection
 const db = new Client({
