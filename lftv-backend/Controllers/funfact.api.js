@@ -89,7 +89,6 @@ const getRandomFact = async (db, req, res, nestedRes = false) => {
     const facts = await getAllFunFacts(db, req, res, true);
     const index = Math.floor(Math.random() * facts.length);
     const result = facts[index];
-
         if (nestedRes) {
             res.write(
                 `Fun fact with id = ${result.id} fetched successfully.`, 'utf8', () => {
