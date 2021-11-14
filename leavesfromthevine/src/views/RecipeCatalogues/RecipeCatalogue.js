@@ -16,10 +16,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, {useState} from "react";
 
 // reactstrap components
-import {Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle} from 'reactstrap';
+import {Container, Row, Col, Card, CardBody, CardTitle, CardText, CardSubtitle, DropDown, DropDownButton} from 'reactstrap';
 import {
     Button,
     ButtonGroup,
@@ -76,13 +76,56 @@ function PageHeader() {
 }
 
 function RecipeCatalogue() {
-    let [recipes, setRecipes] = React.useState([])
+    let [recipes, setRecipes] = useState([]);
 
-    document.documentElement.classList.remove("nav-open");
-    React.useEffect(() => {
-        fetch('http://localhost:5432/getfullrecipes')
+    const [json, setJson] = useState({
+        "ingredient": undefined,
+        "notes": undefined,
+        "difficulty": undefined,
+        "teatype": undefined
+    });
+
+    const handleSelectD=(e) => {
+        setJson({"difficulty": e.target.innerText})
+    }
+
+    // const handleSelectT=(e) => {
+    //     setJson({"teatype": e.target.innerText})
+    // }
+
+
+
+    const handleEmpty=(e) => {
+        setJson({"difficulty": undefined});
+    }
+
+
+    const apiCall = () => {
+
+        fetch('http://localhost:5432/getrecipebyfilter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "ingredient": undefined,
+                "notes": undefined,
+                "difficulty": "Medium",
+                "teatype": undefined
+            })
+        })
             .then((response) => response.json())
-            .then((tests) => setRecipes(tests.result.rows))
+            .then((tests) => setRecipes(tests))
+        console.log(recipes);
+    }
+
+    React.useEffect ( () => {
+        apiCall();
+    }, [json])
+
+
+    React.useEffect(() => {
+        document.documentElement.classList.remove("nav-open");
         document.body.classList.add("recipe-page");
         return function cleanup() {
             document.body.classList.remove("recipe-page");
@@ -103,28 +146,29 @@ function RecipeCatalogue() {
                             caret
                             color="success"
                             data-toggle="dropdown"
-                            href="#pablo"
                             id="dropdownMenuLink"
                             onClick={e => e.preventDefault()}
                             role="button"
                         >
                             Difficulties
                         </DropdownToggle>
+
                         <DropdownMenu aria-labelledby="dropdownMenuLink">
-                            <DropdownItem href="/recipe-catalogue">
+                            <DropdownItem onClick={handleEmpty}>
                                 All Recipes
                             </DropdownItem>
-                            <DropdownItem href="/e-recipe-catalogue">
+                            <DropdownItem onClick={handleSelectD}>
                                 Easy
                             </DropdownItem>
-                            <DropdownItem href="/m-recipe-catalogue">
+                            <DropdownItem onClick={handleSelectD}>
                                 Medium
                             </DropdownItem>
-                            <DropdownItem href="/h-recipe-catalogue">
+                            <DropdownItem onClick={handleSelectD}>
                                 Hard
                             </DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
+                    <p>Selected value: {json.difficulty}</p>
                 </Container>
                 <div className="section text-center">
                     <Container>
@@ -137,21 +181,21 @@ function RecipeCatalogue() {
                             </Row>
                         </div>
                         <Row className="mr-0 ml-0">
-                            {recipes.map((properties, index) => <Col key={index}>
-                                <Card style={{width: '20rem'}}>
-                                    <CardBody>
-                                        <CardTitle>{properties.title}</CardTitle>
-                                        <CardSubtitle>{properties.teaname}</CardSubtitle>
-                                        <CardText>
-                                            <p>Note: {properties.note + ""}</p>
-                                            <p>Yield: {properties.yield}</p>
-                                            <p>Ingredients: {properties.ingredients + ""}</p>
-                                            <p>Procedure: {properties.procedure}</p>
-                                            <p>Difficulty: {properties.difficulty}</p>
-                                        </CardText>
-                                    </CardBody>
-                                </Card>
-                            </Col>)}
+                            {/*{recipes.map((properties, index) => <Col key={index}>*/}
+                            {/*    <Card style={{width: '20rem'}}>*/}
+                            {/*        <CardBody>*/}
+                            {/*            <CardTitle>{properties.title}</CardTitle>*/}
+                            {/*            <CardSubtitle>{properties.teaname}</CardSubtitle>*/}
+                            {/*            <CardText>*/}
+                            {/*                <p>Note: {properties.note + " "}</p>*/}
+                            {/*                <p>Yield: {properties.yield}</p>*/}
+                            {/*                <p>Ingredients: {properties.ingredients + ""}</p>*/}
+                            {/*                <p>Procedure: {properties.procedure}</p>*/}
+                            {/*                <p>Difficulty: {properties.difficulty}</p>*/}
+                            {/*            </CardText>*/}
+                            {/*        </CardBody>*/}
+                            {/*    </Card>*/}
+                            {/*</Col>)}*/}
                         </Row>
                     </Container>
                 </div>
@@ -161,3 +205,4 @@ function RecipeCatalogue() {
 }
 
 export default RecipeCatalogue;
+
