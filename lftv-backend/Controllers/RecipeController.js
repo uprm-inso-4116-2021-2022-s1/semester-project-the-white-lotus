@@ -1,6 +1,6 @@
 // Add new Recipe to database
 const Enumerable = require("linq");
-const {GetTeaByName} = require("./TeaRepository");
+const {GetTeaByName} = require("./TeaController");
 const format = require("pg-format");
 
 async function AddRecipe (recipe, db){

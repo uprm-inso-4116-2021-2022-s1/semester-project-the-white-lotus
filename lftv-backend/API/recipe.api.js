@@ -5,7 +5,7 @@ const materialBridgeAPI = require("./materialBridge.api");
 const tastesAPI = require("./tastes.api");
 const notesAPI = require("./notes.api");
 const flavorBridgeAPI = require("./flavorBridge.api");
-const {AddRecipe, GetRecipeByFilter, GetFullRecipeByID, GetFullRecipes, GetRecipeByID, GetAllRecipes, RemoveRecipeByID, EditRecipe} = require("../Repositories/RecipeRepository");
+const {AddRecipe, GetRecipeByFilter, GetFullRecipeByID, GetFullRecipes, GetRecipeByID, GetAllRecipes, RemoveRecipeByID, EditRecipe} = require("../Controllers/RecipeController");
 //#region Add Recipe
 // Add new Recipe to database
 const addRecipe =  async (db, req, res) => {
