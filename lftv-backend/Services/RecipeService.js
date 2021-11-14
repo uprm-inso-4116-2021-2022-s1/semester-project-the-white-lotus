@@ -64,7 +64,6 @@ async function AddRecipe (recipe, db){
     )
     // Add entities to flavor bridge
     await AddFlavorEntities(flavors, db);
-    return
 }
 
 // Add multiple ingredients
@@ -207,11 +206,21 @@ async function GetNotesByName (notes, db){
 
 // Get recipe using difficulty, teatype, taste, notes or/and ingredients.
 async function GetRecipeByFilter (filter, db){
-    let difficulty = filter.difficulty === undefined || filter.difficulty === ""? null: `'${filter.difficulty}'`;
-    let teatype = filter.teatype === undefined || filter.teatype === ""? null: `'${filter.teatype}'`;
-    let taste = filter.taste === undefined || filter.taste === ""? null: `'${filter.taste}'`;
-    let notes = filter.notes === undefined || filter.notes.length === 0? null: filter.notes;
-    let ingredients = filter.ingredients === undefined || filter.ingredients.length === 0? null: filter.ingredients;
+    let difficulty = filter.difficulty === undefined
+        || filter.difficulty === ""? null
+        : `'${filter.difficulty}'`;
+    let teatype = filter.teatype === undefined
+        || filter.teatype === ""? null
+        : `'${filter.teatype}'`;
+    let taste = filter.taste === undefined
+        || filter.taste === ""? null
+        : `'${filter.taste}'`;
+    let notes = filter.notes === undefined
+        || filter.notes.length === 0? null
+        : filter.notes;
+    let ingredients = filter.ingredients === undefined
+        || filter.ingredients.length === 0? null
+        : filter.ingredients;
     let sql = `select recipes.id,
                     recipes.title,
                     recipes.difficulty,
