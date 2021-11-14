@@ -12,7 +12,7 @@ const addTea = (db, req, res) => {
         const result = AddTea(tea, db);
         res.send({
             message: 'Tea successfully added.',
-            tea
+            result
         });
     }
     catch(err){

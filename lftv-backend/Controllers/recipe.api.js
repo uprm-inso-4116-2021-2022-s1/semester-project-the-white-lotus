@@ -8,15 +8,19 @@ const flavorBridgeAPI = require("./flavorBridge.api");
 const {AddRecipe, GetRecipeByFilter, GetFullRecipeByID, GetFullRecipes, GetRecipeByID, GetAllRecipes, RemoveRecipeByID, EditRecipe} = require("../Repositories/RecipeRepository");
 const {Recipe} = require("../DTOs/Recipe");
 const {RecipeFilter} = require("../DTOs/RecipeFilter");
+const {Material} = require("../DTOs/Material");
 //#region Add Recipe
 // Add new Recipe to database
 const addRecipe =  async (db, req, res) => {
+    let materials = await req.body.materials
+        .map(m => new Material(m.ingredient, m.amount))
+        .flat();
     let recipe = new Recipe(
         req.body.title,
         req.body.difficulty,
         req.body.yield,
         req.body.procedure,
-        req.body.materials,
+        materials,
         req.body.teaName,
         req.body.taste,
         req.body.notes
