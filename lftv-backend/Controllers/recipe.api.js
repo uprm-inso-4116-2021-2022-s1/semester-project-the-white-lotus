@@ -86,7 +86,7 @@ const getAllRecipes = async (db, req, res, nestedRes = false) => {
     try {
         const recipes = await GetAllRecipes(db);
         res.send({
-            message: `All ${recipes.rowCount} recipes fetched successfully.`,
+            message: `All ${recipes.length} recipes fetched successfully.`,
             recipes
         });
         return recipes.rows;
@@ -116,7 +116,7 @@ const getFullRecipes = async (db, req, res, nestedRes = false) => {
     try {
         const result = await GetFullRecipes(db);
         res.send({
-            message: `${result.rowCount} full recipes fetched successfully.`,
+            message: `${result.length} full recipes fetched successfully.`,
             result
         })
     } catch (err) {

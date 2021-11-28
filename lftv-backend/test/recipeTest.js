@@ -2,13 +2,15 @@ const assert = require('assert');
 const chai = require('chai');
 const expect = chai.expect
 const { Client } = require('pg');
+const Enumerable = require("linq");
 require('dotenv').config();
 chai.use(require('chai-as-promised'));
 const {GetAllRecipes, AddRecipe, GetRecipeByID, GetRecipeByTitle, RemoveRecipeByID, RemoveRecipeByTitle, GetFullRecipes,
-    GetFullRecipeByID
+    GetFullRecipeByID, GetRecipeByFilter
 } = require("../Repositories/RecipeRepository");
 const {Recipe} = require("../DTOs/Recipe");
 const {Material} = require("../DTOs/Material");
+const {RecipeFilter} = require("../DTOs/RecipeFilter");
 
 describe("Recipes", function () {
     describe('Access to DB', function(){
@@ -41,8 +43,18 @@ describe("Recipes", function () {
             console.log('Remote PostgresDB connected...');
         });
     });
+    after(function (done) {
+        db.end((err) => {
+            if (err)
+                throw err;
+            console.log('Remote PostgresDB disconnected.')
+        });
+        done();
+    });
+
     //#region Get
     /******************** Get ********************/
+    // RECIPE
     describe('Get All Recipes', function() {
         describe('#GetAllRecipes()', function() {
             it('Should return a value greater than 0 when db has stored recipes.', async function () {
@@ -65,6 +77,7 @@ describe("Recipes", function () {
             });
         });
     });
+    // FULL RECIPE
     describe('Get Full Recipes', function() {
         describe('#GetFullRecipes()', function () {
             it('Should return a value greater than 0 when db has stored recipes.', async function () {
@@ -97,7 +110,165 @@ describe("Recipes", function () {
             });
         });
     });
-    //endregion
+    // FILTER
+    describe('Get full recipe by filter', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('Medium','HERBAL_TEA','sweet', ['fruity'], ['sugar'])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r => r.difficulty === "Medium"), true);
+                assert.equal(Enumerable.from(recipes).all(r => r.teatype === "HERBAL_TEA"), true);
+                assert.equal(Enumerable.from(recipes).all(r => r.taste === "sweet"), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.note).any(note => note === 'fruity')), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.ingredients).any(ingredient =>
+                       ingredient[0] === 'sugar')), true);
+            });
+        });
+    });
+    describe('Get full recipe without specifying difficulty and using a filter', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter of any difficulty', async function () {
+                let filter = new RecipeFilter('','HERBAL_TEA','sweet', ['fruity'], ['sugar'])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r => r.teatype === "HERBAL_TEA"), true);
+                assert.equal(Enumerable.from(recipes).all(r => r.taste === "sweet"), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.note).any(note => note === 'fruity')), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.ingredients).any(ingredient =>
+                        ingredient[0] === 'sugar')), true);
+            });
+        });
+    });
+    describe('Get full recipe without specifying tea type and using a filter', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('Medium','','sweet', ['fruity'], ['sugar'])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r => r.difficulty === "Medium"), true);
+                assert.equal(Enumerable.from(recipes).all(r => r.taste === "sweet"), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.note).any(note => note === 'fruity')), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.ingredients).any(ingredient =>
+                        ingredient[0] === 'sugar')), true);
+            });
+        });
+    });
+    describe('Get full recipe without specifying taste and using a filter', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('Medium','HERBAL_TEA','', ['fruity'], ['sugar'])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r => r.difficulty === "Medium"), true);
+                assert.equal(Enumerable.from(recipes).all(r => r.teatype === "HERBAL_TEA"), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.note).any(note => note === 'fruity')), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.ingredients).any(ingredient =>
+                        ingredient[0] === 'sugar')), true);
+            });
+        });
+    });
+    describe('Get full recipe without specifying notes and using a filter', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('Medium','HERBAL_TEA','sweet', [], ['sugar'])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r => r.difficulty === "Medium"), true);
+                assert.equal(Enumerable.from(recipes).all(r => r.teatype === "HERBAL_TEA"), true);
+                assert.equal(Enumerable.from(recipes).all(r => r.taste === "sweet"), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.ingredients).any(ingredient =>
+                        ingredient[0] === 'sugar')), true);
+            });
+        });
+    });
+    describe('Get full recipe without specifying ingredients and using a filter', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('Medium','HERBAL_TEA','sweet', ['fruity'], [])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r => r.difficulty === "Medium"), true);
+                assert.equal(Enumerable.from(recipes).all(r => r.teatype === "HERBAL_TEA"), true);
+                assert.equal(Enumerable.from(recipes).all(r => r.taste === "sweet"), true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.note).any(note => note === 'fruity')), true);
+            });
+        });
+    });
+    describe('Get full recipe specifying taste only', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter of any difficulty', async function () {
+                let filter = new RecipeFilter('','','sweet', [], [])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r => r.taste === "sweet"), true);
+            });
+        });
+    });
+    describe('Get full recipe specifying difficulty only', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('Medium','','', [], [])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r => r.difficulty === "Medium"), true);
+            });
+        });
+    });
+    describe('Get full recipe specifying tea type only', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('','HERBAL_TEA','', [], [])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r => r.teatype === "HERBAL_TEA"), true);
+            });
+        });
+    });
+    describe('Get full recipe specifying notes only', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('','','', ['fruity'], [])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.note).any(note => note === 'fruity')), true);
+            });
+        });
+    });
+    describe('Get full recipe specifying ingredients only', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('','','', [], ['sugar'])
+                let recipes = await GetRecipeByFilter(filter, db);
+                assert.equal(recipes.length >= 0, true);
+                assert.equal(Enumerable.from(recipes).all(r =>
+                    Enumerable.from(r.ingredients).any(ingredient =>
+                        ingredient[0] === 'sugar')), true);
+            });
+        });
+    });
+    describe('Get full recipes without specifying anything', function() {
+        describe('#GetRecipeByFilter()', function () {
+            it('Should return recipes using filter', async function () {
+                let filter = new RecipeFilter('','','', [], [])
+                let recipes = await GetRecipeByFilter(filter, db);
+                let allRecipes = await GetAllRecipes(db);
+                assert.equal(allRecipes.length === recipes.length, true);
+            });
+        });
+    });
+    //#endregion
 
     //#region Add
     /******************** Add ********************/
@@ -207,13 +378,13 @@ describe("Recipes", function () {
             });
         });
     });
-    //endregion
+    //#endregion
 
     //#region Remove
     /******************** Remove ********************/
     describe('#Remove recipe by title', function() {
         describe('#RemoveRecipeByTitle()', function () {
-            it('Recipe was not removed.', async function () {
+            it('Recipe should be removed.', async function () {
                 var recipe = new Recipe("RemoveRecipeByTitleTest",
                     "Easy",
                     "1 (8 ounce) serving",
@@ -233,5 +404,5 @@ describe("Recipes", function () {
             });
         });
     });
+    //#endregion
 });
-//#endregion
