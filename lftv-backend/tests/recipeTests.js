@@ -87,7 +87,7 @@ describe("Recipes", function () {
     });
     describe('Get Full Recipe By ID', function() {
         describe('#GetFullRecipesByID()', function () {
-            it('Should return complete data of recipe with index 1.', async function () {
+            it('Should return complete recipe data with index 1.', async function () {
                 // Recipe #1 is used for testing purposes.
                 let recipe = await GetFullRecipeByID(1, db);
                 assert.equal(recipe.rowCount >= 0, true);
@@ -129,7 +129,7 @@ describe("Recipes", function () {
     });
     describe('Get full recipe without specifying difficulty and using a filter', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter of any difficulty', async function () {
+            it('Should return recipes of any difficulty using filter ', async function () {
                 let filter = new RecipeFilter('','HERBAL_TEA','sweet', ['fruity'], ['sugar'])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -143,9 +143,9 @@ describe("Recipes", function () {
             });
         });
     });
-    describe('Get full recipe without specifying tea type and using a filter', function() {
+    describe('Get full recipe without specifying type of tea and using a filter', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter', async function () {
+            it('Should return recipes of any type of tea using filter', async function () {
                 let filter = new RecipeFilter('Medium','','sweet', ['fruity'], ['sugar'])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -161,7 +161,7 @@ describe("Recipes", function () {
     });
     describe('Get full recipe without specifying taste and using a filter', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter', async function () {
+            it('Should return recipes of any taste using filter', async function () {
                 let filter = new RecipeFilter('Medium','HERBAL_TEA','', ['fruity'], ['sugar'])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -177,7 +177,7 @@ describe("Recipes", function () {
     });
     describe('Get full recipe without specifying notes and using a filter', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter', async function () {
+            it('Should return recipes for any note using filter', async function () {
                 let filter = new RecipeFilter('Medium','HERBAL_TEA','sweet', [], ['sugar'])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -192,7 +192,7 @@ describe("Recipes", function () {
     });
     describe('Get full recipe without specifying ingredients and using a filter', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter', async function () {
+            it('Should return recipes for any ingredient using filter', async function () {
                 let filter = new RecipeFilter('Medium','HERBAL_TEA','sweet', ['fruity'], [])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -204,9 +204,9 @@ describe("Recipes", function () {
             });
         });
     });
-    describe('Get full recipe specifying taste only', function() {
+    describe('Get full recipe specifying only taste', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter of any difficulty', async function () {
+            it('Should return recipes using filter and specifying only the taste', async function () {
                 let filter = new RecipeFilter('','','sweet', [], [])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -214,9 +214,9 @@ describe("Recipes", function () {
             });
         });
     });
-    describe('Get full recipe specifying difficulty only', function() {
+    describe('Get full recipe specifying only difficulty ', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter', async function () {
+            it('Should return recipes using filter and specifying only the difficulty', async function () {
                 let filter = new RecipeFilter('Medium','','', [], [])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -224,9 +224,9 @@ describe("Recipes", function () {
             });
         });
     });
-    describe('Get full recipe specifying tea type only', function() {
+    describe('Get full recipe specifying only type of tea', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter', async function () {
+            it('Should return recipes using filter and specifying only the type of tea', async function () {
                 let filter = new RecipeFilter('','HERBAL_TEA','', [], [])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -234,9 +234,9 @@ describe("Recipes", function () {
             });
         });
     });
-    describe('Get full recipe specifying notes only', function() {
+    describe('Get full recipe specifying only notes', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter', async function () {
+            it('Should return recipes using filter and specifying only the notes', async function () {
                 let filter = new RecipeFilter('','','', ['fruity'], [])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -245,9 +245,9 @@ describe("Recipes", function () {
             });
         });
     });
-    describe('Get full recipe specifying ingredients only', function() {
+    describe('Get full recipe specifying only ingredients', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter', async function () {
+            it('Should return recipes using filter and specifying only the ingredients', async function () {
                 let filter = new RecipeFilter('','','', [], ['sugar'])
                 let recipes = await GetRecipeByFilter(filter, db);
                 assert.equal(recipes.length >= 0, true);
@@ -259,7 +259,7 @@ describe("Recipes", function () {
     });
     describe('Get full recipes without specifying anything', function() {
         describe('#GetRecipeByFilter()', function () {
-            it('Should return recipes using filter', async function () {
+            it('Should return recipes using filter without having to specify any property', async function () {
                 let filter = new RecipeFilter('','','', [], [])
                 let recipes = await GetRecipeByFilter(filter, db);
                 let allRecipes = await GetAllRecipes(db);
@@ -383,7 +383,7 @@ describe("Recipes", function () {
     /******************** Remove ********************/
     describe('#Remove recipe by title', function() {
         describe('#RemoveRecipeByTitle()', function () {
-            it('Recipe should be removed.', async function () {
+            it('Recipe should be removed using the given title.', async function () {
                 var recipe = new Recipe("RemoveRecipeByTitleTest",
                     "Easy",
                     "1 (8 ounce) serving",
@@ -399,6 +399,28 @@ describe("Recipes", function () {
                 await AddRecipe(recipe, db);
                 await RemoveRecipeByTitle(recipe.title, db);
                 let recipeFromDB = await GetRecipeByTitle(recipe.title, db);
+                assert.equal(recipeFromDB.rowCount === 0, true);
+            });
+        });
+    });
+    describe('#Remove recipe by id', function() {
+        describe('#RemoveRecipeByID()', function () {
+            it('Recipe should be removed using the given id.', async function () {
+                var recipe = new Recipe("RemoveRecipeByIDTest",
+                    "Easy",
+                    "1 (8 ounce) serving",
+                    "Infuse teabag in boiling water for 8-10 mins. Remove soaked teabag and leave brew to cool. Add 2 table spoons of syrup. Add mixture into glass half filled with ice cubes. Add strawberry, mango slices and mint leaves. Stir and serve.",
+                    [
+                        new Material("Strawberry and Mango Tea", "150 mL"),
+                        new Material("agave syrup", "2 tablespoons"),
+                    ],
+                    "Test",
+                    "sweet",
+                    ["fruity"]
+                )
+                let recipeID = await AddRecipe(recipe, db);
+                await RemoveRecipeByID(recipeID, db);
+                let recipeFromDB = await GetRecipeByID(recipeID, db);
                 assert.equal(recipeFromDB.rowCount === 0, true);
             });
         });

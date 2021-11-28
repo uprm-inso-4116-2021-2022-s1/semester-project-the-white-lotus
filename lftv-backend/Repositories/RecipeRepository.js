@@ -66,6 +66,7 @@ async function AddRecipe (recipe, db){
     )
     // Add entities to flavor bridge
     await AddFlavorEntities(flavors, db);
+    return recipeID;
 }
 
 // Add multiple ingredients

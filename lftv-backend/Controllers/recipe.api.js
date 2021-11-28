@@ -26,9 +26,9 @@ const addRecipe =  async (db, req, res) => {
         req.body.notes
     );
     try{
-        await AddRecipe(recipe, db)
+        let recipeID = await AddRecipe(recipe, db)
         res.send({
-            message: `Recipe "${recipe.title}" added successfully.`
+            message: `Recipe "${recipe.title}"(index = ${recipeID}) added successfully.`
         });
     }
     catch(err){
