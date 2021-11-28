@@ -2,28 +2,30 @@
 const Enumerable = require("linq");
 const {GetTeaByName} = require("./TeaRepository");
 const format = require("pg-format");
+const {Material} = require("../DTOs/Material");
+const {Recipe} = require("../DTOs/Recipe");
 
 async function AddRecipe (recipe, db){
     let recipeDB = await GetRecipeByTitle(recipe.title, db)
     if (recipeDB.rowCount !== 0){
-        throw new Error("Error: A recipe with the provided title already exists.")
+        throw new Error("A recipe with the provided title already exists.")
     }
     let tea = await GetTeaByName(recipe.teaName, db);
     if (tea.rowCount === 0){
-        throw new Error("Error: Provided tea does not exist in the database.")
+        throw new Error("Provided tea does not exist in the database.")
     }
     tea = tea.rows[0];
     const teaID = tea.id;
     // Get taste by name
     let taste = await GetTasteByName (recipe.taste, db);
     if (taste.rowCount === 0){
-        throw new Error("Error: Provided taste does not exist in the database.")
+        throw new Error("Provided taste does not exist in the database.")
     }
     taste = taste.rows[0];
     // Get notes by name
     let notes = await GetNotesByName(recipe.notes, db);
     if (notes.rowCount === 0){
-        throw new Error("Error: None of the provided notes exist in the database.")
+        throw new Error("None of the provided notes exist in the database.")
     }
     notes = notes.rows;
     const recipeQuery = {
@@ -149,15 +151,31 @@ async function EditRecipe(newRecipe, db){
 }
 // Remove data by id
 async function RemoveRecipeByID (id, db){
-    let sql = `DELETE FROM recipes WHERE id = ${req.params.id}`;
+    let sql = `DELETE FROM recipes WHERE id = ${id}`;
     const result = await db.query(sql);
     return result;
 }
-
+// Remove data by title
+async function RemoveRecipeByTitle (name, db){
+    let sql = `DELETE FROM recipes WHERE title = '${name}'`;
+    const result = await db.query(sql);
+    return result;
+}
 // Get all recipes
 async function GetAllRecipes(db){
     let sql = 'SELECT * FROM recipes';
-    const recipes = await db.query(sql);
+    const result = await db.query(sql);
+    const recipes =  result.rows
+        .map(m =>
+        {
+            let recipe = new Recipe(
+                m.title,
+                m.difficulty,
+                m.yield,
+                m.procedure)
+            recipe.id = m.id
+            return recipe;
+        }).flat();
     return recipes;
 }
 
@@ -302,8 +320,8 @@ async function GetFullRecipes (db) {
                     teas.name as TeaName, 
                     teas.type as TeaType, 
                     tastes.name as Taste, 
-                    array_agg(distinct notes.name) as Note,
-                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Ingredients 
+                    array_agg(distinct notes.name) as Notes,
+                    array_agg(distinct array[ingredients.name, mb.ing_amount]) as Materials 
                 from recipes
                 left join teas on recipes.teaid = teas.id
                 left join flavorbridge as fb on recipes.id = fb.recipeid
@@ -320,7 +338,20 @@ async function GetFullRecipes (db) {
                         teatype, 
                         taste);`
     const result = await db.query(sql);
-    return result;
+    let recipes = result.rows.map(r => {
+        let materials = r.materials.map(m => new Material(m[0], m[1])).flat();
+        return new Recipe(
+            r.title,
+            r.difficulty,
+            r.yield,
+            r.procedure,
+            materials,
+            r.teaname,
+            r.taste,
+            r.notes
+        );
+    })
+    return recipes;
 }
 
 module.exports = {
@@ -330,8 +361,10 @@ module.exports = {
     AddFlavorEntities,
     EditRecipe,
     RemoveRecipeByID,
+    RemoveRecipeByTitle,
     GetAllRecipes,
     GetRecipeByID,
+    GetRecipeByTitle,
     GetMultipleIngredients,
     GetNotesByName,
     GetTasteByName,
