@@ -43,13 +43,12 @@ describe("Recipes", function () {
             console.log('Remote PostgresDB connected...');
         });
     });
-    after(function (done) {
-        db.end((err) => {
+    after(async function () {
+        await db.end((err) => {
             if (err)
                 throw err;
             console.log('Remote PostgresDB disconnected.')
-        });
-        done();
+        })
     });
 
     //#region Get
