@@ -356,7 +356,7 @@ describe("Recipes", function () {
             });
         });
     });
-    describe('#Add recipe with invalid notes (Negative)', function() {
+    describe('Add recipe with invalid notes (Negative)', function() {
         describe('#AddRecipe', function () {
             it('Recipe should not be added because it does not have valid notes.', async function () {
                 var recipe = new Recipe("AddRecipeTestWithInvalidNotes",
@@ -381,7 +381,7 @@ describe("Recipes", function () {
 
     //#region Remove
     /******************** Remove ********************/
-    describe('#Remove recipe by title', function() {
+    describe('Remove recipe by title', function() {
         describe('#RemoveRecipeByTitle()', function () {
             it('Recipe should be removed using the given title.', async function () {
                 var recipe = new Recipe("RemoveRecipeByTitleTest",
@@ -403,7 +403,7 @@ describe("Recipes", function () {
             });
         });
     });
-    describe('#Remove recipe by id', function() {
+    describe('Remove recipe by id', function() {
         describe('#RemoveRecipeByID()', function () {
             it('Recipe should be removed using the given id.', async function () {
                 var recipe = new Recipe("RemoveRecipeByIDTest",

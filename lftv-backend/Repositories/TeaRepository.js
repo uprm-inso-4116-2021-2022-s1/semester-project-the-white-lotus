@@ -1,21 +1,21 @@
 // Add tea
 async function AddTea(tea, db){
-    let sql = `INSERT INTO teas(type, name, tea_desc) VALUES('${tea.type}', '${tea.name}', '${tea.tea_desc}')`;
-    const result = db.query(sql);
+    let sql = `INSERT INTO teas(type, name, tea_desc) VALUES('${tea.type}', '${tea.name}', '${tea.tea_desc}') RETURNING id`;
+    const result = await db.query(sql);
     return result;
 }
 
 // Remove tea By id
 async function RemoveTeaByID (id, db){
     let sql = `DELETE FROM teas WHERE id = ${id}`;
-    const result = db.query(sql);
+    const result = await db.query(sql);
     return result;
 }
 
 // Remove tea by name
 async function RemoveTeaByName (name, db){
     let sql = `DELETE FROM teas WHERE name = '${name}'`;
-    const result = db.query(sql);
+    const result = await db.query(sql);
     return result;
 }
 
