@@ -40,21 +40,19 @@ describe("Teas", function () {
         describe('#GetAllTeas()', function() {
             it('Should return a value greater than 0 when db has stored teas.', async function () {
                 var teas = await GetAllTeas(db);
-                assert.equal(teas.length >= 0, true);
+                assert.equal(teas.rowCount >= 0, true);
             });
         });
     })
     describe('Get Tea By ID', function() {
         describe('#GetTeaByID()', function () {
-            it('Should return tea with index 1.', async function () {
+            it('Should return tea with index 31.', async function () {
                 // Tea #1 is used for testing purposes.
-                let tea = await GetTeaByID(1, db);
+                let tea = await GetTeaByID(31, db);
                 assert.equal(tea.rowCount >= 0, true);
-                assert.equal(tea.rows[0].id === 1, true);
-                assert.equal(tea.rows[0].title === "TEST_RECIPE", true);
-                assert.equal(tea.rows[0].difficulty === "DO NOT REMOVE", true);
-                assert.equal(tea.rows[0].yield === "DO NOT REMOVE", true);
-                assert.equal(tea.rows[0].procedure === "Tea added for testing purposes. Do not remove for any reason.", true);
+                assert.equal(tea.rows[0].id === 31, true);
+                assert.equal(tea.rows[0].name === "Test Tea", true);
+                assert.equal(tea.rows[0].tea_desc === "Do not delete.", true);
             });
         });
     });
