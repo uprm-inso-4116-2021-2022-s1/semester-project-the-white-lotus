@@ -8,23 +8,9 @@ chai.use(require('chai-as-promised'));
 const {GetAllTeas, GetTeaByID, AddTea, RemoveTeaByID, GetTeaByName, RemoveTeaByName
 } = require("../Repositories/TeaRepository");
 const {Tea} = require("../DTOs/Tea");
+const {db} = require("./testFixture");
 
 describe("Teas", function () {
-    const db = new Client({
-        host: process.env.PGHOST,
-        user: process.env.PGUSER,
-        password: process.env.PGPASS,
-        database: process.env.PGDB,
-        port: process.env.PGPORT,
-        ssl: false,
-    });
-    before(function () {
-        db.connect((err) => {
-            if (err)
-                throw err;
-            console.log('Remote PostgresDB connected...');
-        });
-    });
     after(async function () {
         await db.end((err) => {
             if (err)

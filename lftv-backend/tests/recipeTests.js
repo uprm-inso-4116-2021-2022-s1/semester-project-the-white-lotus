@@ -11,46 +11,9 @@ const {GetAllRecipes, AddRecipe, GetRecipeByID, GetRecipeByTitle, RemoveRecipeBy
 const {Recipe} = require("../DTOs/Recipe");
 const {Material} = require("../DTOs/Material");
 const {RecipeFilter} = require("../DTOs/RecipeFilter");
+const {db} = require("./testFixture");
 
 describe("Recipes", function () {
-    describe('Access to DB', function(){
-        describe('#fail', function(){
-            it('Connection was unsuccessful.', function(done){
-                const db = new Client({
-                    host: process.env.PGHOST,
-                    user: process.env.PGUSER,
-                    password: process.env.PGPASS,
-                    database: process.env.PGDB,
-                    port: process.env.PGPORT,
-                    ssl: false,
-                });
-                db.connect(done);
-            });
-        })
-    });
-    const db = new Client({
-        host: process.env.PGHOST,
-        user: process.env.PGUSER,
-        password: process.env.PGPASS,
-        database: process.env.PGDB,
-        port: process.env.PGPORT,
-        ssl: false,
-    });
-    before(function () {
-        db.connect((err) => {
-            if (err)
-                throw err;
-            console.log('Remote PostgresDB connected...');
-        });
-    });
-    after(async function () {
-        await db.end((err) => {
-            if (err)
-                throw err;
-            console.log('Remote PostgresDB disconnected.')
-        })
-    });
-
     //#region Get
     /******************** Get ********************/
     // RECIPE
