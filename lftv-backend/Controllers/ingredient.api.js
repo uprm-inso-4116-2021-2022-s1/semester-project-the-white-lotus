@@ -6,7 +6,7 @@ const addIngredientByName = async (db, req, res, nestedRes = false) => {
         const result = await db.query(sql);
         if (nestedRes){
             res.write(
-                `$'{ingredient}' added successfully.`, 'utf8', () => {
+                `'${ingredient}' added successfully.`, 'utf8', () => {
                     console.log(`Added '${ingredient}'.`);
                 }
             )
@@ -31,7 +31,7 @@ const addMultipleIngredients = async (db, req, res, nestedRes = false) => {
     ingredients.slice(1).forEach( ing =>
         allIngredients+=(`,('${ing}')`)
     )
-    const sql = `INSERT INTO ingredients(name) VALUES${allIngredients} ON CONFLICT DO NOTHING`
+    const sql = `INSERT INTO ingredients (name) VALUES${allIngredients} ON CONFLICT DO NOTHING`
     try{
         const result = await db.query(sql);
         if (nestedRes){
@@ -53,7 +53,7 @@ const addMultipleIngredients = async (db, req, res, nestedRes = false) => {
     }
 };
 
-// Remove recipe by name
+// Remove ingredient by name
 const removeIngredientByName = (db, req, res) => {
     let sql = `DELETE FROM ingredients WHERE name = '${req.params.name}'`;
     db.query(sql, (err, result) => {
